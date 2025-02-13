@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/14502721-a189-4ffb-932b-301be47a29b9)# IPC-WINTER-HACKATHON-2025
+# IPC-WINTER-HACKATHON-2025
 Lock in. 
 
 Commit Stuff
