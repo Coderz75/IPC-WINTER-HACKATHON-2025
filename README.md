@@ -12,6 +12,6 @@ Commit Stuff
 * **"chore:"** - Miscellaneous changes
 
 Calendar:
-2/13/25 - Project Start
-2/22/25 - Final Code done, run video
-2/23/25 11:59 pm - Submission Deadline
+* 2/13/25 - Project Start
+* 2/22/25 - Final Code done, run video
+* 2/23/25 11:59 pm - Submission Deadline
