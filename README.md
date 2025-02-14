@@ -15,3 +15,7 @@ Calendar:
 * 2/13/25 - Project Start
 * 2/22/25 - Final Code done, run video
 * 2/23/25 11:59 pm - Submission Deadline
+
+
+"Citations":
+Ducksters. "Science for Kids: World Biomes and Ecosystems." Ducksters, Technological Solutions, Inc. (TSI), www.ducksters.com/science/ecosystems/world_biomes.php. Accessed 14 February 2025.
