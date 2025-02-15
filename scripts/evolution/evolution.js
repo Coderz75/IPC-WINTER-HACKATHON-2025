@@ -99,7 +99,7 @@ class MutationWizard{
         if (this.type === MutationType.PointDeletion){
             let point = random(0, 8)
             let rate = 5
-            for (let i = 0; i < 100; i++){
+            for (let i = 0; i < 50; i++){
                 svg.querySelector(`.num${point}`).style.transform = `translate(${39 + point*85}px, ${225-rate*i}px)`
                 await timeout(5)
                 rate += 3
