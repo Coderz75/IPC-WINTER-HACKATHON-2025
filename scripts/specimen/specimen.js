@@ -26,8 +26,9 @@ Our plants have several attributes:
 
 */
 
-class Fruit {
+class Fruit extends Specie{
   constructor (parentGenome){
+    super();
     this.genome = {
       waterStorage: 0.5,
       waterAffinity: 0.5,
@@ -43,8 +44,9 @@ class Fruit {
   }
 }
 
-class Plant {
+class Plant extends Specie{
   constructor(parentGenome){
+    super();
     this.genome = {
       waterStorage: 0.5,
       waterAffinity: 0.5,

@@ -6,7 +6,7 @@ class GameMap{
         //init
         this.map = window.mapData;
     }
-    tick(){
+    tick(species){
         // tick
     }
 }
