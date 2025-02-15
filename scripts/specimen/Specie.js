@@ -4,5 +4,8 @@ class Specie{
     constructor(){
         this.tiles = [] // list of tiles the species are on (a tile is one pixel on the map, and is cordinated with a single digit.)
         this.name = ""
+        this.id = window.counter;
+        window.counter +=1 ;
     }
+    tick(){}
 }
