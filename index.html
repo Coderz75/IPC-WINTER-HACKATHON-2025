@@ -9,8 +9,19 @@
 <body id = "body">
     <noscript>I am unsure how you got here. Your browser unfortunately does not support Javascript. </noscript>
 
-    <canvas id = "mapCanvas" width = 810px height= 420px></canvas>
-    <canvas id = "specimenCanvas" width = 500px height = 250px></canvas>    
+    <div id = "mainMap">
+        <canvas id = "mapCanvas" width = 810px height= 420px></canvas>
+    </div>
+    <div id = "specimenPanel" class = "specimenPanel">
+        <canvas id = "specimenCanvas" width = 500px height = 250px></canvas>
+    </div>   
+    <div id = "evolutionPanel" class = "evolutionPanel"></div>
+
+    <div class = "sidenav">
+        <div id = "specimenPanelButton">Spec.</div>
+        <div id = "evolutionPanelButton">Ev.</div>
+    </div>
+
 	<script type="text/javascript" src="assets/mapData.js"></script>
     <script src="scripts/evolution/evolution.js"></script>
     <script src="scripts/specimen/Specie.js"></script>

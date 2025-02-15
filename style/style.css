@@ -75,3 +75,64 @@
     src: url('../assets/RobotoSlab/roboto-slab-v34-latin-900.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
+
+/*FLOATING PANELS*/
+.specimenPanel {
+    position: fixed;
+    top: 0;
+    left: 100vw; /* Initially hidden */
+    width: 300px;
+    height: 100%;
+    background: #3498db;
+    color: white;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+    transition: left 0.3s ease-in-out;
+}
+
+.specimenPanel.open {
+    left: calc(100vw - 300px - 80px); /* Slide in */
+}
+
+
+.evolutionPanel {
+    position: fixed;
+    top: 0;
+    left: 100vw; /* Initially hidden */
+    width: 300px;
+    height: 100%;
+    background: #3498db;
+    color: white;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+    transition: left 0.3s ease-in-out;
+}
+
+.evolutionPanel.open {
+    left: calc(100vw - 300px - 80px); /* Slide in */
+}
+
+
+/*NAVIGATION BAR*/
+.sidenav {
+    height: 100%; /* Full-height: remove this if you want "auto" height */
+    width: 80px; /* Set the width of the sidebar */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: calc(100vw - 80px);
+    background-color: #111; /* Black */
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 20px;
+}
+
+.sidenav div {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+}
+.sidenav div:hover {
+    color: #f1f1f1;
+}
