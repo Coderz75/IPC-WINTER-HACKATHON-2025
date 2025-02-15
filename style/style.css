@@ -75,6 +75,28 @@
     src: url('../assets/RobotoSlab/roboto-slab-v34-latin-900.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
+body{
+    background-color: black;
+    overflow: hidden;
+}
+
+/*Map*/
+.mainMap{
+    margin: 0%;
+    padding: 0%;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.mapCanvas{
+    height: 100vh;
+    width: 100vw;
+    transition: width 0.3s;
+}
+.mapCanvas.part{
+    width: calc(100vw - 300px - 80px);
+}
 
 /*FLOATING PANELS*/
 .specimenPanel {
@@ -88,6 +110,8 @@
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
     transition: left 0.3s ease-in-out;
+    margin: 0%;
+    padding: 0%;
 }
 
 .specimenPanel.open {
@@ -106,6 +130,8 @@
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
     transition: left 0.3s ease-in-out;
+    margin: 0%;
+    padding: 0%;
 }
 
 .evolutionPanel.open {

@@ -12,7 +12,9 @@ function init(){
             panelOpen = 1;
         }else if(panelOpen == 1){
             panelOpen = 0;
+            document.getElementById("mapCanvas").classList.toggle("part");
         }else{
+            document.getElementById("mapCanvas").classList.toggle("part");
             panelOpen = 1;
         }
     }
@@ -23,8 +25,10 @@ function init(){
             panelOpen = 2;
         }else if(panelOpen == 2){
             panelOpen = 0;
+            document.getElementById("mapCanvas").classList.toggle("part");
         }else{
             panelOpen = 2;
+            document.getElementById("mapCanvas").classList.toggle("part");
         }
     }
     
@@ -38,6 +42,7 @@ function init(){
 }
 function tick(){
     // tick function.
+    
     species.forEach(function (item,index){
         item.tick();
     })
