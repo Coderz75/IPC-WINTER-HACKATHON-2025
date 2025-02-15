@@ -2,13 +2,30 @@
 // This is our main file. Will include all other js files via accessor methods
 var gameMap;
 var species = []; // List all all types of species. Should be a list of "Specie" class (well anything with the tiles, name, and id attribute w/a "tick" function)
+var panelOpen = 0; // 0 means none, 1 means specimen, 2 means evolution
 function init(){
     //Initialize graphics
     document.getElementById("specimenPanelButton").onclick = function() {
         document.getElementById("specimenPanel").classList.toggle("open");
+        if(panelOpen == 2){
+            document.getElementById("evolutionPanel").classList.toggle("open");
+            panelOpen = 1;
+        }else if(panelOpen == 1){
+            panelOpen = 0;
+        }else{
+            panelOpen = 1;
+        }
     }
     document.getElementById("evolutionPanelButton").onclick = function() {
         document.getElementById("evolutionPanel").classList.toggle("open");
+        if(panelOpen == 1){
+            document.getElementById("specimenPanel").classList.toggle("open");
+            panelOpen = 2;
+        }else if(panelOpen == 2){
+            panelOpen = 0;
+        }else{
+            panelOpen = 2;
+        }
     }
     
     // Initialize game
