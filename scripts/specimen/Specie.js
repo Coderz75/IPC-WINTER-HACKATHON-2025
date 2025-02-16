@@ -1,11 +1,47 @@
 "use strict";
-// Specie default class: Any subtypes of species should extend this arguably
-class Specie{
-    constructor(){
-        this.tiles = [] // list of tiles the species are on (a tile is one pixel on the map, and is cordinated with a single digit.)
-        this.name = ""
-        this.id = window.counter;
-        window.counter +=1 ;
+
+class Plant { // Specie default class: Any subtypes of species should extend this arguably
+	static tiles = []; //we could remove this if it's unnecessary
+	static activeMembers = []; //contains references to member objects that have germinated
+	static seedMembers = []; //contains referecnes to member objects that are seeds
+	static name = "";
+	static id = 0;
+	static tick(){ //updates all members of the species
+		
+	}
+    constructor(parentGenome){
+		this.genome = {
+		  waterStorage: 0.5,
+		  waterAffinity: 0.5,
+		  anchorage: 0.5,
+		  competitiveness: 0.5,
+		  photosynthesisRate: 0.5,
+		};
+		Object.assign(parentGenome, this.genome);
+		this.water = 0;
+		this.maxWater = 0;
+		this.energy = 0;
+		this.percentMaturity = 0;
+		this.randomSeed = Math.random();
+		
+		this.pos = { //Coordinates on the map
+			x : 0,
+			y : 0,
+		};
+		
+		this.vel = { //Velocity vector; used for seeds
+			x : 0,
+			y : 0,
+		};
+		
     }
     tick(){}
+}
+
+class Palm extends Plant {
+	static name = "Palm";
+	static id = 1;
+	constructor(parentGenome){
+		super();
+	}
 }

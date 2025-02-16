@@ -11,18 +11,21 @@ class GameMap{
         this.map = window.mapData;
         console.log(this.map)
         this.specieTiles = new Array(800*410).fill([]);
-        this.species = [];
+        this.species = []; //stores the classes for the plant species
 
         this.loadMap();
     }
     tick(species){
         // tick
-        this.species = 0
+		
+		
+		
+        /*this.species = 0
         species.forEach(specie => {
             specie.tiles.forEach(tile =>{
                 forEach[tile].push(specie.id)
             })
-        });
+        });*/
         this.render();
     }
     render(){

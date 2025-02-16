@@ -1,7 +1,7 @@
 "use strict";
 // This is our main file. Will include all other js files via accessor methods
 var gameMap;
-var species = []; // List all all types of species. Should be a list of "Specie" class (well anything with the tiles, name, and id attribute w/a "tick" function)
+var species = []; // List all all types of species. Should be a list of "Specie" classes (not objects)(static variables: tiles, name, and id attribute w/a "tick" function)
 var panelOpen = 0; // 0 means none, 1 means specimen, 2 means evolution
 function init(){
     //Initialize graphics
