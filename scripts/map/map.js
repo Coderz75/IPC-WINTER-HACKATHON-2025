@@ -15,23 +15,21 @@ class GameMap{
 
         this.loadMap();
     }
-    tick(species){
+    tick(){
         // tick
 		
 		
 		
-        /*this.species = 0
-        species.forEach(specie => {
-            specie.tiles.forEach(tile =>{
-                forEach[tile].push(specie.id)
-            })
-        });*/
+        
+        this.species.forEach(specie => specie.tick());
         this.render();
     }
     render(){
         //render map.
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.drawImage(this.mapCanvas, 0, 0);
+        this.species.forEach(specie => {
+            specie.draw(this.ctx)});
     }
 
     cordToIndex(x,y){

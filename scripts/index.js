@@ -36,6 +36,7 @@ function init(){
     window.counter = 0;
     const mapCanvas = document.getElementById("mapCanvas");
     gameMap = new GameMap(mapCanvas);
+    gameMap.species.push(Palm);
 
     //Start tick
     window.setInterval(tick, 15);
@@ -46,7 +47,7 @@ function tick(){
     species.forEach(function (item,index){
         item.tick();
     })
-    gameMap.tick(species);
+    gameMap.tick();
 }
 
 
