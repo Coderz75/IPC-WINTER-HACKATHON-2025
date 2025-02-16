@@ -42,6 +42,6 @@ class Palm extends Plant {
 	static name = "Palm";
 	static id = 1;
 	constructor(parentGenome){
-		super();
+		super(parentGenome);
 	}
 }
