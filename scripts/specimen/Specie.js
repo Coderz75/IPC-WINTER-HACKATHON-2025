@@ -46,6 +46,7 @@ class Plant { // Specie default class: Any subtypes of species should extend thi
 			this.energy = 0;
 			this.percentMaturity = 0;
 			this.randomSeed = Math.random();
+			this.isActive = true; //change to start at false later
 	
 			let percentWhole = 0;
 			for (const val in this.genome) percentWhole += this.genome[val];

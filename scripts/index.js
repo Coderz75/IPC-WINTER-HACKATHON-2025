@@ -7,7 +7,7 @@ function init(){
     document.getElementById("specimenPanelButton").onclick = function() {
         document.getElementById("specimenPanel").classList.toggle("open");
         if(panelOpen == 2){
-            document.getElementById("evolutionPanel").classList.toggle("open");
+            document.getElementById("evolutionPanelWrapper").classList.toggle("open");
             panelOpen = 1;
         }else if(panelOpen == 1){
             panelOpen = 0;
@@ -18,7 +18,7 @@ function init(){
         }
     }
     document.getElementById("evolutionPanelButton").onclick = function() {
-        document.getElementById("evolutionPanel").classList.toggle("open");
+        document.getElementById("evolutionPanelWrapper").classList.toggle("open");
         if(panelOpen == 1){
             document.getElementById("specimenPanel").classList.toggle("open");
             panelOpen = 2;
@@ -42,7 +42,10 @@ function init(){
 }
 function tick(){
     // tick function.
+    const globalTime = new Date().getTime();
+    
     gameMap.tick();
+    specimenPanel.draw(globalTime);
 }
 
 

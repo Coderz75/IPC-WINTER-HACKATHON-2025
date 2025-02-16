@@ -27,7 +27,10 @@ Our plants have several attributes:
 */
 
 const specimenPanel = {
-  canvas : null,
+  panel : document.getElementById("specimenPanel"),
+  canvas : document.getElementById("specimenCanvas"),
+  ctx : document.getElementById("specimenCanvas").getContext("2d"),
+  table : document.getElementById("specimenTable"),
   subject : null,
   biome : null,
   weather : null,
@@ -35,8 +38,21 @@ const specimenPanel = {
     subject = specimen;
   },
   draw(time){
-    if (this.canvas == null) return;
-    if (this.subject == null) return; //or draw "no subject selected" on the panel
-    //draw specimen according to time
+    if (!this.panel.classList.contains("open")) return;
+    this.ctx.save();
+    if (this.subject == null){
+      this.ctx.fillStyle = "white";
+      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.fillStyle = "red";
+      this.ctx.font = "20px serif";
+      this.ctx.fillText("No plant selected, please click on one", 0, this.canvas.height / 2);
+      this.ctx.restore();
+      return;
+    }
+    //draw specimen according to time on canvas
+
+    //list out attributes
+    
+    
   },
 };
