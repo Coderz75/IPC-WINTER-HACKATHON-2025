@@ -52,7 +52,7 @@ class MutationWizard{
     }
 
     run = async ()=> {
-        document.getElementById("evolutionPanel").insertAdjacentHTML("beforeend",MutationWizardSVG)
+        document.getElementById("evolutionPanelWrapper").insertAdjacentHTML("beforeend",MutationWizardSVG)
 
         let svg = document.querySelector("#MutationW")
 
