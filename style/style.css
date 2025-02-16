@@ -90,9 +90,13 @@ body{
 }
 
 .mapCanvas{
-    height: 100vh;
+    height:auto;
     width: 100vw;
     transition: width 0.3s;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
 }
 .mapCanvas.part{
     width: calc(100vw - 475px - 80px);
