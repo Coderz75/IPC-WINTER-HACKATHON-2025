@@ -176,6 +176,74 @@ body{
 .Treant .collapsed .collapse-switch { background-color: #868DEE; }
 .Treant > .node img {	border: none; float: left; }
 
+#phylogenyWrapper{
+    font-family: "Roboto Slab", sans-serif;
+    background: white;
+    width: 800px;
+    height: 410px;
+    display: flex;
+    flex-direction: column;
+    color: black;
+}
+
+#phylogenyWrapper h1{
+    text-align: center;
+    font-weight: 900;
+}
+
+#phylogeny{
+    font-weight: 400;
+    color: black;
+    flex: 1;
+    width: 100%;
+    height: max-content;
+    overflow: auto;
+}
+
+#phylogeny img{
+    width: 40px;
+    height: 40px;
+    grid-area: image;
+}
+
+#phylogeny .marker{
+    border-radius: 100%;
+    background: red;
+    width: 5px;
+    height: 5px;
+}
+
+#phylogeny .node:not(.marker){
+    display: grid;
+    grid-template-areas:
+        "image name"
+        "image desc";
+    column-gap: 5px;
+    padding: 10px;
+    background: whitesmoke;
+    border-radius: 10px;
+}
+
+#phylogeny .node-name{
+    margin: 0;
+    grid-area: name;
+    font-weight: 600;
+    line-height: 1;
+}
+
+#phylogeny .node.marker .node-name{
+    position: relative;
+    transform: translate(12px, -7px);
+    color: red;
+    font-weight: 900;
+}
+
+#phylogeny .node-title{
+    margin: 0;
+    grid-area: desc;
+    font-size: 12px;
+}
+
 @media (max-width: 800px){
     .evolutionPanelWrapper{
         width: calc(100vh - 80px);

@@ -168,8 +168,73 @@ class MutationWizard{
 async function init_evolution() {
     MutationWizardSVG = await get_svg("assets/MutationW.svg")
 
-    console.log((new MutationWizard(random(0, 3), "AA")).run())
+    //console.log((new MutationWizard(random(0, 3), "AA")).run())
 
+
+    new Treant({
+        chart: {
+            container: "#phylogeny",
+            levelSeparation:    25,
+            siblingSeparation:  70,
+            subTeeSeparation:   100,
+            nodeAlign: "BOTTOM",
+            padding: 35,
+            node: { HTMLclass: "evolution-tree" },
+            connectors: {
+                type: "curve",
+                style: {
+                    "stroke-width": 5,
+                    "stroke-linecap": "round",
+                    "stroke": "#00a19a"
+                }
+            }
+        },
+        nodeStructure: {
+            text: { name: "LIFE" },
+            HTMLclass: "marker",
+            children: [
+                {
+                    text: { name: "Palm Tree", "title": "Africa" },
+                    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/E._coli_Bacteria_%287316101966%29.jpg/713px-E._coli_Bacteria_%287316101966%29.jpg",
+                    "children": [
+                        {
+                            text: {name: "Leaves Mutation"},
+                            HTMLclass: "marker",
+                            children: [
+                                {
+                                    text: { name: "Pine Tree", "title": "Asia"},
+                                    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/E._coli_Bacteria_%287316101966%29.jpg/713px-E._coli_Bacteria_%287316101966%29.jpg",
+                                    children: [
+                                        {
+                                            text: { name: "Pine Tree", "title": "Asia"},
+                                            image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/E._coli_Bacteria_%287316101966%29.jpg/713px-E._coli_Bacteria_%287316101966%29.jpg"
+                                        },
+                                        {
+                                            text: { name: "Coniferous Tree", "title": "Asia"},
+                                            image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/E._coli_Bacteria_%287316101966%29.jpg/713px-E._coli_Bacteria_%287316101966%29.jpg"
+                                        }
+                                    ]
+                                },
+                                {
+                                    text: { name: "Coniferous Tree", "title": "Asia"},
+                                    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/E._coli_Bacteria_%287316101966%29.jpg/713px-E._coli_Bacteria_%287316101966%29.jpg"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    pseudo: true,
+                    children: [
+                        {
+                            text: { name: "Mangrove", "title": "Asia"},
+                            image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/E._coli_Bacteria_%287316101966%29.jpg/713px-E._coli_Bacteria_%287316101966%29.jpg"
+                        }
+                    ]
+                }
+            ]
+        }
+    })
 }
 
 init_evolution()
