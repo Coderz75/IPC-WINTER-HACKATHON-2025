@@ -18,13 +18,13 @@
     font-weight: 200;
     src: url('../assets/RobotoSlab/roboto-slab-v34-latin-200.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
-/* roboto-slab-300 - latin */
+/* roboto-slab-475 - latin */
 @font-face {
     font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
     font-family: 'Roboto Slab';
     font-style: normal;
-    font-weight: 300;
-    src: url('../assets/RobotoSlab/roboto-slab-v34-latin-300.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+    font-weight: 475;
+    src: url('../assets/RobotoSlab/roboto-slab-v34-latin-475.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 /* roboto-slab-regular - latin */
 @font-face {
@@ -95,7 +95,7 @@ body{
     transition: width 0.3s;
 }
 .mapCanvas.part{
-    width: calc(100vw - 300px - 80px);
+    width: calc(100vw - 475px - 80px);
 }
 
 /*FLOATING PANELS*/
@@ -103,7 +103,7 @@ body{
     position: fixed;
     top: 0;
     left: 100vw; /* Initially hidden */
-    width: 300px;
+    width: 475px;
     height: 100%;
     background: #3498db;
     color: white;
@@ -115,7 +115,7 @@ body{
 }
 
 .specimenPanel.open {
-    left: calc(100vw - 300px - 80px); /* Slide in */
+    left: calc(100vw - 475px - 80px); /* Slide in */
 }
 
 
@@ -123,7 +123,7 @@ body{
     position: fixed;
     top: 0;
     left: 100vw; /* Initially hidden */
-    width: 300px;
+    width: 475px;
     height: 100%;
     background: #3498db;
     color: white;
@@ -135,7 +135,7 @@ body{
 }
 
 .evolutionPanel.open {
-    left: calc(100vw - 300px - 80px); /* Slide in */
+    left: calc(100vw - 475px - 80px); /* Slide in */
 }
 
 
