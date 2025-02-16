@@ -18,11 +18,11 @@ class Plant { // Specie default class: Any subtypes of species should extend thi
 			mapCanvasContext.closePath();
 			mapCanvasContext.restore();
 		}
-		for (const aM of this.seedMembers){
+		for (const sM of this.seedMembers){
 			mapCanvasContext.save();
 			mapCanvasContext.beginPath();
-			mapCanvasContext.ellipse(aM.pos.x, aM.pos.y, 2, 2, 0, 0, Math.PI*2);
-			mapCanvasContext.fillStyle = aM.color;
+			mapCanvasContext.ellipse(sM.pos.x, sM.pos.y, 2, 2, 0, 0, Math.PI*2);
+			mapCanvasContext.fillStyle = sM.color;
 			mapCanvasContext.strokeStyle = "brown";
 			mapCanvasContext.fill(); mapCanvasContext.stroke();
 			mapCanvasContext.closePath();
