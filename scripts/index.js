@@ -1,7 +1,6 @@
 "use strict";
 // This is our main file. Will include all other js files via accessor methods
 var gameMap;
-var species = []; // List all all types of species. Should be a list of "Specie" classes (not objects)(static variables: tiles, name, and id attribute w/a "tick" function)
 var panelOpen = 0; // 0 means none, 1 means specimen, 2 means evolution
 function init(){
     //Initialize graphics
@@ -36,17 +35,14 @@ function init(){
     window.counter = 0;
     const mapCanvas = document.getElementById("mapCanvas");
     gameMap = new GameMap(mapCanvas);
+    gameMap.species.push(Palm);
 
     //Start tick
     window.setInterval(tick, 15);
 }
 function tick(){
     // tick function.
-    
-    species.forEach(function (item,index){
-        item.tick();
-    })
-    gameMap.tick(species);
+    gameMap.tick();
 }
 
 
