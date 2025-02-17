@@ -18,14 +18,6 @@
     font-weight: 200;
     src: url('../assets/RobotoSlab/roboto-slab-v34-latin-200.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
-/* roboto-slab-475 - latin */
-@font-face {
-    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-    font-family: 'Roboto Slab';
-    font-style: normal;
-    font-weight: 475;
-    src: url('../assets/RobotoSlab/roboto-slab-v34-latin-475.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
 /* roboto-slab-regular - latin */
 @font-face {
     font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
@@ -82,8 +74,8 @@ body{
 
 /*Map*/
 .mainMap{
-    margin: 0%;
-    padding: 0%;
+    margin: 0;
+    padding: 0;
     position: absolute;
     left: 0;
     top: 0;
@@ -111,11 +103,10 @@ body{
     height: 100%;
     background: #3498db;
     color: white;
-    padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
     transition: left 0.3s ease-in-out;
-    margin: 0%;
-    padding: 0%;
+    margin: 0;
+    padding: 0;
 }
 
 .specimenPanel.open {
@@ -126,18 +117,19 @@ body{
 .evolutionPanelWrapper {
     position: fixed;
     top: 0;
-    left: 100vw; /* Initially hidden */
-    width: fit-content;
-    height: fit-content;
+    right: 80px;
+    width: 800px;
+    height: 100vh;
     color: white;
     padding: 20px;
-    transition: left 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out;
+    transform: translate(100%, 0);
+    background: white;
+
 }
 
 .evolutionPanelWrapper.open {
-    left: calc(50% - 40px);
-    top: 50%;
-    transform: translate(calc(-50%), -50%);
+    transform: translate(0,0);
 }
 
 
@@ -155,11 +147,14 @@ body{
 }
 
 .sidenav div {
-    padding: 6px 8px 6px 16px;
+    padding: 6px 8px 6px 6px;
     text-decoration: none;
     font-size: 25px;
     color: #818181;
     display: block;
+    user-select: none;
+    cursor: pointer;
+    text-align: center;
 }
 .sidenav div:hover {
     color: #f1f1f1;
@@ -178,9 +173,8 @@ body{
 
 #phylogenyWrapper{
     font-family: "Roboto Slab", sans-serif;
-    background: white;
-    width: 800px;
-    height: 410px;
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     color: black;
@@ -196,8 +190,8 @@ body{
     color: black;
     flex: 1;
     width: 100%;
-    height: max-content;
     overflow: auto;
+    background: whitesmoke;
 }
 
 #phylogeny img{
@@ -220,7 +214,7 @@ body{
         "image desc";
     column-gap: 5px;
     padding: 10px;
-    background: whitesmoke;
+    background: white;
     border-radius: 10px;
 }
 
@@ -244,8 +238,55 @@ body{
     font-size: 12px;
 }
 
-@media (max-width: 800px){
+.sidenav > *::before{
+    content: attr(data-name);
+    position: fixed;
+    width: fit-content;
+    right: 60px;
+    background: white;
+    color: black;
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    font-family: "Roboto Slab", sans-serif;
+    font-weight: 600;
+    display: none;
+    animation: 0.2s ease-in-out out forwards;
+}
+
+.sidenav > *:hover::before{
+    display: block;
+    animation: 0.2s ease-in-out in forwards;
+}
+
+@keyframes in{
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+        display: block;
+    }
+    to{
+        opacity: 1;
+        transform: translateY(0);
+        display: block;
+    }
+}
+
+@keyframes out{
+    from{
+        opacity: 1;
+        transform: translateY(0);
+        display: block;
+    }
+    to{
+        opacity: 0;
+        transform: translateY(5px);
+        display: block;
+    }
+}
+
+@media (max-width: 880px){
     .evolutionPanelWrapper{
-        width: calc(100vh - 80px);
+        width: calc(100vw - 80px);
     }
 }
