@@ -36,7 +36,7 @@ function init(){
     const mapCanvas = document.getElementById("mapCanvas");
     gameMap = new GameMap(mapCanvas);
     gameMap.species.push(Palm);
-    gameMap.canvas.addEventListener('mousedown', clicker);
+    gameMap.canvas.addEventListener('mousedown', specimenChooser);
     //Start tick
     window.setInterval(tick, 15);
 }
