@@ -238,6 +238,53 @@ body{
     font-size: 12px;
 }
 
+.sidenav > *::before{
+    content: attr(data-name);
+    position: fixed;
+    width: fit-content;
+    right: 60px;
+    background: white;
+    color: black;
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    font-family: "Roboto Slab", sans-serif;
+    font-weight: 600;
+    display: none;
+    animation: 0.2s ease-in-out out forwards;
+}
+
+.sidenav > *:hover::before{
+    display: block;
+    animation: 0.2s ease-in-out in forwards;
+}
+
+@keyframes in{
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+        display: block;
+    }
+    to{
+        opacity: 1;
+        transform: translateY(0);
+        display: block;
+    }
+}
+
+@keyframes out{
+    from{
+        opacity: 1;
+        transform: translateY(0);
+        display: block;
+    }
+    to{
+        opacity: 0;
+        transform: translateY(5px);
+        display: block;
+    }
+}
+
 @media (max-width: 880px){
     .evolutionPanelWrapper{
         width: calc(100vw - 80px);
