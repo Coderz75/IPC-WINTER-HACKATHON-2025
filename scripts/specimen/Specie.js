@@ -47,7 +47,7 @@ class Plant { // Specie default class: Any subtypes of species should extend thi
 			  heatResistance : 0.5, 
 			  reproduction : 0.5, 
 			};
-			Object.assign(parentGenome, this.genome);
+			Object.assign(this.genome, parentGenome);
 			
 			this.water = 50; //affects actual anchorage, competitiveness, heatResistance, photosynthesisRate, dies when it reaches 0
 			this.energy = 50; //affects growth capacity, competitiveness, waterAffinity dies when it reaches 0
