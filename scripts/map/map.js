@@ -13,14 +13,10 @@ class GameMap{
         this.specieTiles = new Array(800*410).fill([]);
         this.species = []; //stores the classes for the plant species
 
-        this.loadMap();
+        this.loadMap(); 
     }
     tick(){
         // tick
-		
-		
-		
-        
         this.species.forEach(specie => specie.tick());
         this.render();
     }

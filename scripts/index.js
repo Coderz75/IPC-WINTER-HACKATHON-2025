@@ -36,7 +36,7 @@ function init(){
     const mapCanvas = document.getElementById("mapCanvas");
     gameMap = new GameMap(mapCanvas);
     gameMap.species.push(Palm);
-
+    gameMap.canvas.addEventListener('mousedown', clicker);
     //Start tick
     window.setInterval(tick, 15);
 }
@@ -47,6 +47,24 @@ function tick(){
     gameMap.tick();
     specimenPanel.draw(globalTime);
 }
-
+function clicker(evt){
+    if(evt.button == 0) {// left click
+        //get mouse x,y; not that these do not correspond to canvas x and y
+        let x = evt.clientX;
+        let y = evt.clientY;  
+        var rect = gameMap.canvas.getBoundingClientRect(), // abs. size of element
+        scaleX = gameMap.canvas.width / rect.width,    // relationship bitmap vs. element for x
+        scaleY = gameMap.canvas.height / rect.height;  // relationship bitmap vs. element for y
+        let mx = (x- rect.left) * scaleX;
+        let my = (y - rect.top) * scaleY;
+        gameMap.species.forEach(specie => {
+            specie.activeMembers.forEach( member =>{
+                if(Math.pow(member.pos.x-mx,2)+Math.pow(member.pos.y-my,2)<=36){ // Radius 6
+                    specimenPanel.choose(member);
+                }
+            })
+        });
+    }
+}
 
 document.getElementById("body").onload = init;
