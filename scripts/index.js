@@ -26,7 +26,7 @@ function init(){
     }
     window.onresize = function(event) {
         for(let i = 0; i < panelsOpen.length; i++){
-            if(panelOpen[i]===1){
+            if(panelsOpen[i]==1){
                 document.getElementById("mapCanvas").style.width = `${window.innerWidth-panelWidths[i]-80}px`;
                 return;
             }
