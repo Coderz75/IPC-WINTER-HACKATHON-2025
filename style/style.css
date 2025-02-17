@@ -83,18 +83,12 @@ body{
 
 .mapCanvas{
     height:auto;
-    width: 100vw;
+    width: calc(100vw - 80px);
     transition: width 0.3s;
     position: absolute;
     top: 50%;
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
-}
-.mapCanvas.part{
-    width: calc(100vw - 475px - 80px);
-}
-.mapCanvas.part2{
-    width: calc(100vw - 800px - 80px);
 }
 
 /*FLOATING PANELS*/

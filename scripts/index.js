@@ -2,37 +2,24 @@
 // This is our main file. Will include all other js files via accessor methods
 var gameMap;
 var panelOpen = 0; // 0 means none, 1 means specimen, 2 means evolution
+var panels = [document.getElementById("specimenPanel"),document.getElementById("evolutionPanelWrapper")]
+var panelWidths = [475,800]
+var panelsOpen = [0,0]
+/*
+.mapCanvas.part{
+    width: calc(100vw - 475px - 80px);
+}
+.mapCanvas.part2{
+    width: calc(100vw - 800px - 80px);
+}
+*/
 function init(){
     //Initialize graphics
     document.getElementById("specimenPanelButton").onclick = function() {
-        document.getElementById("specimenPanel").classList.toggle("open");
-        if(panelOpen == 2){
-            document.getElementById("evolutionPanelWrapper").classList.toggle("open");
-            document.getElementById("mapCanvas").classList.toggle("part2");
-            document.getElementById("mapCanvas").classList.toggle("part");
-            panelOpen = 1;
-        }else if(panelOpen == 1){
-            panelOpen = 0;
-            document.getElementById("mapCanvas").classList.toggle("part");
-        }else{
-            document.getElementById("mapCanvas").classList.toggle("part");
-            panelOpen = 1;
-        }
+        togglePanel(0);
     }
     document.getElementById("evolutionPanelButton").onclick = function() {
-        document.getElementById("evolutionPanelWrapper").classList.toggle("open");
-        if(panelOpen == 1){
-            document.getElementById("specimenPanel").classList.toggle("open");
-            document.getElementById("mapCanvas").classList.toggle("part");
-            document.getElementById("mapCanvas").classList.toggle("part2");
-            panelOpen = 2;
-        }else if(panelOpen == 2){
-            panelOpen = 0;
-            document.getElementById("mapCanvas").classList.toggle("part2");
-        }else{
-            panelOpen = 2;
-            document.getElementById("mapCanvas").classList.toggle("part2");
-        }
+        togglePanel(1)
     }
     
     // Initialize game
@@ -79,6 +66,23 @@ function specimenChooser(evt){
             })
         });
     }
+}
+
+function togglePanel(index){
+    panels[index].classList.toggle("open");
+    if(panelsOpen[index] ==1){
+        document.getElementById("mapCanvas").style.width = `${window.innerWidth - 80}px`;
+        panelsOpen[index]=0;
+        return;
+    }
+    document.getElementById("mapCanvas").style.width = `${window.innerWidth-panelWidths[index]-80}px`;
+    for(let i = 0; i < panelsOpen.length; i++){
+        if(panelsOpen[i] === 1){
+            panels[i].classList.toggle("open");
+            panelsOpen[i] = 0;
+        }
+    }
+    panelsOpen[index]=1;
 }
 
 document.getElementById("body").onload = init;
