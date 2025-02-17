@@ -166,7 +166,11 @@ class MutationWizard{
 }
 
 async function init_evolution() {
-    MutationWizardSVG = await get_svg("assets/MutationW.svg")
+    try {
+        MutationWizardSVG = await get_svg("assets/MutationW.svg")
+    } catch{
+        MutationWizardSVG = await get_svg("https://coderz75.github.io/IPC-WINTER-HACKATHON-2025/assets/MutationW.svg")
+    }
 
     //console.log((new MutationWizard(random(0, 3), "AA")).run())
 
