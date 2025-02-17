@@ -65,7 +65,7 @@ class Plant { // Specie default class: Any subtypes of species should extend thi
 					energy : function(){return `${Math.round(this_.energy)}%`},
 					maturity : function(){return `${Math.round(this_.percentMaturity)}%`},
 					temperature : function(){return `${Math.round(this_.temperature)}%`},
-					"seed development" : function(){return `${this_.seedDev}%`},
+					"seed development" : function(){return `${Math.round(this_.seedDev)}%`},
 				}; 
 			}
 
@@ -102,7 +102,7 @@ class Plant { // Specie default class: Any subtypes of species should extend thi
 		//Photosynthesis- making energy in the sun
 		const photosynthesis = respiration * this.water / 100 * sunExposure * this.genome.photosynthesisRate;
 		//Growth- using water and energy
-		const growth = sigmoid(-energyDifference/10) * (this.percentMaturity < 100);
+		const growth = sigmoid(-energyDifference/10);
 
 		this.water -= respiration / this.genome.waterStorage;
 		this.temperature -= respiration * this.genome.heatResistance;
@@ -110,9 +110,14 @@ class Plant { // Specie default class: Any subtypes of species should extend thi
 		this.water += capillaryAction * this.genome.waterAffinity * soilWater / this.genome.waterStorage;
 		this.water -= photosynthesis / this.genome.waterStorage;
 		this.energy += photosynthesis;
+
 		this.energy -= growth;
-		this.percentMaturity += growth / 10;
+		if (this.percentMaturity < 100)
+			this.percentMaturity += growth * 10;
+		else 
+			this.seedDev += growth * 10;
 		//Reproduce- growing spores (sexual reproduction too complicated)
+		
 	}
 }
 
