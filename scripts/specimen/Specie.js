@@ -1,5 +1,10 @@
 "use strict";
 
+
+function sigmoid(x){
+	return 1 / (1 + Math.E ** -x)
+}
+
 class Plant { // Specie default class: Any subtypes of species should extend this arguably
 	static tiles = []; //we could remove this if it's unnecessary
 	static activeMembers = []; //contains references to member objects that have germinated
@@ -44,8 +49,8 @@ class Plant { // Specie default class: Any subtypes of species should extend thi
 			};
 			Object.assign(parentGenome, this.genome);
 			
-			this.water = 100; //affects actual anchorage, competitiveness, heatResistance, photosynthesisRate, dies when it reaches 0
-			this.energy = 100; //affects growth capacity, competitiveness, waterAffinity dies when it reaches 0
+			this.water = 50; //affects actual anchorage, competitiveness, heatResistance, photosynthesisRate, dies when it reaches 0
+			this.energy = 50; //affects growth capacity, competitiveness, waterAffinity dies when it reaches 0
 			this.temperature = 50; //affects competitveness, photosynthesisRate, dies when it reaches 0 or 100
 			this.percentMaturity = 0;
 			this.seedDev = 0;
@@ -82,11 +87,31 @@ class Plant { // Specie default class: Any subtypes of species should extend thi
 			
     }
     tick(globalTime){
+		const tempDifference = 50 - this.temperature;
+		const waterDifference = 100 - this.water; 
+		const energyDifference = 100 - this.energy;
+		const sunExposure = 0.5; // change this according to weather and latitude later
+		const surroundingTemp = 50;
+		const soilWater = 0.5; 
+		
 		//respire- using water and cooling self down
+		const respiration = sigmoid(tempDifference/20) * this.water / 100;
 		//draw water, draw minerals with the water
+		const capillaryAction = Math.sqrt(waterDifference) / 5;
 		//Be blown in the wind
 		//Photosynthesis- making energy in the sun
+		const photosynthesis = respiration * this.water / 100 * sunExposure * this.genome.photosynthesisRate;
 		//Growth- using water and energy
+		const growth = sigmoid(-energyDifference/10) * (this.percentMaturity < 100);
+
+		this.water -= respiration / this.genome.waterStorage;
+		this.temperature -= respiration * this.genome.heatResistance;
+		this.temperature = (this.temperature * 0.95 + surroundingTemp * 0.05);
+		this.water += capillaryAction * this.genome.waterAffinity * soilWater / this.genome.waterStorage;
+		this.water -= photosynthesis / this.genome.waterStorage;
+		this.energy += photosynthesis;
+		this.energy -= growth;
+		this.percentMaturity += growth / 10;
 		//Reproduce- growing spores (sexual reproduction too complicated)
 	}
 }
@@ -106,4 +131,4 @@ const testSubject = new Palm({
 															 competitiveness: 0.9,
 															 photosynthesisRate: 0.2,
 														 }); Palm.activeMembers.push(testSubject);
-testSubject.pos= {x: 63, y:145};
+testSubject.pos= {x: 62, y:145};

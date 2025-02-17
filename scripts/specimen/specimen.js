@@ -45,7 +45,7 @@ const specimenPanel = {
     this.biome = gameMap.map[gameMap.cordToIndex(this.subjectPos.x, this.subjectPos.y)]; //number from 1 to 9
     if (this.biome == 9) console.log("uh oh, specimen is in the ocean");
     this.geneTable.innerHTML = null;
-    this.geneTable.insertRow().insertCell(0).innerHTML = "GENOME";
+    this.geneTable.createTHead().innerHTML = "GENOME";
     for (const gene in specimen.genome){
       const val = specimen.genome[gene];
       const row = this.geneTable.insertRow();
@@ -56,7 +56,7 @@ const specimenPanel = {
       cell2.innerHTML = val;
     }
     this.attrTable.innerHTML = null;
-    this.attrTable.insertRow().insertCell(0).innerHTML = "ATTRIBUTES";
+    this.attrTable.createTHead().innerHTML = "ATTRIBUTES";
     for (const attr in specimen.attributes){
       const val = specimen.attributes[attr]();
       const row = this.attrTable.insertRow();
@@ -83,7 +83,34 @@ const specimenPanel = {
     //draw specimen according to time on canvas, specimen's own genome, it's attributes, the biome, and the weather
 
     //list out attributes
+    this.update();
     
     
   },
+  update(){
+    
+    let i = 0;
+    for (const gene in this.subject.genome){
+      const val = this.subject.genome[gene];
+      const row = this.geneTable.rows.item(i);
+
+      const cell1 = row.cells.item(0);
+      const cell2 = row.cells.item(1);
+      cell1.innerHTML = gene;
+      cell2.innerHTML = val;
+      i++;
+    }
+    
+    i = 0;
+    for (const attr in this.subject.attributes){
+      const val = this.subject.attributes[attr]();
+      const row = this.attrTable.rows.item(i);
+      const cell1 = row.cells.item(0);
+      const cell2 = row.cells.item(1);
+
+      cell1.innerHTML = attr;
+      cell2.innerHTML = val;
+      i++;
+    }
+  }
 };
