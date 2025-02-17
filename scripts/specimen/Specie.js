@@ -125,10 +125,10 @@ class Palm extends Plant {
 }
 
 const testSubject = new Palm({
-															 waterStorage: 0.7,
-															 waterAffinity: 0.3,
-															 anchorage: 0.9,
-															 competitiveness: 0.9,
-															 photosynthesisRate: 0.2,
-														 }); Palm.activeMembers.push(testSubject);
+	waterStorage: 0.7,
+	waterAffinity: 0.3,
+	anchorage: 0.9,
+	competitiveness: 0.9,
+	photosynthesisRate: 0.2,
+}); Palm.activeMembers.push(testSubject);
 testSubject.pos= {x: 62, y:145};
