@@ -50,16 +50,23 @@ function tick(){
     gameMap.tick();
     specimenPanel.draw(globalTime);
 }
+function getMouseOnCanvas(){
+    let x = evt.clientX;
+    let y = evt.clientY;  
+    var rect = gameMap.canvas.getBoundingClientRect(), // abs. size of element
+    scaleX = gameMap.canvas.width / rect.width,    // relationship bitmap vs. element for x
+    scaleY = gameMap.canvas.height / rect.height;  // relationship bitmap vs. element for y
+    let mx = (x- rect.left) * scaleX;
+    let my = (y - rect.top) * scaleY;
+    return[mx,my];
+}
+
 function specimenChooser(evt){
     if(evt.button == 0) {// left click
         //get mouse x,y; not that these do not correspond to canvas x and y
-        let x = evt.clientX;
-        let y = evt.clientY;  
-        var rect = gameMap.canvas.getBoundingClientRect(), // abs. size of element
-        scaleX = gameMap.canvas.width / rect.width,    // relationship bitmap vs. element for x
-        scaleY = gameMap.canvas.height / rect.height;  // relationship bitmap vs. element for y
-        let mx = (x- rect.left) * scaleX;
-        let my = (y - rect.top) * scaleY;
+        let a = getMouseOnCanvas();
+        let mx = a[0];
+        let my = a[1];
         gameMap.species.forEach(specie => {
             specie.activeMembers.forEach( member =>{
                 if(Math.pow(member.pos.x-mx,2)+Math.pow(member.pos.y-my,2)<=36){ // Radius 6
