@@ -2,9 +2,9 @@
 // This is our main file. Will include all other js files via accessor methods
 var gameMap;
 var panelOpen = 0; // 0 means none, 1 means specimen, 2 means evolution
-var panels = [document.getElementById("specimenPanel"),document.getElementById("evolutionPanelWrapper")]
-var panelWidths = [475,800]
-var panelsOpen = [0,0]
+var panels = [document.getElementById("specimenPanel"),document.getElementById("evolutionPanelWrapper"),document.getElementById("weatherPanel")]
+var panelWidths = [475,800,475]
+var panelsOpen = [0,0,0]
 /*
 .mapCanvas.part{
     width: calc(100vw - 475px - 80px);
@@ -19,7 +19,10 @@ function init(){
         togglePanel(0);
     }
     document.getElementById("evolutionPanelButton").onclick = function() {
-        togglePanel(1)
+        togglePanel(1);
+    }
+    document.getElementById("weatherPanelButton").onclick = function() {
+        togglePanel(2);
     }
     
     // Initialize game

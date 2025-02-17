@@ -91,6 +91,7 @@ body{
     transform: translateY(-50%);
 }
 
+
 /*FLOATING PANELS*/
 .specimenPanel {
     position: fixed;
@@ -137,6 +138,24 @@ body{
     transform: translate(0,0);
 }
 
+.weatherPanel {
+    position: fixed;
+    top: 0;
+    left: 100vw; /* Initially hidden */
+    width: 475px;
+    height: 100%;
+    overflow-y: auto;
+    background: #3498db;
+    color: white;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+    transition: left 0.3s ease-in-out;
+    margin: 0;
+    padding: 0;
+}
+
+.weatherPanel.open {
+    left: calc(100vw - 475px - 80px); /* Slide in */
+}
 
 /*NAVIGATION BAR*/
 .sidenav {
