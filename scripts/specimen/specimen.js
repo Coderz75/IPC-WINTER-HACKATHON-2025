@@ -30,24 +30,34 @@ const specimenPanel = {
   panel : document.getElementById("specimenPanel"),
   canvas : document.getElementById("specimenCanvas"),
   ctx : document.getElementById("specimenCanvas").getContext("2d"),
-  table : document.getElementById("specimenTable"),
-  tableRows : [], 
+  geneTable : document.getElementById("specimenGenome"),
+  attrTable : document.getElementById("specimenAttributes"),
   subject : null,
   biome : null,
   weather : null,
   choose(specimen){
     this.subject = specimen;
-    this.tableRows = [];
-    this.table.innerHTML = null;
+    this.geneTable.innerHTML = null;
     for (const gene in specimen.genome){
       const val = specimen.genome[gene];
-      const row = this.table.insertRow();
+      const row = this.geneTable.insertRow();
       const cell1 = row.insertCell(0);
       const cell2 = row.insertCell(1);
       cell1.width = cell2.width = this.panel.width / 2;
       cell1.innerHTML = gene;
       cell2.innerHTML = val;
     }
+    this.attrTable.innerHTML = null;
+    for (const attr in specimen.attributes){
+      const val = specimen.attributes[attr];
+      const row = this.attrTable.insertRow();
+      const cell1 = row.insertCell(0);
+      const cell2 = row.insertCell(1);
+      cell1.width = cell2.width = this.panel.width / 2;
+      cell1.innerHTML = attr;
+      cell2.innerHTML = val;
+    }
+
   },
   draw(time){
     if (!this.panel.classList.contains("open")) return;

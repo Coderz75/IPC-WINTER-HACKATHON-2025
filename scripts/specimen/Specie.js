@@ -41,13 +41,22 @@ class Plant { // Specie default class: Any subtypes of species should extend thi
 			  photosynthesisRate: 0.5,
 			};
 			Object.assign(parentGenome, this.genome);
+			
 			this.water = 0;
 			this.maxWater = 0;
 			this.energy = 0;
-			this.percentMaturity = 0;
+			this.percentMaturity = 0; //from 0 to 1
+			this.seedDev = 0; //from 0 to 1
 			this.randomSeed = Math.random();
 			this.isActive = true; //change to start at false later
-	
+			
+			this.attributes = {
+				water : function(){return `${Math.round(this.water / this.maxWater * 100)}%`},
+				energy : function(){return `${this.energy} E`},
+				maturity : function(){return `${this.percentMaturity * 100}%`},
+				"seed development" : function(){return `${this.seedDev * 100}%`},
+			};
+
 			let percentWhole = 0;
 			for (const val in this.genome) percentWhole += this.genome[val];
 			percentWhole /= 255;
