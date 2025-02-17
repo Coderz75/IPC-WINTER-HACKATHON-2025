@@ -8,6 +8,8 @@ function init(){
         document.getElementById("specimenPanel").classList.toggle("open");
         if(panelOpen == 2){
             document.getElementById("evolutionPanelWrapper").classList.toggle("open");
+            document.getElementById("mapCanvas").classList.toggle("part2");
+            document.getElementById("mapCanvas").classList.toggle("part");
             panelOpen = 1;
         }else if(panelOpen == 1){
             panelOpen = 0;
@@ -21,13 +23,15 @@ function init(){
         document.getElementById("evolutionPanelWrapper").classList.toggle("open");
         if(panelOpen == 1){
             document.getElementById("specimenPanel").classList.toggle("open");
+            document.getElementById("mapCanvas").classList.toggle("part");
+            document.getElementById("mapCanvas").classList.toggle("part2");
             panelOpen = 2;
         }else if(panelOpen == 2){
             panelOpen = 0;
-            document.getElementById("mapCanvas").classList.toggle("part");
+            document.getElementById("mapCanvas").classList.toggle("part2");
         }else{
             panelOpen = 2;
-            document.getElementById("mapCanvas").classList.toggle("part");
+            document.getElementById("mapCanvas").classList.toggle("part2");
         }
     }
     

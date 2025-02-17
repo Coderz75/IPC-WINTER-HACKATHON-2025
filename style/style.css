@@ -93,6 +93,9 @@ body{
 .mapCanvas.part{
     width: calc(100vw - 475px - 80px);
 }
+.mapCanvas.part2{
+    width: calc(100vw - 800px - 80px);
+}
 
 /*FLOATING PANELS*/
 .specimenPanel {
