@@ -29,8 +29,8 @@ class Plant { // Specie default class: Any subtypes of species should extend thi
 			mapCanvasContext.restore();
 		}
 	}
-	static tick(){
-		this.activeMembers.forEach(member => member.tick());
+	static tick(globalTime){
+		this.activeMembers.forEach(member => member.tick(globalTime));
 	}
     constructor(parentGenome){
 			this.genome = {
@@ -39,23 +39,29 @@ class Plant { // Specie default class: Any subtypes of species should extend thi
 			  anchorage: 0.5,
 			  competitiveness: 0.5,
 			  photosynthesisRate: 0.5,
+			  heatResistance : 0.5, 
+			  reproduction : 0.5, 
 			};
 			Object.assign(parentGenome, this.genome);
 			
-			this.water = 0;
-			this.maxWater = 0;
-			this.energy = 0;
-			this.percentMaturity = 0; //from 0 to 1
-			this.seedDev = 0; //from 0 to 1
+			this.water = 100; //affects actual anchorage, competitiveness, heatResistance, photosynthesisRate, dies when it reaches 0
+			this.energy = 100; //affects growth capacity, competitiveness, waterAffinity dies when it reaches 0
+			this.temperature = 50; //affects competitveness, photosynthesisRate, dies when it reaches 0 or 100
+			this.percentMaturity = 0;
+			this.seedDev = 0;
 			this.randomSeed = Math.random();
 			this.isActive = true; //change to start at false later
 			
-			this.attributes = {
-				water : function(){return `${Math.round(this.water / this.maxWater * 100)}%`},
-				energy : function(){return `${this.energy} E`},
-				maturity : function(){return `${this.percentMaturity * 100}%`},
-				"seed development" : function(){return `${this.seedDev * 100}%`},
-			};
+			{
+				const this_ = this;
+				this.attributes = {
+					water : function(){return `${Math.round(this_.water)}%`},
+					energy : function(){return `${Math.round(this_.energy)}%`},
+					maturity : function(){return `${Math.round(this_.percentMaturity)}%`},
+					temperature : function(){return `${Math.round(this_.temperature)}%`},
+					"seed development" : function(){return `${this_.seedDev}%`},
+				}; 
+			}
 
 			let percentWhole = 0;
 			for (const val in this.genome) percentWhole += this.genome[val];
@@ -74,9 +80,14 @@ class Plant { // Specie default class: Any subtypes of species should extend thi
 			};
 			
     }
-    tick(){
-			
-		}
+    tick(globalTime){
+		//respire- using water and cooling self down
+		//draw water, draw minerals with the water
+		//Be blown in the wind
+		//Photosynthesis- making energy in the sun
+		//Growth- using water and energy
+		//Reproduce- growing spores (sexual reproduction too complicated)
+	}
 }
 
 class Palm extends Plant {
