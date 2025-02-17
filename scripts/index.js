@@ -65,6 +65,16 @@ function specimenChooser(evt){
             specie.activeMembers.forEach( member =>{
                 if(Math.pow(member.pos.x-mx,2)+Math.pow(member.pos.y-my,2)<=36){ // Radius 6
                     specimenPanel.choose(member);
+                    if (panelOpen != 1) document.getElementById("specimenPanel").classList.toggle("open");
+                    
+                    if(panelOpen == 2){
+                        document.getElementById("evolutionPanelWrapper").classList.toggle("open");
+                        document.getElementById("mapCanvas").classList.toggle("part2");
+                        document.getElementById("mapCanvas").classList.toggle("part");
+                    }else if (panelOpen == 0){
+                        document.getElementById("mapCanvas").classList.toggle("part");
+                    }
+                    panelOpen = 1;
                 }
             })
         });

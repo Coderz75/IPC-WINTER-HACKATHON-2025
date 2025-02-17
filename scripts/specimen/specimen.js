@@ -38,22 +38,24 @@ const specimenPanel = {
   choose(specimen){
     this.subject = specimen;
     this.geneTable.innerHTML = null;
+    this.geneTable.insertRow().insertCell(0).innerHTML = "GENOME";
     for (const gene in specimen.genome){
       const val = specimen.genome[gene];
       const row = this.geneTable.insertRow();
       const cell1 = row.insertCell(0);
       const cell2 = row.insertCell(1);
-      cell1.width = cell2.width = this.panel.width / 2;
+      cell1.width = cell2.width = this.canvas.width / 2;
       cell1.innerHTML = gene;
       cell2.innerHTML = val;
     }
     this.attrTable.innerHTML = null;
+    this.attrTable.insertRow().insertCell(0).innerHTML = "ATTRIBUTES";
     for (const attr in specimen.attributes){
       const val = specimen.attributes[attr]();
       const row = this.attrTable.insertRow();
       const cell1 = row.insertCell(0);
       const cell2 = row.insertCell(1);
-      cell1.width = cell2.width = this.panel.width / 2;
+      cell1.width = cell2.width = this.canvas.width / 2;
       cell1.innerHTML = attr;
       cell2.innerHTML = val;
     }
