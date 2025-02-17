@@ -49,7 +49,7 @@ const specimenPanel = {
     }
     this.attrTable.innerHTML = null;
     for (const attr in specimen.attributes){
-      const val = specimen.attributes[attr];
+      const val = specimen.attributes[attr]();
       const row = this.attrTable.insertRow();
       const cell1 = row.insertCell(0);
       const cell2 = row.insertCell(1);
