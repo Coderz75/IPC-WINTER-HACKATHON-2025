@@ -24,6 +24,15 @@ function init(){
     document.getElementById("weatherPanelButton").onclick = function() {
         togglePanel(2);
     }
+    window.onresize = function(event) {
+        for(let i = 0; i < panelsOpen.length; i++){
+            if(panelOpen[i]===1){
+                document.getElementById("mapCanvas").style.width = `${window.innerWidth-panelWidths[i]-80}px`;
+                return;
+            }
+        }
+        document.getElementById("mapCanvas").style.width = `${window.innerWidth-80}px`;
+    };
     
     // Initialize game
     window.counter = 0;

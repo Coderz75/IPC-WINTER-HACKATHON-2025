@@ -131,7 +131,6 @@ body{
     transition: transform 0.3s ease-in-out;
     transform: translate(100%, 0);
     background: white;
-
 }
 
 .evolutionPanelWrapper.open {
