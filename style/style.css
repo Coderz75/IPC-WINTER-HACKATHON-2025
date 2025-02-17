@@ -117,6 +117,13 @@ body{
     left: calc(100vw - 475px - 80px); /* Slide in */
 }
 
+.specimenPanelContent {
+    padding: 5px;
+}
+
+#specimenPanelCaption {
+    text-align: center;
+}
 
 .evolutionPanelWrapper {
     position: fixed;
