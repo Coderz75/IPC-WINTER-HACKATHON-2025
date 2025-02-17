@@ -33,10 +33,17 @@ const specimenPanel = {
   geneTable : document.getElementById("specimenGenome"),
   attrTable : document.getElementById("specimenAttributes"),
   subject : null,
+  subjectPos : {
+    x : 0,
+    y : 0,
+  },
   biome : null,
   weather : null,
-  choose(specimen){
+  choose(specimen, gameMap){
     this.subject = specimen;
+    this.subjectPos = this.subject.pos;
+    this.biome = gameMap.map[gameMap.cordToIndex(this.subjectPos.x, this.subjectPos.y)]; //number from 1 to 9
+    if (this.biome == 9) console.log("uh oh, specimen is in the ocean");
     this.geneTable.innerHTML = null;
     this.geneTable.insertRow().insertCell(0).innerHTML = "GENOME";
     for (const gene in specimen.genome){
@@ -73,7 +80,7 @@ const specimenPanel = {
       this.ctx.restore();
       return;
     }
-    //draw specimen according to time on canvas
+    //draw specimen according to time on canvas, specimen's own genome, it's attributes, the biome, and the weather
 
     //list out attributes
     

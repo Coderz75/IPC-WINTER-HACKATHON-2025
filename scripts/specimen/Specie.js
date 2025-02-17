@@ -50,7 +50,8 @@ class Plant { // Specie default class: Any subtypes of species should extend thi
 			this.percentMaturity = 0;
 			this.seedDev = 0;
 			this.randomSeed = Math.random();
-			this.isActive = true; //change to start at false later
+			this.isActive = true; //change to start at false later. When this switches to true, remove the reference from the seed list and push it to the active list
+			this.isAlive = true; //set this to false when it dies, then remove reference from the list
 			
 			{
 				const this_ = this;

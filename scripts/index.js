@@ -64,7 +64,7 @@ function specimenChooser(evt){
         gameMap.species.forEach(specie => {
             specie.activeMembers.forEach( member =>{
                 if(Math.pow(member.pos.x-mx,2)+Math.pow(member.pos.y-my,2)<=36){ // Radius 6
-                    specimenPanel.choose(member);
+                    specimenPanel.choose(member, gameMap);
                     if (panelOpen != 1) document.getElementById("specimenPanel").classList.toggle("open");
                     
                     if(panelOpen == 2){
