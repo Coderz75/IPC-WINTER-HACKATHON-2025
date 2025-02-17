@@ -50,9 +50,7 @@ function tick(){
     gameMap.tick();
     specimenPanel.draw(globalTime);
 }
-function getMouseOnCanvas(){
-    let x = evt.clientX;
-    let y = evt.clientY;  
+function getMouseOnCanvas(x,y){
     var rect = gameMap.canvas.getBoundingClientRect(), // abs. size of element
     scaleX = gameMap.canvas.width / rect.width,    // relationship bitmap vs. element for x
     scaleY = gameMap.canvas.height / rect.height;  // relationship bitmap vs. element for y
@@ -64,7 +62,7 @@ function getMouseOnCanvas(){
 function specimenChooser(evt){
     if(evt.button == 0) {// left click
         //get mouse x,y; not that these do not correspond to canvas x and y
-        let a = getMouseOnCanvas();
+        let a = getMouseOnCanvas(evt.clientX, evt.clientY);
         let mx = a[0];
         let my = a[1];
         gameMap.species.forEach(specie => {
