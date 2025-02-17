@@ -47,7 +47,7 @@ function tick(){
     gameMap.tick();
     specimenPanel.draw(globalTime);
 }
-function clicker(evt){
+function specimenChooser(evt){
     if(evt.button == 0) {// left click
         //get mouse x,y; not that these do not correspond to canvas x and y
         let x = evt.clientX;
