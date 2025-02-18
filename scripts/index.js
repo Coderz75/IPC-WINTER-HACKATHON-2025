@@ -1,7 +1,6 @@
 "use strict";
 // This is our main file. Will include all other js files via accessor methods
 var gameMap;
-var panelOpen = 0; // 0 means none, 1 means specimen, 2 means evolution
 var panels = [document.getElementById("specimenPanel"),document.getElementById("evolutionPanelWrapper"),document.getElementById("weatherPanel")]
 var panelWidths = [475,800,475]
 var panelsOpen = [0,0,0]
@@ -34,7 +33,7 @@ function init(){
     const mapCanvas = document.getElementById("mapCanvas");
     gameMap = new GameMap(mapCanvas);
     gameMap.species.push(Palm);
-    gameMap.canvas.addEventListener('mousedown', specimenChooser);
+    gameMap.canvas.addEventListener('mousedown', mouseDownEvent);
     //Start tick
     window.setInterval(tick, 15);
 }
@@ -42,6 +41,7 @@ function tick(){
     // tick function.
     const globalTime = new Date().getTime();
     
+    weatherPanel.tick()
     gameMap.tick();
     specimenPanel.draw(globalTime);
 }
@@ -54,20 +54,28 @@ function getMouseOnCanvas(x,y){
     return[mx,my];
 }
 
-function specimenChooser(evt){
+function mouseDownEvent(evt){
     if(evt.button == 0) {// left click
-        //get mouse x,y; not that these do not correspond to canvas x and y
         let a = getMouseOnCanvas(evt.clientX, evt.clientY);
         let mx = a[0];
         let my = a[1];
-        gameMap.species.forEach(specie => {
-            specie.activeMembers.forEach( member =>{
-                if(Math.pow(member.pos.x-mx,2)+Math.pow(member.pos.y-my,2)<=36){ // Radius 6
-                    specimenPanel.choose(member, gameMap);
-                    if (panelsOpen[0] != 1) togglePanel(0);
-                }
-            })
-        });
+        if(weatherSummoned != null){
+            //Summon weather event at location
+            //Function for determining what happens to species during weather events go here
+            console.log(`Event: ${weatherSummoned.name} has been summoned at (${Math.round(mx)},${Math.round(my)})`)
+            weatherSummoned = null;
+        }
+        else{
+            //Chooses specimen
+            gameMap.species.forEach(specie => {
+                specie.activeMembers.forEach( member =>{
+                    if(Math.pow(member.pos.x-mx,2)+Math.pow(member.pos.y-my,2)<=36){ // Radius 6
+                        specimenPanel.choose(member, gameMap);
+                        if (panelsOpen[0] != 1) togglePanel(0);
+                    }
+                })
+            });
+        }
     }
 }
 

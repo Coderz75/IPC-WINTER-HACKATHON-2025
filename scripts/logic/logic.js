@@ -22,6 +22,8 @@ const weatherEvents = [
     }
 ]
 
+var weatherSummoned = null;
+
 class weatherButton{
     constructor(name,description, icon){
         this.name = name;
@@ -37,6 +39,9 @@ class weatherButton{
                 </div>
             </div>
         `)
+        document.getElementById(this.name).onclick = ()=>{
+            weatherSummoned = this;
+        }
     }
 }
 
@@ -44,8 +49,18 @@ class weatherButton{
 class Weather{
     buttons = [];
     constructor(){
+        document.getElementById("weatherEvent").onclick = ()=>{
+            weatherSummoned = null;
+        };
         for(let i = 0; i < weatherEvents.length; i++){
             this.buttons.push(new weatherButton(weatherEvents[i]["name"],weatherEvents[i]["desc"],weatherEvents[i]["icon"]));
+        }
+    }
+    tick(){
+        if(weatherSummoned == null){
+            document.getElementById("weatherEvent").style.visibility = "hidden";
+        }else{
+            document.getElementById("weatherEvent").style.visibility = "visible";
         }
     }
 }
