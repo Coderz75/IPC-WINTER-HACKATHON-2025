@@ -7,14 +7,7 @@ var panelWidths = [475,800,475]
 var panelsOpen = [0,0,0]
 var weatherPanel = new Weather();
 
-/*
-.mapCanvas.part{
-    width: calc(100vw - 475px - 80px);
-}
-.mapCanvas.part2{
-    width: calc(100vw - 800px - 80px);
-}
-*/
+
 function init(){
     //Initialize graphics
     document.getElementById("specimenPanelButton").onclick = function() {
