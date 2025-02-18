@@ -81,6 +81,7 @@ class Plant { // Specie default class: Any subtypes of species should extend thi
 					maturity : function(){return `${Math.round(this_.percentMaturity)}%`},
 					temperature : function(){return `${Math.round(this_.temperature)}%`},
 					"seed development" : function(){return `${Math.round(this_.seedDev)}%`},
+					age : function(){return `${Math.round(this_.age * 0.015)} s`},
 				}; 
 			}
 
@@ -108,6 +109,7 @@ class Plant { // Specie default class: Any subtypes of species should extend thi
 		const sunExposure = 0.5; // change this according to weather and latitude later
 		const surroundingTemp = 50;
 		const soilWater = 0.5; 
+		const AgeMalus = 1 + Math.max(0, (this.age - 2000 * this.genome.size) * 0.05);
 		
 		//respire- using water and cooling self down
 		const respiration = sigmoid(tempDifference/20) * this.water / 100;
@@ -120,11 +122,11 @@ class Plant { // Specie default class: Any subtypes of species should extend thi
 		const growth = sigmoid(-energyDifference/10);
 
 		this.water -= respiration / this.genome.waterStorage;
-		this.temperature -= respiration * this.genome.heatResistance;
+		this.temperature -= respiration * this.genome.heatResistance / AgeMalus;
 		this.temperature = (this.temperature * 0.95 + surroundingTemp * 0.05);
-		this.water += capillaryAction * this.genome.waterAffinity * soilWater / this.genome.waterStorage;
+		this.water += capillaryAction * this.genome.waterAffinity * soilWater / this.genome.waterStorage / AgeMalus;
 		this.water -= photosynthesis / this.genome.waterStorage;
-		this.energy += photosynthesis;
+		this.energy += photosynthesis / AgeMalus;
 
 		this.energy -= growth;
 		if (this.percentMaturity < 100)
@@ -142,6 +144,12 @@ class Plant { // Specie default class: Any subtypes of species should extend thi
 				this.constructor.seedMembers.push(offspring);
 			}
 			this.seedDev = 0;
+		}
+		//aging and Death
+		this.age++;
+
+		if (this.temperature >= 95 || this.temperature <= 5 || this.water <= 5 || this.energy <= 1){
+			this.isAlive = false;
 		}		
 	}
 	dormant(globalTime, gameMap){
