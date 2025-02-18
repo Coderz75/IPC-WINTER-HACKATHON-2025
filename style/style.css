@@ -305,15 +305,18 @@ body{
 }
 
 @keyframes out{
-    from{
+    0%{
         opacity: 1;
         transform: translateY(0);
         display: block;
     }
-    to{
+    99.9%{
         opacity: 0;
         transform: translateY(5px);
         display: block;
+    }
+    100%{
+        display: none;
     }
 }
 
