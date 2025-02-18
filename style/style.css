@@ -135,8 +135,16 @@ body{
     background: #bb463c;
 }
 
-.specimenPanel tr:nth-of-type(odd) td{
-    background: #f6f8f9;
+.specimenPanel #specimenGenome tr:nth-of-type(odd) td{
+    background: rgb(241 243 255);
+}
+
+.specimenPanel #specimenAttributes tr:nth-of-type(odd) td{
+    background: rgb(255 243 242);
+}
+
+.specimenPanel tr:nth-of-type(even) td{
+    background: white;
 }
 
 .specimenPanel td{
