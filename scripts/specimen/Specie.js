@@ -167,9 +167,11 @@ class Plant { // Specie default class: Any subtypes of species should extend thi
 class Palm extends Plant {
 	static name = "Palm";
 	static id = 1;
-	constructor(parentGenome){
-		super(parentGenome);
-	}
+}
+
+class Pine extends Plant{
+	static name = "Pine";
+	static id = 2;
 }
 
 const testSubject = new Palm({
@@ -182,3 +184,18 @@ const testSubject = new Palm({
 	seedSize : 0.8, 
 }); Palm.activeMembers.push(testSubject);
 testSubject.pos= {x: 62, y:145};
+
+/*
+Pine genome: 
+{
+	waterStorage: 0.4,
+	waterAffinity: 0.6,
+	anchorage: 0.7,
+	competitiveness: 0.6,
+	photosynthesisRate: 0.8,
+	size: 0.7,
+	seedSize : 0.2, 
+}
+
+
+*/

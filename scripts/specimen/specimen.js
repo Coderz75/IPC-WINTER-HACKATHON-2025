@@ -104,7 +104,7 @@ const specimenPanel = {
     const surfaceY = this.canvas.height / 2;
     const centerX = this.canvas.width / 2; 
 
-    const surfaceFill = "green";
+    const surfaceFill = "yellow";
     const bottomfill = "brown";
     const earthfill = this.ctx.createLinearGradient(0, surfaceY, 0, this.canvas.height);
     earthfill.addColorStop(0, surfaceFill); earthfill.addColorStop(1, bottomfill);
@@ -113,13 +113,23 @@ const specimenPanel = {
 
     const sizeCoefficient = this.subject.genome.size * this.subject.percentMaturity;
     const thickness = this.subject.water * this.subject.genome.waterStorage * this.subject.percentMaturity / 100;
+    
+    //shoots
+    this.ctx.fillStyle = "green";
+    //binary tree generation????
+    //dfs lets go
+    let stack = []; //Array <Node <BranchAngle, StartPosX, StartPosY, Thickness>>
+    stack.push([-Math.PI/2, centerX, surfaceY, thickness]);
+    while (stack.length > 0){
+      stack.pop();
+    }//edit later
+
+    
     //roots
 
     this.ctx.fillStyle = "beige";
     const taprootLength = this.subject.genome.anchorage * sizeCoefficient;
     const lateralRootLength = this.subject.genome.waterAffinity * sizeCoefficient / this.subject.genome.anchorage;
-    
-    
 
     //taproot
     this.ctx.beginPath();
