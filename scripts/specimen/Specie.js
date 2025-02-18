@@ -59,7 +59,7 @@ class Plant { // Specie default class: Any subtypes of species should extend thi
 			  photosynthesisRate: 0.5,
 			  heatResistance : 0.5, 
 			  seedSize : 0.5,
-			  seedCount : 1,  
+			  seedCount : 2,  
 			};
 			Object.assign(this.genome, parentGenome);
 			
@@ -109,7 +109,7 @@ class Plant { // Specie default class: Any subtypes of species should extend thi
 		const sunExposure = 0.5; // change this according to weather and latitude later
 		const surroundingTemp = 50;
 		const soilWater = 0.5; 
-		const AgeMalus = 1 + Math.max(0, (this.age - 2000 * this.genome.size) * 0.05);
+		const AgeMalus = 1 + Math.max(0, (this.age - 10000 * this.genome.size) * 0.02);
 		
 		//respire- using water and cooling self down
 		const respiration = sigmoid(tempDifference/20) * this.water / 100;
@@ -132,7 +132,7 @@ class Plant { // Specie default class: Any subtypes of species should extend thi
 		if (this.percentMaturity < 100)
 			this.percentMaturity += growth / (0.5 + this.genome.size) * 10;
 		else 
-			this.seedDev += growth / (0.5 + this.genome.seedCount * this.genome.seedSize) * 10 ;
+			this.seedDev += growth / (0.5 + this.genome.seedCount * this.genome.seedSize) * 20 ;
 
 		//Reproduce- growing spores (sexual reproduction too complicated) (You can add mutation here if you want)
 		if (this.seedDev >= 100){
@@ -178,5 +178,7 @@ const testSubject = new Palm({
 	anchorage: 0.9,
 	competitiveness: 0.9,
 	photosynthesisRate: 0.2,
+	size: 0.8,
+	seedSize : 0.8, 
 }); Palm.activeMembers.push(testSubject);
 testSubject.pos= {x: 62, y:145};
