@@ -81,6 +81,9 @@ const specimenPanel = {
       return;
     }
     //draw specimen according to time on canvas, specimen's own genome, it's attributes, the biome, and the weather
+    this.ctx.fillStyle = "aqua";
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.restore();
 
     //list out attributes
     this.update();
