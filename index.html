@@ -15,22 +15,27 @@
     </div>
 
     <div id = "weatherPanel" class = "weatherPanel">
-        <h1>INDUCE WEATHER</h1>
+        <h1><i class="fa-solid fa-cloud"></i> INDUCE WEATHER</h1>
         <div id = "weatherButtons"></div>
     </div>
 
     <div id = "specimenPanel" class = "specimenPanel">
-        <canvas id = "specimenCanvas" width = 475px height = 475px></canvas>
-        <table id = "specimenGenome" class = "specimenPanelContent"></table>
-        <br>
-        <table id = "specimenAttributes" class = "specimenPanelContent"></table>
-        <p id = "specimenPanelCaption" class = "specimenPanelContent">In the specimen panel, you can view a plant's attributes (their health) and their genome, 
-            which affects their ability to survive and keep their attributes balanced. <br> 
-            If a plant's attributes lean too far on one end, then they will die. </p>
+        <h1><i class="fa-solid fa-tree"></i> VIEW SPECIMENS</h1>
+        <p id = "specimenPanelCaption" class = "specimenPanelContent">
+            Not all members of a plant species are created equal. Some members have better "traits" than others.
+            In this panel, you can see the specific attributes for each plant (e.g., health) and their genome,
+            which affects their ability to survive. It is imperative to keep a plant's attributes balanced as
+            otherwise, if they lean too far on one end, then the member will die. Good luck!
+        </p>
+        <div id="specimenInformation">
+            <canvas id = "specimenCanvas" width = 475px height = 475px></canvas>
+            <table id = "specimenGenome" class = "specimenPanelContent"></table>
+            <table id = "specimenAttributes" class = "specimenPanelContent"></table>
+        </div>
     </div>   
     <div id = "evolutionPanelWrapper" class = "evolutionPanelWrapper">
         <div id="phylogenyWrapper">
-            <h1>PHYLOGENETIC TREE</h1>
+            <h1><i class="fa-solid fa-dna"></i> EVOLUTION WIZARD</h1>
             <div id="phylogeny"></div>
         </div>
     </div>

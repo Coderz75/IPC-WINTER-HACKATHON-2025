@@ -101,28 +101,79 @@ body{
     position: fixed;
     top: 0;
     left: 100vw; /* Initially hidden */
-    width: 475px;
+    width: 555px;
     height: 100%;
-    overflow-y: auto;
-    background: #3498db;
+    background: #1d6794;
     color: white;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
     transition: left 0.3s ease-in-out;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.specimenPanel table{
+    color: black;
+    border-collapse: collapse;
+    margin: 12px 0;
+}
+
+.specimenPanel thead{
+    padding: 5px 10px;
+    border-radius: 10px 10px 0 0;
+    color: white;
+    display: block;
+    width: fit-content;
+    font-weight: 600;
+}
+
+.specimenPanel #specimenGenome thead{
+    background: #383f6b;
+}
+
+.specimenPanel #specimenAttributes thead{
+    background: #bb463c;
+}
+
+.specimenPanel tr:nth-of-type(odd) td{
+    background: #f6f8f9;
+}
+
+.specimenPanel td{
+    padding: 5px;
+}
+
+.specimenPanel h1{
+    font-weight: 900;
     margin: 0;
+}
+
+#specimenPanelCaption{
+    text-align: left;
     padding: 0;
+    font-weight: 200;
 }
 
 .specimenPanel.open {
-    left: calc(100vw - 475px - 80px); /* Slide in */
+    left: calc(100vw - 555px - 80px); /* Slide in */
 }
 
 .specimenPanelContent {
     padding: 5px;
 }
 
-#specimenPanelCaption {
-    text-align: center;
+#specimenInformation{
+    padding: 20px;
+    background: whitesmoke;
+    border-radius: 4px;
+    flex: 1;
+    overflow: auto;
 }
+
+.specimenPanel table :is(td, thead){
+    border: 1px solid black;
+}
+
 
 .evolutionPanelWrapper {
     position: fixed;
