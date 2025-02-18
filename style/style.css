@@ -261,6 +261,7 @@ body{
     font-size: 12px;
 }
 
+/*Side navigation*/
 .sidenav > *::before{
     content: attr(data-name);
     position: fixed;
@@ -312,4 +313,31 @@ body{
     .evolutionPanelWrapper{
         width: calc(100vw - 80px);
     }
+}
+
+
+/*Weather button*/
+.weatherButtons{
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+.weatherButton{
+    text-align: center;
+    background-color: rgb(0, 217, 255);
+    color:white;
+    border-radius: 5px;
+    width:75px;
+    height:fit-content;
+    display: flex;
+}
+.weatherButton img{
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 56px;
+    font-size: 14px;
+    text-decoration: none;
 }
