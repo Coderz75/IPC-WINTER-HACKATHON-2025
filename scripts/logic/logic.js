@@ -13,12 +13,12 @@ const weatherEvents = [
     {
         "name": "Tornado",
         "desc": "Circular bust of wind",
-        "icon": "https://cdn-icons-png.flaticon.com/512/803/803497.png"
+        "icon": "<i class='fa-solid fa-tornado'></i>"
     },
     {
         "name": "Hurricane",
         "desc": "Very quickly moving thingy",
-        "icon": "https://banner2.cleanpng.com/20180328/vyw/avjsu27or.webp"
+        "icon": "<i class='fa-solid fa-hurricane'></i>"
     }
 ]
 
@@ -27,10 +27,16 @@ class weatherButton{
         this.name = name;
         this.description = description;
         this.icon = icon
-        document.getElementById("weatherButtons").innerHTML +=
-        `
-            <div id = "${this.name}" class = "weatherButton fa-solid" data-name="${this.description}"><img src = "${this.icon}"><br>${name}</div>
-        `;
+        // using innerHTML resets all event listeners and is just slower
+        document.getElementById("weatherButtons").insertAdjacentHTML("beforeend",`
+            <div id = "${this.name}" class = "weatherButton">
+                <div class="icon">${icon}</div>
+                <div class="right">
+                    <span class="name">${name}</span>
+                    <span class="description">${description}</span>
+                </div>
+            </div>
+        `)
     }
 }
 
