@@ -111,9 +111,14 @@ class Plant {
 		const tempDifference = 50 - this.temperature;
 		const waterDifference = 100 - this.water; 
 		const energyDifference = 100 - this.energy;
-		const sunExposure = 0.5; // change this according to weather and latitude later
-		const surroundingTemp = 50; //change this according to weather and latitude and biome
-		const soilWater = 0.5;  //change this according to weather and biome
+		let sunExposure = 0.5; // change this according to weather and latitude later
+		let surroundingTemp = 50; //change this according to weather and latitude and biome
+		let soilWater = 0.5;  //change this according to weather and biome
+
+		let biomeStats = gameMap.getBiomeStatistics(gameMap.cordToIndex(this.pos.x,this.pos.y));
+		for (const [key, value] of Object.entries(biomeStats)) {
+			eval(`${key} = ${value}`);
+		}
 		const AgeMalus = 1 + Math.max(0, (this.age - 10000 * this.genome.size) * 0.02);
 		
 		//respire- using water and cooling self down
