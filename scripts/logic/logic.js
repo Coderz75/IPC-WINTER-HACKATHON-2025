@@ -88,3 +88,24 @@ class Weather{
         }
     }
 }
+
+var alertsRead = true;
+
+class Alert{
+    constructor(name, description, icon){
+        this.name = name;
+        this.description = description;
+        this.icon = icon
+        // using innerHTML resets all event listeners and is just slower
+        document.getElementById("alerts").insertAdjacentHTML("beforeend",`
+            <div id = "${this.name}" class = "alert">
+                <div class="icon">${icon}</div>
+                <div class="right">
+                    <span class="name">${name}</span>
+                    <span class="description">${description}</span>
+                </div>
+            </div>
+        `);
+        alertsRead = false;
+    }
+}

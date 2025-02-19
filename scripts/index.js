@@ -1,11 +1,11 @@
 "use strict";
 // This is our main file. Will include all other js files via accessor methods
 var gameMap;
-var panels = [document.getElementById("specimenPanel"),document.getElementById("evolutionPanelWrapper"),document.getElementById("weatherPanel")]
-var panelWidths = [555,800,475]
-var panelsOpen = [0,0,0]
+var panels = [document.getElementById("specimenPanel"),document.getElementById("evolutionPanelWrapper"),document.getElementById("weatherPanel"),document.getElementById("alertPanel")]
+var panelWidths = [555,800,475,475]
+var panelsOpen = [0,0,0,0]
 var weatherPanel = new Weather();
-
+var alerts = []
 
 function init(){
     //Initialize graphics
@@ -17,6 +17,10 @@ function init(){
     }
     document.getElementById("weatherPanelButton").onclick = function() {
         togglePanel(2);
+    }
+    document.getElementById("alertPanelButton").onclick = function() {
+        togglePanel(3);
+        alertsRead = true;
     }
     window.onresize = function(event) {
         for(let i = 0; i < panelsOpen.length; i++){
@@ -41,6 +45,12 @@ function tick(){
     // tick function.
     const globalTime = new Date().getTime();
     
+    if(!alertsRead){
+        document.getElementById("alertPanelButton").style.color = "red";
+    }else{
+        document.getElementById("alertPanelButton").style.color = "#818181";
+    }
+
     weatherPanel.tick()
     gameMap.tick();
     specimenPanel.draw(globalTime);
@@ -61,8 +71,11 @@ function mouseDownEvent(evt){
         let my = a[1];
         if(weatherSummoned != null){
             //Summon weather event at location
+            mx = Math.round(mx);
+            my = Math.round(my);
             //Function for determining what happens to species during weather events go here
-            console.log(`Event: ${weatherSummoned.name} has been summoned at (${Math.round(mx)},${Math.round(my)})`)
+            alerts.push(new Alert(`${weatherSummoned.name} summoned in ${gameMap.getBiomeName(mx,my)} biome`,weatherSummoned.description,weatherSummoned.icon));
+            console.log(`Event: ${weatherSummoned.name} has been summoned at (${mx},${my})`)
             document.getElementById(weatherSummoned.name).style.background = "whitesmoke";
             weatherSummoned = null;
         }
