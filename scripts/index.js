@@ -2,7 +2,7 @@
 // This is our main file. Will include all other js files via accessor methods
 var gameMap;
 var panels = [document.getElementById("specimenPanel"),document.getElementById("evolutionPanelWrapper"),document.getElementById("weatherPanel")]
-var panelWidths = [475,800,475]
+var panelWidths = [555,800,475]
 var panelsOpen = [0,0,0]
 var weatherPanel = new Weather();
 
