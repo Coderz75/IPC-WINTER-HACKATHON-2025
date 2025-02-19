@@ -5,14 +5,15 @@ function sigmoid(x){
 	return 1 / (1 + Math.E ** -x)
 }
 
-class Plant { // Specie default class: Any subtypes of species should extend this arguably
-	static tiles = []; //we could remove this if it's unnecessary
-	static activeMembers = []; //contains references to member objects that have germinated
-	static seedMembers = []; //contains referecnes to member objects that are seeds
-	static name = "";
-	static id = 0;
-	
-	static draw(mapCanvasContext){ //draws species members
+class PlantSpecies {
+	constructor(originalGenome, hostMap){
+		this.activeMembers = [];
+		this.seedMembers = [];
+		this.name = "";
+		this.gameMap = hostMap;
+		this.genome = originalGenome;
+	}
+	draw(mapCanvasContext){ //draws species members
 		for (const aM of this.activeMembers){
 			mapCanvasContext.save();
 			mapCanvasContext.beginPath();
@@ -34,7 +35,7 @@ class Plant { // Specie default class: Any subtypes of species should extend thi
 			mapCanvasContext.restore();
 		}
 	}
-	static tick(globalTime, gameMap){
+	tick(globalTime, gameMap){
 		this.activeMembers.forEach(member => member.tick(globalTime, gameMap));
 		this.seedMembers.forEach(member => member.dormant(globalTime, gameMap));
 		{
@@ -49,7 +50,11 @@ class Plant { // Specie default class: Any subtypes of species should extend thi
 			this.seedMembers = seedMembersNext;
 		}
 	}
-    constructor(parentGenome){
+}
+
+class Plant { 
+    constructor(parentGenome, species){
+			this.species = species; //reference to species
 			this.genome = {
 			  waterStorage: 0.5,
 			  waterAffinity: 0.5,
@@ -107,8 +112,8 @@ class Plant { // Specie default class: Any subtypes of species should extend thi
 		const waterDifference = 100 - this.water; 
 		const energyDifference = 100 - this.energy;
 		const sunExposure = 0.5; // change this according to weather and latitude later
-		const surroundingTemp = 50;
-		const soilWater = 0.5; 
+		const surroundingTemp = 50; //change this according to weather and latitude and biome
+		const soilWater = 0.5;  //change this according to weather and biome
 		const AgeMalus = 1 + Math.max(0, (this.age - 10000 * this.genome.size) * 0.02);
 		
 		//respire- using water and cooling self down
@@ -137,11 +142,11 @@ class Plant { // Specie default class: Any subtypes of species should extend thi
 		//Reproduce- growing spores (sexual reproduction too complicated) (You can add mutation here if you want)
 		if (this.seedDev >= 100){
 			for (let i = 0; i < this.genome.seedCount; i++){
-				const offspring = new Plant(this.genome);
+				const offspring = new Plant(this.genome, this.species);
 				offspring.isActive = false;
 				const angle = Math.random() * Math.PI * 2;
 				offspring.pos = {x: this.pos.x + Math.cos(angle) * 6, y: this.pos.y + Math.sin(angle) * 6};
-				this.constructor.seedMembers.push(offspring);
+				this.species.seedMembers.push(offspring);
 			}
 			this.seedDev = 0;
 		}
@@ -164,17 +169,18 @@ class Plant { // Specie default class: Any subtypes of species should extend thi
 	}
 }
 
-class Palm extends Plant {
-	static name = "Palm";
-	static id = 1;
-}
+const palms = new PlantSpecies({
+	waterStorage: 0.7,
+	waterAffinity: 0.3,
+	anchorage: 0.9,
+	competitiveness: 0.9,
+	photosynthesisRate: 0.2,
+	size: 0.8,
+	seedSize : 0.8,
+	seedCount : 2,
+}, gameMap);
 
-class Pine extends Plant{
-	static name = "Pine";
-	static id = 2;
-}
-
-const testSubject = new Palm({
+const testSubject = new Plant({
 	waterStorage: 0.7,
 	waterAffinity: 0.3,
 	anchorage: 0.9,
@@ -182,8 +188,10 @@ const testSubject = new Palm({
 	photosynthesisRate: 0.2,
 	size: 0.8,
 	seedSize : 0.8, 
-}); Palm.activeMembers.push(testSubject);
-testSubject.pos= {x: 62, y:145};
+}, palms);
+palms.activeMembers.push(testSubject);
+
+testSubject.pos = {x: 62, y:145};
 
 /*
 Pine genome: 
