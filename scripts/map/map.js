@@ -72,4 +72,38 @@ class GameMap{
             this.mapCtx.fillRect(pos[0],pos[1], 1,1);
         }
     }
+
+    getBiomeName (x,y){
+        let index = this.cordToIndex(x,y);
+        let r = "";
+        switch(this.map[index]){                
+            case 1: // Rainforest
+                r="Rainforest";
+                break;
+            case 2: // Savanna
+                r="Savanna";
+                break;
+            case 3: //Desert
+                r="Desert";
+                break;
+            case 4: //Temperate forest
+                r="Temperate Forest";
+                break;
+            case 5: //Grasslands
+                r="Grasslands";
+                break;
+            case 6: //Tundra
+                r="Tundra";
+                break;
+            case 7: //Taiga
+                r="Taiga";
+                break;
+            case 8: //Ice
+                r="Ice";
+                break;
+            default: //Water
+                r="Water";
+        }
+        return r;
+    }
 }

@@ -223,6 +223,23 @@ body{
     left: calc(100vw - 475px - 80px); /* Slide in */
 }
 
+.alertPanel{
+    position: fixed;
+    top: 0;
+    left: 100vw; /* Initially hidden */
+    width: 475px;
+    height: 100%;
+    overflow-y: auto;
+    background: #c5e4f8;
+    color: black;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+    transition: left 0.3s ease-in-out;
+    margin: 0;
+    padding: 30px;
+}
+.alertPanel.open {
+    left: calc(100vw - 475px - 80px); /* Slide in */
+}
 /*NAVIGATION BAR*/
 .sidenav {
     height: 100%; /* Full-height: remove this if you want "auto" height */
@@ -438,6 +455,55 @@ body{
 }
 
 .weatherButton .icon i{
+    font-size: 30px;
+    color: #1ba3ec;
+}
+
+/*Alerts*/
+.alert{
+    background: whitesmoke;
+    padding: 20px;
+    color: black;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    column-gap: 20px;
+    align-items: center;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.alert:hover{
+    background: lightgoldenrodyellow;
+}
+
+.alert .right{
+    display: flex;
+    flex-direction: column;
+}
+
+.alert .name{
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.alert .description{
+    font-weight: 400;
+}
+
+.alert .icon img{
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 56px;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.alert .icon i{
     font-size: 30px;
     color: #1ba3ec;
 }
