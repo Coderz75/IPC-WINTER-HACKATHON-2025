@@ -20,6 +20,7 @@ function init(){
     }
     document.getElementById("alertPanelButton").onclick = function() {
         togglePanel(3);
+        alertsRead = true;
     }
     window.onresize = function(event) {
         for(let i = 0; i < panelsOpen.length; i++){
@@ -44,6 +45,12 @@ function tick(){
     // tick function.
     const globalTime = new Date().getTime();
     
+    if(!alertsRead){
+        document.getElementById("alertPanelButton").style.color = "red";
+    }else{
+        document.getElementById("alertPanelButton").style.color = "#818181";
+    }
+
     weatherPanel.tick()
     gameMap.tick();
     specimenPanel.draw(globalTime);
@@ -65,7 +72,7 @@ function mouseDownEvent(evt){
         if(weatherSummoned != null){
             //Summon weather event at location
             mx = Math.round(mx);
-            my = Math.round(my)
+            my = Math.round(my);
             //Function for determining what happens to species during weather events go here
             alerts.push(new Alert(`${weatherSummoned.name} summoned in ${gameMap.getBiomeName(mx,my)} biome`,weatherSummoned.description,weatherSummoned.icon));
             console.log(`Event: ${weatherSummoned.name} has been summoned at (${mx},${my})`)

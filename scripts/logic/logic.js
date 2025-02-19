@@ -87,6 +87,8 @@ class Weather{
     }
 }
 
+var alertsRead = true;
+
 class Alert{
     constructor(name, description, icon){
         this.name = name;
@@ -101,6 +103,7 @@ class Alert{
                     <span class="description">${description}</span>
                 </div>
             </div>
-        `)
+        `);
+        alertsRead = false;
     }
 }
