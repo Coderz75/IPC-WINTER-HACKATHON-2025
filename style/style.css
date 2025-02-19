@@ -512,6 +512,10 @@ body{
     color: #1ba3ec;
 }
 
+.time{
+    color: gray;
+}
+
 /*Unsommon weather event class*/
 .weatherEvent{
     width: 35px;

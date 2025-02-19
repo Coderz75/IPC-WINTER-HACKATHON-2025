@@ -96,6 +96,7 @@ class Alert{
         this.name = name;
         this.description = description;
         this.icon = icon
+        const date = new Date();
         // using innerHTML resets all event listeners and is just slower
         document.getElementById("alerts").insertAdjacentHTML("beforeend",`
             <div id = "${this.name}" class = "alert">
@@ -104,6 +105,7 @@ class Alert{
                     <span class="name">${name}</span>
                     <span class="description">${description}</span>
                 </div>
+                <div class = time>${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}</div>
             </div>
         `);
         alertsRead = false;
