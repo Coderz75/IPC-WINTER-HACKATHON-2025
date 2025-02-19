@@ -180,18 +180,41 @@ const palms = new PlantSpecies({
 	seedCount : 2,
 });
 
-const testSubject = new Plant({
+const pines = new PlantSpecies({
+	waterStorage: 0.4,
+	waterAffinity: 0.5,
+	anchorage: 0.3,
+	competitiveness: 0.4,
+	photosynthesisRate: 0.8,
+	size: 0.7,
+	seedSize : 0.2, 
+	seedCount : 8,
+});
+
+palms.activeMembers.push(new Plant({
 	waterStorage: 0.7,
 	waterAffinity: 0.3,
 	anchorage: 0.9,
 	competitiveness: 0.9,
 	photosynthesisRate: 0.2,
 	size: 0.8,
-	seedSize : 0.8, 
-}, palms);
-palms.activeMembers.push(testSubject);
+	seedSize : 0.8,
+	seedCount : 2,
+}, palms));
 
-testSubject.pos = {x: 62, y:145};
+pines.activeMembers.push(new Plant({
+	waterStorage: 0.4,
+	waterAffinity: 0.6,
+	anchorage: 0.7,
+	competitiveness: 0.6,
+	photosynthesisRate: 0.8,
+	size: 0.7,
+	seedSize : 0.2, 
+	seedCount : 8,
+}, palms));
+
+palms.activeMembers[0].pos = {x: 62, y:145};
+pines.activeMembers[0].pos = {x: 310, y:100};
 
 /*
 Pine genome: 

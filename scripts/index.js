@@ -36,7 +36,7 @@ function init(){
     window.counter = 0;
     const mapCanvas = document.getElementById("mapCanvas");
     gameMap = new GameMap(mapCanvas);
-    gameMap.addSpecies(palms);
+    gameMap.species = [palms, pines];
     gameMap.canvas.addEventListener('mousedown', mouseDownEvent);
     //Start tick
     window.setInterval(tick, 15);

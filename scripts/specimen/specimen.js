@@ -115,7 +115,7 @@ const specimenPanel = {
     const thickness = this.subject.water * this.subject.genome.waterStorage * this.subject.percentMaturity / 100;
     
     //shoots
-    this.ctx.fillStyle = "green";
+    this.ctx.fillStyle = `rgb(${100 - this.subject.water},${this.subject.water*4+50},${this.subject.water / 2})`;
     //binary tree generation????
     //dfs lets go
     //actually no, bfs 
@@ -125,20 +125,22 @@ const specimenPanel = {
     queue.enqueue([-Math.PI/2, centerX, surfaceY, thickness/2, branchCount * this.subject.percentMaturity / 100]);
     while (!queue.isEmpty()){
       const node = queue.dequeue();
-      if (node[4] < 0){
+      if (node[4] <= 0){
         //draw a leaf
+        const leafSize = this.subject.genome.photosynthesisRate * this.subject.genome.size * 8;
         this.ctx.beginPath();
-        this.ctx.ellipse(node[1] + Math.cos(node[0])*node[3] * 7, node[2] + Math.sin(node[0])*node[3] * 7, node[3] * 2.5, node[3] * 7, node[0] + Math.PI / 2, 0, Math.PI * 2);
+        this.ctx.ellipse(node[1] + Math.cos(node[0])*leafSize * 7, node[2] + Math.sin(node[0])*leafSize * 7, leafSize * 2.5, leafSize * 7, node[0] + Math.PI / 2, 0, Math.PI * 2);
         this.ctx.fill();
         this.ctx.closePath();
         continue;
       }
       this.ctx.moveTo(node[1] + Math.sin(node[0]) * node[3], node[2] - Math.cos(node[0]) * node[3]);
-      const branchLength = this.subject.genome.size * 250 / Math.floor(this.subject.genome.photosynthesisRate / 0.25 + 1) * Math.min(1, node[4]);
+      const branchLength = this.subject.genome.size * 200 / Math.floor(this.subject.genome.photosynthesisRate / 0.25 + 1) * Math.min(1, node[4]);
       const nextX = node[1] + Math.cos(node[0]) * branchLength;
       const nextY = node[2] + Math.sin(node[0]) * branchLength;
-      const nextAngle1 = node[0] + (randNum() - 0.5) * Math.PI / 2;
-      const nextAngle2 = node[0] + (randNum() - 0.5) * Math.PI / 2;
+      const AngleCoefficient = Math.PI / 2 * (30 - Math.min(20, this.subject.water))/10;
+      const nextAngle1 = node[0] + (randNum() - 0.5) * AngleCoefficient;
+      const nextAngle2 = node[0] + (randNum() - 0.5) * AngleCoefficient;
       const nextThick = node[3] * 0.8;
       this.ctx.lineTo(nextX + Math.sin(node[0]) * nextThick, nextY - Math.cos(node[0]) * nextThick);
       this.ctx.lineTo(nextX - Math.sin(node[0]) * nextThick, nextY + Math.cos(node[0]) * nextThick);
