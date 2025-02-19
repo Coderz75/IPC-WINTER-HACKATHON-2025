@@ -70,7 +70,9 @@ class Weather{
     buttons = [];
     constructor(){
         document.getElementById("weatherEvent").onclick = ()=>{
-            document.getElementById(weatherSummoned.name).style.background = "whitesmoke";
+            document.querySelectorAll(".weatherButton").forEach(e=>{
+                e.classList.remove("selected")
+            })
             weatherSummoned = null;
         };
         for(let i = 0; i < weatherEvents.length; i++){
@@ -82,7 +84,7 @@ class Weather{
             document.getElementById("weatherEvent").style.visibility = "hidden";
         }else{
             document.getElementById("weatherEvent").style.visibility = "visible";
-            document.getElementById(weatherSummoned.name).style.background = "lightgoldenrodyellow";
+            document.getElementById(weatherSummoned.name).classList.add("selected")
         }
     }
 }

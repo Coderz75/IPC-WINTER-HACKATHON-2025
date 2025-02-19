@@ -425,6 +425,10 @@ body{
 }
 
 .weatherButton:hover{
+    background: #eeeeee;
+}
+
+.weatherButton.selected{
     background: lightgoldenrodyellow;
 }
 
