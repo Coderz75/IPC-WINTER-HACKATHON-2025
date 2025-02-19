@@ -59,14 +59,16 @@ class DNA{
 
         // Polynomial Hasher
         let res = 0
-        let mod = 1e9 + 7;
+        let mod = 1000000007;
 
         let pow = 1;
         for (let i = 0; i < split.length; i++){
-            res += encoding[split[i]] * pow
+            res += (encoding[split[i]] * pow)%mod
             res %= mod
+
             pow = (pow * hash_base) % mod
         }
+
 
         return res / mod
     }
@@ -102,9 +104,11 @@ class DNA{
 }
 
 class MutationWizard{
-    constructor(type, trait){
+    constructor(type, trait, genome, location){
         this.type = type
         this.trait = trait
+        this.genome = genome
+        this.location = location
     }
 
     run = async ()=> {
@@ -113,6 +117,7 @@ class MutationWizard{
         let svg = document.querySelector("#MutationW")
 
         svg.querySelector("#Trait_name tspan").innerHTML = this.trait
+        svg.querySelector("#Mutation_Type tspan").innerHTML = "mutation!"
 
         this.bases = [
             svg.querySelector("#Cytosine").outerHTML,
@@ -125,14 +130,11 @@ class MutationWizard{
         svg.querySelectorAll("#Cytosine, #Guanine, #Adenine, #Uracil").forEach(e=>e.remove())
 
 
-        this.sequence = []
+        this.sequence = Array.from(this.genome.substring(this.location - 4, this.location + 8)).map(e=>DNA.bases.indexOf(e))
 
-        for (let i = 0; i < 12; i++){
-            this.sequence.push(random(0, 4))
-        }
 
         let cur = 39;
-        let num = random(0, 1000)
+        let num = this.location - 4
         for (let i = 0; i < 12; i++){
             svg.insertAdjacentHTML("beforeend", this.bases[this.sequence[i]])
             svg.querySelector(":is(#Cytosine, #Guanine, #Adenine, #Uracil):last-of-type").style.transform = `translate(${cur}px, 225px)`
@@ -155,7 +157,7 @@ class MutationWizard{
         await timeout(1000)
 
         if (this.type === MutationType.PointDeletion){
-            let point = random(0, 8)
+            let point = 4
             let rate = 5
             for (let i = 0; i < 50; i++){
                 svg.querySelector(`.num${point}`).style.transform = `translate(${39 + point*85}px, ${225-rate*i}px)`
@@ -177,7 +179,7 @@ class MutationWizard{
 
         }
         else if (this.type === MutationType.PointInsertion){
-            let point = random(0, 8)
+            let point =4
             let base = random(0, 4)
             svg.insertAdjacentHTML("beforeend", this.bases[base])
             svg.querySelector(":is(#Cytosine, #Guanine, #Adenine, #Uracil):last-of-type").classList.add("num13")
@@ -203,7 +205,7 @@ class MutationWizard{
             this.sequence.splice(point, 0,base)
             declare_codons()
         } else if (this.type === MutationType.PointSubstitution){
-            let point = random(0, 8)
+            let point = 4
             let base = random(0, 4)
             svg.insertAdjacentHTML("beforeend", this.bases[base])
             svg.querySelector(":is(#Cytosine, #Guanine, #Adenine, #Uracil):last-of-type").classList.add("num13")
@@ -220,6 +222,15 @@ class MutationWizard{
             this.sequence[point] = base
             declare_codons()
         }
+
+        let new_genome = Array.from(this.genome)
+
+        new_genome.splice(this.location, 12, ...this.sequence.map(e=>bases[e]))
+
+
+        svg.querySelector("#Trait_value tspan").innerHTML = DNA.process(new_genome).toFixed(2) + " (prev: " + DNA.process(this.genome).toFixed(2) + ")"
+
+        return new_genome
     }
 }
 
@@ -230,14 +241,16 @@ async function init_evolution() {
         MutationWizardSVG = await get_svg("https://coderz75.github.io/IPC-WINTER-HACKATHON-2025/assets/MutationW.svg")
     }
 
-     hash_base = random(5, 30)
+     hash_base = 17
 
     //console.log((new MutationWizard(random(0, 3), "AA")).run())
 
+    let i = 1
     for (let a of DNA.bases){
         for (let b of DNA.bases) {
             for (let c of DNA.bases) {
-                encoding[a+b+c] = random(1, 100)
+                encoding[a+b+c] = i
+                i++
             }
         }
     }
@@ -267,7 +280,7 @@ async function init_evolution() {
             children: [
                 {
                     text: { name: "Palm Tree", "title": "Africa" },
-                    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/E._coli_Bacteria_%287316101966%29.jpg/713px-E._coli_Bacteria_%287316101966%29.jpg",
+                    image: "about: blank",
                     "children": [
                         {
                             text: {name: "Leaves Mutation"},
@@ -275,21 +288,21 @@ async function init_evolution() {
                             children: [
                                 {
                                     text: { name: "Pine Tree", "title": "Asia"},
-                                    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/E._coli_Bacteria_%287316101966%29.jpg/713px-E._coli_Bacteria_%287316101966%29.jpg",
+                                    image: "about: blank",
                                     children: [
                                         {
                                             text: { name: "Pine Tree", "title": "Asia"},
-                                            image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/E._coli_Bacteria_%287316101966%29.jpg/713px-E._coli_Bacteria_%287316101966%29.jpg"
+                                            image: "about: blank"
                                         },
                                         {
                                             text: { name: "Coniferous Tree", "title": "Asia"},
-                                            image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/E._coli_Bacteria_%287316101966%29.jpg/713px-E._coli_Bacteria_%287316101966%29.jpg"
+                                            image: "about: blank"
                                         }
                                     ]
                                 },
                                 {
                                     text: { name: "Coniferous Tree", "title": "Asia"},
-                                    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/E._coli_Bacteria_%287316101966%29.jpg/713px-E._coli_Bacteria_%287316101966%29.jpg"
+                                    image: "about: blank"
                                 }
                             ]
                         }
@@ -300,7 +313,7 @@ async function init_evolution() {
                     children: [
                         {
                             text: { name: "Mangrove", "title": "Asia"},
-                            image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/E._coli_Bacteria_%287316101966%29.jpg/713px-E._coli_Bacteria_%287316101966%29.jpg"
+                            image: "about: blank"
                         }
                     ]
                 }
