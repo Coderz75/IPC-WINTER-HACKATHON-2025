@@ -15,6 +15,10 @@ class GameMap{
 
         this.loadMap(); 
     }
+    addSpecies(specie){
+        this.species.push(specie);
+        specie.gameMap = this;
+    }
     tick(){
         // tick
         this.species.forEach(specie => specie.tick());

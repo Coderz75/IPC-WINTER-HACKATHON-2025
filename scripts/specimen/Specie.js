@@ -2,15 +2,15 @@
 
 
 function sigmoid(x){
-	return 1 / (1 + Math.E ** -x)
+	return 1 / (1 + Math.E ** -x);
 }
 
 class PlantSpecies {
-	constructor(originalGenome, hostMap){
+	constructor(originalGenome){
 		this.activeMembers = [];
 		this.seedMembers = [];
 		this.name = "";
-		this.gameMap = hostMap;
+		this.gameMap = null;//make sure to set into a reference of gameMap
 		this.genome = originalGenome;
 	}
 	draw(mapCanvasContext){ //draws species members
@@ -178,7 +178,7 @@ const palms = new PlantSpecies({
 	size: 0.8,
 	seedSize : 0.8,
 	seedCount : 2,
-}, gameMap);
+});
 
 const testSubject = new Plant({
 	waterStorage: 0.7,
