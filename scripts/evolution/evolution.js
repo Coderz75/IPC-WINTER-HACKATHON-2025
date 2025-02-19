@@ -23,27 +23,83 @@ const random = (min, max) => {
     return Math.floor(Math.random() * (max - min) ) + min;
 }
 
-const codons = {
-    'UUU': 'Phenylalanine', 'UUC': 'Phenylalanine', 'UUA': 'Leucine', 'UUG': 'Leucine',
-    'UCU': 'Serine', 'UCC': 'Serine', 'UCA': 'Serine', 'UCG': 'Serine',
-    'UAU': 'Tyrosine', 'UAC': 'Tyrosine', 'UAA': 'STOP', 'UAG': 'STOP',
-    'UGU': 'Cysteine', 'UGC': 'Cysteine', 'UGA': 'STOP', 'UGG': 'Tryptophan',
+let encoding = {}
+let hash_base;
 
-    'CUU': 'Leucine', 'CUC': 'Leucine', 'CUA': 'Leucine', 'CUG': 'Leucine',
-    'CCU': 'Proline', 'CCC': 'Proline', 'CCA': 'Proline', 'CCG': 'Proline',
-    'CAU': 'Histidine', 'CAC': 'Histidine', 'CAA': 'Glutamine', 'CAG': 'Glutamine',
-    'CGU': 'Arginine', 'CGC': 'Arginine', 'CGA': 'Arginine', 'CGG': 'Arginine',
+class DNA{
+    static bases = ["C", "G", "A", "U"]
+    static stop_codons = ["UAA", "UAG", "UGG"]
+    static codons =  {
+        'UUU': 'Phenylalanine', 'UUC': 'Phenylalanine', 'UUA': 'Leucine', 'UUG': 'Leucine',
+        'UCU': 'Serine', 'UCC': 'Serine', 'UCA': 'Serine', 'UCG': 'Serine',
+        'UAU': 'Tyrosine', 'UAC': 'Tyrosine', 'UAA': 'STOP', 'UAG': 'STOP',
+        'UGU': 'Cysteine', 'UGC': 'Cysteine', 'UGA': 'STOP', 'UGG': 'Tryptophan',
 
-    'AUU': 'Isoleucine', 'AUC': 'Isoleucine', 'AUA': 'Isoleucine', 'AUG': 'Methionine',
-    'ACU': 'Threonine', 'ACC': 'Threonine', 'ACA': 'Threonine', 'ACG': 'Threonine',
-    'AAU': 'Asparagine', 'AAC': 'Asparagine', 'AAA': 'Lysine', 'AAG': 'Lysine',
-    'AGU': 'Serine', 'AGC': 'Serine', 'AGA': 'Arginine', 'AGG': 'Arginine',
+        'CUU': 'Leucine', 'CUC': 'Leucine', 'CUA': 'Leucine', 'CUG': 'Leucine',
+        'CCU': 'Proline', 'CCC': 'Proline', 'CCA': 'Proline', 'CCG': 'Proline',
+        'CAU': 'Histidine', 'CAC': 'Histidine', 'CAA': 'Glutamine', 'CAG': 'Glutamine',
+        'CGU': 'Arginine', 'CGC': 'Arginine', 'CGA': 'Arginine', 'CGG': 'Arginine',
 
-    'GUU': 'Valine', 'GUC': 'Valine', 'GUA': 'Valine', 'GUG': 'Valine',
-    'GCU': 'Alanine', 'GCC': 'Alanine', 'GCA': 'Alanine', 'GCG': 'Alanine',
-    'GAU': 'Aspartic', 'GAC': 'Aspartic', 'GAA': 'Glutamic', 'GAG': 'Glutamic',
-    'GGU': 'Glycine', 'GGC': 'Glycine', 'GGA': 'Glycine', 'GGG': 'Glycine'
-};
+        'AUU': 'Isoleucine', 'AUC': 'Isoleucine', 'AUA': 'Isoleucine', 'AUG': 'Methionine',
+        'ACU': 'Threonine', 'ACC': 'Threonine', 'ACA': 'Threonine', 'ACG': 'Threonine',
+        'AAU': 'Asparagine', 'AAC': 'Asparagine', 'AAA': 'Lysine', 'AAG': 'Lysine',
+        'AGU': 'Serine', 'AGC': 'Serine', 'AGA': 'Arginine', 'AGG': 'Arginine',
+
+        'GUU': 'Valine', 'GUC': 'Valine', 'GUA': 'Valine', 'GUG': 'Valine',
+        'GCU': 'Alanine', 'GCC': 'Alanine', 'GCA': 'Alanine', 'GCG': 'Alanine',
+        'GAU': 'Aspartic', 'GAC': 'Aspartic', 'GAA': 'Glutamic', 'GAG': 'Glutamic',
+        'GGU': 'Glycine', 'GGC': 'Glycine', 'GGA': 'Glycine', 'GGG': 'Glycine'
+    };
+
+    static process = (genome) => { // ignores any "loose nucleotides" at the end
+        let split = []
+        for (let i = 0; i < genome.length - genome.length%3; i += 3){
+            split.push(genome[i] + genome[i + 1] + genome[i + 2])
+        }
+
+        // Polynomial Hasher
+        let res = 0
+        let mod = 1e9 + 7;
+
+        let pow = 1;
+        for (let i = 0; i < split.length; i++){
+            res += encoding[split[i]] * pow
+            res %= mod
+            pow = (pow * hash_base) % mod
+        }
+
+        return res / mod
+    }
+
+    static hash = (str) => {
+        let res = 0;
+        let mod = 1e5;
+        for (let i = 0; i < str.length; i++){
+            res += str[i].charCodeAt(0) * (hash_base << i)
+            res %= mod
+        }
+
+        return res / mod
+    }
+
+    static is_valid = (genome) => {
+        if (genome.length <= 3){
+            return false
+        }
+        if (!genome.startsWith("AUG")){
+            return false
+        }
+        genome = genome.substring(0, genome.length - genome.length % 3)
+
+        let ends = false
+        for (let codon of DNA.stop_codons){
+            if (genome.endsWith(codon)){
+                ends = true
+            }
+        }
+        return ends
+    }
+}
 
 class MutationWizard{
     constructor(type, trait){
@@ -65,7 +121,6 @@ class MutationWizard{
             svg.querySelector("#Uracil").outerHTML
         ]
 
-        this.base_convert = ["C", "G", "A", "U"]
 
         svg.querySelectorAll("#Cytosine, #Guanine, #Adenine, #Uracil").forEach(e=>e.remove())
 
@@ -86,10 +141,13 @@ class MutationWizard{
             cur += 85
         }
 
+        let bases = DNA.bases
+        let codons = DNA.codons
+
         let declare_codons = ()=>{
-            svg.querySelector("#Name1 tspan").innerHTML = codons[this.base_convert[this.sequence[0]] + this.base_convert[this.sequence[1]] +  this.base_convert[this.sequence[2]]]
-            svg.querySelector("#Name2 tspan").innerHTML = codons[this.base_convert[this.sequence[3]] + this.base_convert[this.sequence[4]] +  this.base_convert[this.sequence[5]]]
-            svg.querySelector("#Name3 tspan").innerHTML = codons[this.base_convert[this.sequence[6]] + this.base_convert[this.sequence[7]] +  this.base_convert[this.sequence[8]]]
+            svg.querySelector("#Name1 tspan").innerHTML = codons[bases[this.sequence[0]] + bases[this.sequence[1]] +  bases[this.sequence[2]]]
+            svg.querySelector("#Name2 tspan").innerHTML = codons[bases[this.sequence[3]] + bases[this.sequence[4]] +  bases[this.sequence[5]]]
+            svg.querySelector("#Name3 tspan").innerHTML = codons[bases[this.sequence[6]] + bases[this.sequence[7]] +  bases[this.sequence[8]]]
         }
 
         declare_codons()
@@ -172,7 +230,17 @@ async function init_evolution() {
         MutationWizardSVG = await get_svg("https://coderz75.github.io/IPC-WINTER-HACKATHON-2025/assets/MutationW.svg")
     }
 
+     hash_base = random(5, 30)
+
     //console.log((new MutationWizard(random(0, 3), "AA")).run())
+
+    for (let a of DNA.bases){
+        for (let b of DNA.bases) {
+            for (let c of DNA.bases) {
+                encoding[a+b+c] = random(1, 100)
+            }
+        }
+    }
 
 
     new Treant({
