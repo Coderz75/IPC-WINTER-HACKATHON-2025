@@ -1,6 +1,6 @@
 "use strict";
 
-//TODO: Do some css magic to make this actually look nice
+//TODO: Add statistics about how this is going to work; ie damage
 /*
 Attributer per storm event
 {
@@ -19,7 +19,27 @@ const weatherEvents = [
         "name": "Hurricane",
         "desc": "Very quickly moving thingy",
         "icon": "<i class='fa-solid fa-hurricane'></i>"
-    }
+    },
+    {
+        "name": "Thunderstorm",
+        "desc": "Low pressure environment that has lightning",
+        "icon": "<i class='fa-solid fa-thunderstorm'></i>"
+    },
+    {
+        "name": "Heatwave",
+        "desc": "Intense heat in an area",
+        "icon": "<i class='fa-solid fa-circle'></i>"
+    },
+    {
+        "name": "Blizzard",
+        "desc": "Lots of snow",
+        "icon": "<i class='fa-solid fa-snowflake'></i>"
+    },
+    {
+        "name": "Rain",
+        "desc": "Good old fashion rain - Just be careful it can cause flash floods!",
+        "icon": "<i class='fa-solid fa-cloud-rain'></i>"
+    },
 ]
 
 var weatherSummoned = null;
