@@ -185,7 +185,7 @@ const testSubject = new Plant({
 	waterAffinity: 0.3,
 	anchorage: 0.9,
 	competitiveness: 0.9,
-	photosynthesisRate: 0.8,
+	photosynthesisRate: 0.2,
 	size: 0.8,
 	seedSize : 0.8, 
 }, palms);
