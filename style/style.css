@@ -441,3 +441,43 @@ body{
     font-size: 30px;
     color: #1ba3ec;
 }
+
+/*Unsommon weather event class*/
+.weatherEvent{
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    top: 15;
+    left: 15;
+    padding: 15;
+    text-align: center;
+    color: white;
+    background: rgb(36, 35, 35);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: "Roboto Slab", sans-serif;
+}
+
+.weatherEvent::before{
+    content: attr(data-name);
+    position: fixed;
+    width: fit-content;
+    left: 60px;
+    background: white;
+    color: black;
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    font-family: "Roboto Slab", sans-serif;
+    font-weight: 600;
+    display: none;
+    animation: 0.2s ease-in-out out forwards;
+}
+
+.weatherEvent:hover::before{
+    display: block;
+    animation: 0.2s ease-in-out in forwards;
+}
