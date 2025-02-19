@@ -26,6 +26,12 @@ const random = (min, max) => {
 let encoding = {}
 let hash_base;
 
+class DNAScalar{
+    constructor(value) {
+        this.value = value
+    }
+}
+
 class DNA{
     static bases = ["C", "G", "A", "U"]
     static stop_codons = ["UAA", "UAG", "UGG"]
@@ -52,10 +58,15 @@ class DNA{
     };
 
     static process = (genome) => { // ignores any "loose nucleotides" at the end
+        if (genome instanceof DNAScalar){
+            return genome.value
+        }
+
         let split = []
         for (let i = 0; i < genome.length - genome.length%3; i += 3){
             split.push(genome[i] + genome[i + 1] + genome[i + 2])
         }
+
 
         // Polynomial Hasher
         let res = 0
@@ -65,6 +76,8 @@ class DNA{
         for (let i = 0; i < split.length; i++){
             res += (encoding[split[i]] * pow)%mod
             res %= mod
+
+            //console.log(split[i], encoding[split[i]], encoding)
 
             pow = (pow * hash_base) % mod
         }
@@ -101,14 +114,42 @@ class DNA{
         }
         return ends
     }
+
+    static generate_sequence(result, length){
+        let attempts = 0
+        let res = ""
+        let codons = Object.keys(DNA.codons)
+        do{
+            if (attempts > 1000){
+                throw Error("Too many attempts")
+            }
+            res = ""
+            for (let i = 0; i < length; i++){
+                res += codons[random(0, 64)]
+            }
+        }while(Math.abs(DNA.process(res) - result) > 0.02)
+
+        return res
+    }
+
+    static convert(obj){
+        let res = obj
+
+        for (let key of Object.keys(obj)){
+            res[key] = DNA.process(obj[key])
+        }
+
+        return res
+    }
 }
 
 class MutationWizard{
-    constructor(type, trait, genome, location){
+    constructor(type, trait, genome, location, next=undefined){
         this.type = type
         this.trait = trait
         this.genome = genome
         this.location = location
+        this.next = next
     }
 
     run = async ()=> {
@@ -180,7 +221,7 @@ class MutationWizard{
         }
         else if (this.type === MutationType.PointInsertion){
             let point =4
-            let base = random(0, 4)
+            let base = this.next
             svg.insertAdjacentHTML("beforeend", this.bases[base])
             svg.querySelector(":is(#Cytosine, #Guanine, #Adenine, #Uracil):last-of-type").classList.add("num13")
             svg.querySelector(":is(#Cytosine, #Guanine, #Adenine, #Uracil):last-of-type :is(#Number, #Number_2, #Number_3, #Number_4) tspan").innerHTML = "???"
@@ -206,7 +247,7 @@ class MutationWizard{
             declare_codons()
         } else if (this.type === MutationType.PointSubstitution){
             let point = 4
-            let base = random(0, 4)
+            let base = this.next
             svg.insertAdjacentHTML("beforeend", this.bases[base])
             svg.querySelector(":is(#Cytosine, #Guanine, #Adenine, #Uracil):last-of-type").classList.add("num13")
             svg.querySelector(":is(#Cytosine, #Guanine, #Adenine, #Uracil):last-of-type :is(#Number, #Number_2, #Number_3, #Number_4) tspan").innerHTML = "???"
@@ -235,11 +276,6 @@ class MutationWizard{
 }
 
 async function init_evolution() {
-    try {
-        MutationWizardSVG = await get_svg("assets/MutationW.svg")
-    } catch{
-        MutationWizardSVG = await get_svg("https://coderz75.github.io/IPC-WINTER-HACKATHON-2025/assets/MutationW.svg")
-    }
 
      hash_base = 17
 
@@ -320,6 +356,12 @@ async function init_evolution() {
             ]
         }
     })
+
+    try {
+        MutationWizardSVG = await get_svg("assets/MutationW.svg")
+    } catch{
+        MutationWizardSVG = await get_svg("https://coderz75.github.io/IPC-WINTER-HACKATHON-2025/assets/MutationW.svg")
+    }
 }
 
 init_evolution()
