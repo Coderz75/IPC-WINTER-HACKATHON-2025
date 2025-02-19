@@ -115,20 +115,52 @@ const specimenPanel = {
     const thickness = this.subject.water * this.subject.genome.waterStorage * this.subject.percentMaturity / 100;
     
     //shoots
-    this.ctx.fillStyle = "green";
+    this.ctx.fillStyle = `rgb(${100 - this.subject.water},${this.subject.water*4+50},${this.subject.water / 2})`;
     //binary tree generation????
     //dfs lets go
-    let stack = []; //Array <Node <BranchAngle, StartPosX, StartPosY, Thickness>>
-    stack.push([-Math.PI/2, centerX, surfaceY, thickness]);
-    while (stack.length > 0){
-      stack.pop();
+    //actually no, bfs 
+    this.ctx.beginPath();
+    let queue = new Queue(); //Array <Node <BranchAngle, StartPosX, StartPosY, Thickness, countleft>>
+    const branchCount = Math.floor(this.subject.genome.photosynthesisRate / 0.25) + 1
+    queue.enqueue([-Math.PI/2, centerX, surfaceY, thickness/2, branchCount * this.subject.percentMaturity / 100]);
+    while (!queue.isEmpty()){
+      const node = queue.dequeue();
+      if (node[4] <= 0){
+        //draw a leaf
+        const leafSize = this.subject.genome.photosynthesisRate * this.subject.genome.size * 8;
+        this.ctx.beginPath();
+        this.ctx.ellipse(node[1] + Math.cos(node[0])*leafSize * 7, node[2] + Math.sin(node[0])*leafSize * 7, leafSize * 2.5, leafSize * 7, node[0] + Math.PI / 2, 0, Math.PI * 2);
+        this.ctx.fill();
+        this.ctx.closePath();
+        continue;
+      }
+      this.ctx.moveTo(node[1] + Math.sin(node[0]) * node[3], node[2] - Math.cos(node[0]) * node[3]);
+      const branchLength = this.subject.genome.size * 200 / Math.floor(this.subject.genome.photosynthesisRate / 0.25 + 1) * Math.min(1, node[4]);
+      const nextX = node[1] + Math.cos(node[0]) * branchLength;
+      const nextY = node[2] + Math.sin(node[0]) * branchLength;
+      const AngleCoefficient = Math.PI / 2 * (30 - Math.min(20, this.subject.water))/10;
+      const nextAngle1 = node[0] + (randNum() - 0.5) * AngleCoefficient;
+      const nextAngle2 = node[0] + (randNum() - 0.5) * AngleCoefficient;
+      const nextThick = node[3] * 0.8;
+      this.ctx.lineTo(nextX + Math.sin(node[0]) * nextThick, nextY - Math.cos(node[0]) * nextThick);
+      this.ctx.lineTo(nextX - Math.sin(node[0]) * nextThick, nextY + Math.cos(node[0]) * nextThick);
+      this.ctx.lineTo(node[1] - Math.sin(node[0]) * node[3], node[2] + Math.cos(node[0]) * node[3]);
+      this.ctx.lineTo(node[1] + Math.sin(node[0]) * node[3], node[2] - Math.cos(node[0]) * node[3]);
+      queue.enqueue([nextAngle1, nextX, nextY, nextThick, node[4]-1]);
+      queue.enqueue([nextAngle2, nextX, nextY, nextThick, node[4]-1]);
+      if (node[4] < 1){
+        //draw a leaf
+        this.ctx.fill();
+        this.ctx.closePath();
+        continue;
+      }
     }//edit later
-
+    
     
     //roots
 
     this.ctx.fillStyle = "beige";
-    const taprootLength = this.subject.genome.anchorage * sizeCoefficient;
+    const taprootLength = this.subject.genome.anchorage * sizeCoefficient * 2;
     const lateralRootLength = this.subject.genome.waterAffinity * sizeCoefficient / this.subject.genome.anchorage;
 
     //taproot

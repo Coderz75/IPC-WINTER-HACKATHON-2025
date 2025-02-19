@@ -11,7 +11,8 @@ class PlantSpecies {
 		this.seedMembers = [];
 		this.name = "";
 		this.gameMap = null;//make sure to set into a reference of gameMap
-		this.genome = originalGenome;
+		this.raw_genome = originalGenome
+		this.genome = DNA.convert(originalGenome);
 	}
 	draw(mapCanvasContext){ //draws species members
 		for (const aM of this.activeMembers){
@@ -35,9 +36,9 @@ class PlantSpecies {
 			mapCanvasContext.restore();
 		}
 	}
-	tick(globalTime, gameMap){
-		this.activeMembers.forEach(member => member.tick(globalTime, gameMap));
-		this.seedMembers.forEach(member => member.dormant(globalTime, gameMap));
+	tick(){
+		this.activeMembers.forEach(member => member.tick(this.gameMap));
+		this.seedMembers.forEach(member => member.dormant(this.gameMap));
 		{
 			let activeMembersNext = [];
 			let seedMembersNext = [];
@@ -55,18 +56,16 @@ class PlantSpecies {
 class Plant { 
     constructor(parentGenome, species){
 			this.species = species; //reference to species
-			this.genome = {
-			  waterStorage: 0.5,
-			  waterAffinity: 0.5,
-			  anchorage: 0.5,
-			  competitiveness: 0.5,
-			  size: 0.5, 
-			  photosynthesisRate: 0.5,
-			  heatResistance : 0.5, 
-			  seedSize : 0.5,
-			  seedCount : 2,  
-			};
-			Object.assign(this.genome, parentGenome);
+
+			this.raw_genome = parentGenome
+			this.genome = DNA.convert(parentGenome);
+
+			console.log(this.genome, this.raw_genome);
+
+			for (const key in this.genome){ //prevents divide by 0 errors
+				if (this.genome[key] == 0)
+					this.genome[key] = 0.001;
+			}
 			
 			this.water = 50; //affects actual anchorage, competitiveness, heatResistance, photosynthesisRate, dies when it reaches 0
 			this.energy = 50; //affects growth capacity, competitiveness, waterAffinity dies when it reaches 0
@@ -107,7 +106,7 @@ class Plant {
 			};
 			
     }
-    tick(globalTime, gameMap){
+    tick(gameMap){
 		const tempDifference = 50 - this.temperature;
 		const waterDifference = 100 - this.water; 
 		const energyDifference = 100 - this.energy;
@@ -131,6 +130,8 @@ class Plant {
 		//Growth- using water and energy
 		const growth = sigmoid(-energyDifference/10);
 
+		//console.log(`${respiration}, ${capillaryAction}, ${photosynthesis}, ${growth}`);
+
 		this.water -= respiration / this.genome.waterStorage;
 		this.temperature -= respiration * this.genome.heatResistance / AgeMalus;
 		this.temperature = (this.temperature * 0.95 + surroundingTemp * 0.05);
@@ -140,17 +141,39 @@ class Plant {
 
 		this.energy -= growth;
 		if (this.percentMaturity < 100)
-			this.percentMaturity += growth / (0.5 + this.genome.size) * 10;
+			this.percentMaturity += growth / (0.5 + this.genome.size) * 5;
 		else 
-			this.seedDev += growth / (0.5 + this.genome.seedCount * this.genome.seedSize) * 20 ;
+			this.seedDev += growth / (0.5 + this.genome.seedCount * this.genome.seedSize) * 10;
 
 		//Reproduce- growing spores (sexual reproduction too complicated) (You can add mutation here if you want)
 		if (this.seedDev >= 100){
 			for (let i = 0; i < this.genome.seedCount; i++){
-				const offspring = new Plant(this.genome, this.species);
+				let next = structuredClone(this.raw_genome)
+
+				for (let key of Object.keys(next)){
+					if (random(0, 10) < 3){
+						next[key] = Array.from(next[key])
+						console.info("MUTATION")
+						let type = random(0, 3)
+						let location = random(4, next[key].length - 8)
+						let base = random(0, 4)
+						if (type === MutationType.PointInsertion){ // insertion
+							next[key].splice(location, 0, DNA.codons[base])
+						}else if (type === MutationType.PointDeletion){ // deletion
+							next[key].splice(location, 1)
+						}else{ // substitution
+							next[key][location] = DNA.codons[base]
+						}
+						next[key] = next[key].join("")
+					}
+
+				}
+
+				const offspring = new Plant(next, this.species);
 				offspring.isActive = false;
 				const angle = Math.random() * Math.PI * 2;
 				offspring.pos = {x: this.pos.x + Math.cos(angle) * 6, y: this.pos.y + Math.sin(angle) * 6};
+				offspring.energy = this.genome.seedSize * 100;
 				this.species.seedMembers.push(offspring);
 			}
 			this.seedDev = 0;
@@ -162,53 +185,72 @@ class Plant {
 			this.isAlive = false;
 		}		
 	}
-	dormant(globalTime, gameMap){
+	dormant(gameMap){
 		//each seed lasts for 30 seconds = 30/0.015 = 2000 ticks with a size of 1. 
 		//percentMaturity acts as a timer
-		this.percentMaturity++;
-		if (this.percentMaturity >= 2000 * this.genome.seedSize){
+		this.energy -= 0.05;
+		if (this.energy <= 0){
 			this.isAlive = false;
 			return;
+		}
+		if (gameMap.map[gameMap.cordToIndex(this.pos.x, this.pos.y)] != 9 && this.vel.x == 0 && this.vel.y == 0){
+			//germinate
+			this.isActive = true;
+			this.water = 50;
+			this.temperature = 50;
 		}
 
 	}
 }
 
 const palms = new PlantSpecies({
-	waterStorage: 0.7,
-	waterAffinity: 0.3,
-	anchorage: 0.9,
-	competitiveness: 0.9,
-	photosynthesisRate: 0.2,
-	size: 0.8,
-	seedSize : 0.8,
-	seedCount : 2,
+	waterStorage: DNA.generate_sequence(0.7, 100),
+	waterAffinity: DNA.generate_sequence(0.3, 100),
+	heatResistance: DNA.generate_sequence(0.8, 100),
+	anchorage: DNA.generate_sequence(0.9, 100),
+	competitiveness: DNA.generate_sequence(0.9, 100),
+	photosynthesisRate: DNA.generate_sequence(0.2, 100),
+	size: DNA.generate_sequence(0.8, 100),
+	seedSize : DNA.generate_sequence(1, 100),
+	seedCount : new DNAScalar(2),
+});
+
+const pines = new PlantSpecies({
+	waterStorage: DNA.generate_sequence(0.4, 100),
+	waterAffinity: DNA.generate_sequence(0.6, 100),
+	heatResistance: DNA.generate_sequence(0.2, 100),
+	anchorage: DNA.generate_sequence(0.3, 100),
+	competitiveness: DNA.generate_sequence(0.2, 100),
+	photosynthesisRate: DNA.generate_sequence(0.7, 100),
+	size: DNA.generate_sequence(0.7, 100),
+	seedSize : DNA.generate_sequence(0.1, 100),
+	seedCount : new DNAScalar(8),
 });
 
 const testSubject = new Plant({
-	waterStorage: 0.7,
-	waterAffinity: 0.3,
-	anchorage: 0.9,
-	competitiveness: 0.9,
-	photosynthesisRate: 0.2,
-	size: 0.8,
-	seedSize : 0.8, 
+	waterStorage: DNA.generate_sequence(0.7, 100),
+	waterAffinity: DNA.generate_sequence(0.3, 100),
+	heatResistance: DNA.generate_sequence(0.8, 100),
+	anchorage: DNA.generate_sequence(0.9, 100),
+	competitiveness: DNA.generate_sequence(0.9, 100),
+	photosynthesisRate: DNA.generate_sequence(0.2, 100),
+	size: DNA.generate_sequence(0.8, 100),
+	seedSize : DNA.generate_sequence(0.8, 100),
+	seedCount : new DNAScalar(2),
 }, palms);
 palms.activeMembers.push(testSubject);
 
-testSubject.pos = {x: 62, y:145};
+pines.activeMembers.push(new Plant({
+	waterStorage: DNA.generate_sequence(0.4, 100),
+	waterAffinity: DNA.generate_sequence(0.6, 100),
+	heatResistance: DNA.generate_sequence(0.2, 100),
+	anchorage: DNA.generate_sequence(0.3, 100),
+	competitiveness: DNA.generate_sequence(0.2, 100),
+	photosynthesisRate: DNA.generate_sequence(0.7, 100),
+	size: DNA.generate_sequence(0.7, 100),
+	seedSize : DNA.generate_sequence(0.1, 100),
+	seedCount : new DNAScalar(8),
+}, pines));
 
-/*
-Pine genome: 
-{
-	waterStorage: 0.4,
-	waterAffinity: 0.6,
-	anchorage: 0.7,
-	competitiveness: 0.6,
-	photosynthesisRate: 0.8,
-	size: 0.7,
-	seedSize : 0.2, 
-}
-
-
-*/
+pines.activeMembers[0].pos = {x: 310, y: 100};
+testSubject.pos = {x: 62, y: 145};
