@@ -63,6 +63,7 @@ function mouseDownEvent(evt){
             //Summon weather event at location
             //Function for determining what happens to species during weather events go here
             console.log(`Event: ${weatherSummoned.name} has been summoned at (${Math.round(mx)},${Math.round(my)})`)
+            document.getElementById(weatherSummoned.name).style.background = "whitesmoke";
             weatherSummoned = null;
         }
         else{
