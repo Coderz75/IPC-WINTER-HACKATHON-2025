@@ -6,8 +6,20 @@ Attributer per storm event
 {
     "name": "",
     "desc": "",
-    "icon": ""
-}
+    "icon": "",
+    "time": 0, //duration in ticks
+    "type": "",// can be wind, weather, climate
+    "range": , //range of event (radius of circle)
+    "attributes": { // changes the following:
+        "sunExp": 0,
+        "surroundingTemp": 0,
+        "soilWat": 0,
+        "windSpeed": 0,
+    }
+}sunExp = this.weightedAvg(sunExp,this.sunExpFunction(lat),1-latWeightSun,latWeightSun);
+        surroundingTemp = this.weightedAvg(surroundingTemp,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
+        soilWat = this.weightedAvg(soilWat,this.waterFunction(this.raindataAt(index)),1-rainfallWeight,rainfallWeight);
+        let wind 
 */
 const weatherEvents = [
     {
