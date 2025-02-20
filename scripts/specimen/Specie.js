@@ -72,7 +72,7 @@ class Plant {
 			this.temperature = 50; //affects competitveness, photosynthesisRate, dies when it reaches 0 or 100
 			this.percentMaturity = 0;
 			this.seedDev = 0;
-			this.randomSeed = Math.random();
+			this.randomSeed = new Date().getTime();
 			this.isActive = true; //change to start at false later. When this switches to true, remove the reference from the seed list and push it to the active list
 			this.isAlive = true; //set this to false when it dies, then remove reference from the list
 			this.age = 0;

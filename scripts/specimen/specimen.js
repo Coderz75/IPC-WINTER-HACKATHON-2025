@@ -94,7 +94,7 @@ const specimenPanel = {
     }
     //draw specimen according to time on canvas, specimen's own genome, it's attributes, the biome, and the weather
 
-    const randNum = splitmix32(this.subject.randomSeed);
+    const randNumRoot = splitmix32(this.subject.randomSeed);
 
     this.ctx.fillStyle = "aqua";
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
@@ -113,49 +113,6 @@ const specimenPanel = {
 
     const sizeCoefficient = this.subject.genome.size * this.subject.percentMaturity;
     const thickness = this.subject.water * this.subject.genome.waterStorage * this.subject.percentMaturity / 100;
-    
-    //shoots
-    this.ctx.fillStyle = `rgb(${100 - this.subject.water},${this.subject.water*4+50},${this.subject.water / 2})`;
-    //binary tree generation????
-    //dfs lets go
-    //actually no, bfs 
-    this.ctx.beginPath();
-    let queue = new Queue(); //Array <Node <BranchAngle, StartPosX, StartPosY, Thickness, countleft>>
-    const branchCount = Math.floor(this.subject.genome.photosynthesisRate / 0.25) + 1
-    queue.enqueue([-Math.PI/2, centerX, surfaceY, thickness/2, branchCount * this.subject.percentMaturity / 100]);
-    while (!queue.isEmpty()){
-      const node = queue.dequeue();
-      if (node[4] <= 0){
-        //draw a leaf
-        const leafSize = this.subject.genome.photosynthesisRate * this.subject.genome.size * 8;
-        this.ctx.beginPath();
-        this.ctx.ellipse(node[1] + Math.cos(node[0])*leafSize * 7, node[2] + Math.sin(node[0])*leafSize * 7, leafSize * 2.5, leafSize * 7, node[0] + Math.PI / 2, 0, Math.PI * 2);
-        this.ctx.fill();
-        this.ctx.closePath();
-        continue;
-      }
-      this.ctx.moveTo(node[1] + Math.sin(node[0]) * node[3], node[2] - Math.cos(node[0]) * node[3]);
-      const branchLength = this.subject.genome.size * 200 / Math.floor(this.subject.genome.photosynthesisRate / 0.25 + 1) * Math.min(1, node[4]);
-      const nextX = node[1] + Math.cos(node[0]) * branchLength;
-      const nextY = node[2] + Math.sin(node[0]) * branchLength;
-      const AngleCoefficient = Math.PI / 2 * (30 - Math.min(20, this.subject.water))/10;
-      const nextAngle1 = node[0] + (randNum() - 0.5) * AngleCoefficient;
-      const nextAngle2 = node[0] + (randNum() - 0.5) * AngleCoefficient;
-      const nextThick = node[3] * 0.8;
-      this.ctx.lineTo(nextX + Math.sin(node[0]) * nextThick, nextY - Math.cos(node[0]) * nextThick);
-      this.ctx.lineTo(nextX - Math.sin(node[0]) * nextThick, nextY + Math.cos(node[0]) * nextThick);
-      this.ctx.lineTo(node[1] - Math.sin(node[0]) * node[3], node[2] + Math.cos(node[0]) * node[3]);
-      this.ctx.lineTo(node[1] + Math.sin(node[0]) * node[3], node[2] - Math.cos(node[0]) * node[3]);
-      queue.enqueue([nextAngle1, nextX, nextY, nextThick, node[4]-1]);
-      queue.enqueue([nextAngle2, nextX, nextY, nextThick, node[4]-1]);
-      if (node[4] < 1){
-        //draw a leaf
-        this.ctx.fill();
-        this.ctx.closePath();
-        continue;
-      }
-    }//edit later
-    
     
     //roots
 
@@ -177,10 +134,10 @@ const specimenPanel = {
     this.ctx.lineWidth = 3;
     this.ctx.strokeStyle = "beige";
     for (let i = 0; i < Math.floor(taprootLength / 25); i++){
-      let rootY1 = 25 * (randNum() + i);
-      let rootY2 = 25 * (randNum() + i);
-      const rootLength1 = lateralRootLength * (randNum() + 0.5) * (-(25 * (i+1) / taprootLength) + 1)**2 * 2;
-      const rootLength2 = lateralRootLength * (randNum() + 0.5) * (-(25 * (i+1) / taprootLength) + 1)**2 * 2;
+      let rootY1 = 25 * (randNumRoot() + i);
+      let rootY2 = 25 * (randNumRoot() + i);
+      const rootLength1 = lateralRootLength * (randNumRoot() + 0.5) * (-(25 * (i+1) / taprootLength) + 1)**2 * 2;
+      const rootLength2 = lateralRootLength * (randNumRoot() + 0.5) * (-(25 * (i+1) / taprootLength) + 1)**2 * 2;
 
       rootY1 += surfaceY; rootY2 += surfaceY;
 
@@ -192,9 +149,63 @@ const specimenPanel = {
     this.ctx.stroke();
     this.ctx.closePath();
 
+    //shoots
+    let seedsLeft = this.subject.genome.seedCount;
+    //binary tree generation????
+    //dfs lets go
+    //actually no, bfs 
+    const randNumShoot = splitmix32(this.subject.randomSeed);
+    let seeds = [];
+    let queue = new Queue(); //Array <Node <BranchAngle, StartPosX, StartPosY, Thickness, countleft>>
+    const branchCount = Math.floor(this.subject.genome.photosynthesisRate / 0.25) + 1
+    queue.enqueue([-Math.PI/2, centerX, surfaceY, thickness/2, branchCount * this.subject.percentMaturity / 100]);
+    this.ctx.fillStyle = `rgb(${100 - this.subject.water},${this.subject.water*4+50},${this.subject.water / 2})`;
+    while (!queue.isEmpty()){
+      const node = queue.dequeue();
+
+      if (node[4] <= 0){
+        //draw a leaf
+        const leafSize = this.subject.genome.photosynthesisRate * this.subject.genome.size * 8;
+        this.ctx.beginPath();
+        this.ctx.ellipse(node[1] + Math.cos(node[0])*leafSize * 7, node[2] + Math.sin(node[0])*leafSize * 7, leafSize * 2.5, leafSize * 7, node[0] + Math.PI / 2, 0, Math.PI * 2);
+        this.ctx.fill();
+        this.ctx.closePath();
+        continue;
+      }
+      this.ctx.beginPath();
+      this.ctx.moveTo(node[1] + Math.sin(node[0]) * node[3], node[2] - Math.cos(node[0]) * node[3]);
+      const branchLength = this.subject.genome.size * 200 / Math.floor(this.subject.genome.photosynthesisRate / 0.25 + 1) * Math.min(1, node[4]);
+      const nextX = node[1] + Math.cos(node[0]) * branchLength;
+      const nextY = node[2] + Math.sin(node[0]) * branchLength;
+      const AngleCoefficient = Math.PI / 2 * (30 - Math.min(20, this.subject.water))/10 + this.subject.genome.photosynthesisRate;
+      const nextAngle1 = node[0] + (randNumShoot() - 0.5) * AngleCoefficient;
+      const nextAngle2 = node[0] + (randNumShoot() - 0.5) * AngleCoefficient;
+      const nextThick = node[3] * 0.8;
+      this.ctx.lineTo(nextX + Math.sin(node[0]) * nextThick, nextY - Math.cos(node[0]) * nextThick);
+      this.ctx.lineTo(nextX - Math.sin(node[0]) * nextThick, nextY + Math.cos(node[0]) * nextThick);
+      this.ctx.lineTo(node[1] - Math.sin(node[0]) * node[3], node[2] + Math.cos(node[0]) * node[3]);
+      this.ctx.lineTo(node[1] + Math.sin(node[0]) * node[3], node[2] - Math.cos(node[0]) * node[3]);
+      queue.enqueue([nextAngle1, nextX, nextY, nextThick, node[4]-1]);
+      queue.enqueue([nextAngle2, nextX, nextY, nextThick, node[4]-1]);
+
+      this.ctx.fill();
+      this.ctx.closePath();
+      if (node[4] <= 1 && this.subject.percentMaturity >= 100 && seedsLeft > 0){
+        seeds.push([nextX, nextY]);
+      }
+    }//edit later
+
+    const seedSize = this.subject.genome.seedSize * this.subject.seedDev * 0.1;
+    for (const seed of seeds){
+      this.ctx.beginPath();
+      this.ctx.fillStyle = 'brown';
+      this.ctx.ellipse(seed[0], seed[1], seedSize, seedSize, 0, 0, Math.PI * 2);
+      this.ctx.fill();
+      this.ctx.closePath();
+      seedsLeft--;
+    }
+
     this.ctx.restore();
-
-
 
     //list out attributes
     this.update();
