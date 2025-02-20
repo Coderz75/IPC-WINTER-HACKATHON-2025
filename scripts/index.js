@@ -78,7 +78,7 @@ function mouseDownEvent(evt){
             //Function for determining what happens to species during weather events go here
             alerts.push(new Alert(`${weatherSummoned.name} summoned in ${gameMap.getBiomeName(mx,my)} biome`,weatherSummoned.description,weatherSummoned.icon));
             console.log(`Event: ${weatherSummoned.name} has been summoned at (${mx},${my})`)
-            document.getElementById(weatherSummoned.name).style.background = "whitesmoke";
+            document.getElementById(weatherSummoned.name).classList.remove("selected");
             weatherSummoned = null;
         }
         else{

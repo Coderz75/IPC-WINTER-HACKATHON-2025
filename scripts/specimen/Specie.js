@@ -205,6 +205,9 @@ class Plant {
 							next[key][location] = DNA.codons[base]
 						}
 						next[key] = next[key].join("")
+
+						alerts.push(new Alert("Mutation Occured"))
+
 					}
 
 				}
