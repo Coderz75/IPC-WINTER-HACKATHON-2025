@@ -9,8 +9,9 @@ class GameMap{
         this.mapCanvas = new OffscreenCanvas(800,410);
         this.mapCtx = this.mapCanvas.getContext("2d");
         this.map = window.mapData;
-        console.log(this.map)
-        this.specieTiles = new Array(800*410).fill([]);
+        this.specieTiles = [];
+        for (let i = 0; i < 80*41; i++)
+            this.specieTiles.push([]);
         this.species = []; //stores the classes for the plant species
 
         this.rainData = window.rainData;
