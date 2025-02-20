@@ -177,52 +177,56 @@ class GameMap{
         let lat = Math.abs(this.indexToCord(index)[0]-205);
         let latWeightSun = 0.2
         let latWeightTemp = 0.2;
+        let rainfallWeight = 0.8;
         switch (biome){
             case 1: // Rainforest
-                sunExp = this.weightedAvg(1,this.sunExpFunction(lat),1-latWeightSun,latWeightSun);
-                surroundingTemp = this.weightedAvg(0.5,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
+                sunExp = 1;
+                surroundingTemp = 0.5;
                 soilWat = 0.9;
                 break;
             case 2: // Savanna
-                sunExp = this.weightedAvg(0.8,this.sunExpFunction(lat),1-latWeightSun,latWeightSun);
-                surroundingTemp = this.weightedAvg(0.5,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
+                sunExp = 0.8;
+                surroundingTemp = 0.5;
                 soilWat = 0.3;
                 break;
             case 3: //Desert
-                sunExp = this.weightedAvg(1,this.sunExpFunction(lat),1-latWeightSun,latWeightSun);
-                surroundingTemp = this.weightedAvg(0.9,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
+                sunExp = 1;
+                surroundingTemp = 0.9;
                 soilWat = 0.2;
                 break;
             case 4: //Temperate forest
-                sunExp = this.weightedAvg(0.7,this.sunExpFunction(lat),1-latWeightSun,latWeightSun);
-                surroundingTemp = this.weightedAvg(0.5,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
+                sunExp = 0.7;
+                surroundingTemp = 0.5;
                 soilWat = 0.8;
                 break;
             case 5: //Grasslands
-                sunExp = this.weightedAvg(0.8,this.sunExpFunction(lat),1-latWeightSun,latWeightSun);
-                surroundingTemp = this.weightedAvg(0.8,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
+                sunExp = 0.8;
+                surroundingTemp = 0.8;
                 soilWat = 0.4;
                 break;
             case 6: //Tundra
-                sunExp = this.weightedAvg(0.3,this.sunExpFunction(lat),1-latWeightSun,latWeightSun);
-                surroundingTemp = this.weightedAvg(0.3,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
+                sunExp = 0.3;
+                surroundingTemp = 0.3;
                 soilWat = 0.6;
                 break;
             case 7: //Taiga
-                sunExp = this.weightedAvg(0.2,this.sunExpFunction(lat),1-latWeightSun,latWeightSun);
-                surroundingTemp = this.weightedAvg(0.4,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
+                sunExp = 0.2;
+                surroundingTemp = 0.4;
                 soilWat = 0.5;
                 break;
             case 8: //Ice
-                sunExp = this.weightedAvg(0.1,this.sunExpFunction(lat),1-latWeightSun,latWeightSun);
-                surroundingTemp = this.weightedAvg(0.1,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
+                sunExp = 0.1;
+                surroundingTemp = 0.1;
                 soilWat = 0.2;
                 break;
             default: //Water
-                sunExp = this.weightedAvg(0.8,this.sunExpFunction(lat),1-latWeightSun,latWeightSun);
-                surroundingTemp = this.weightedAvg(0.8,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
+                sunExp = 0.8;
+                surroundingTemp = 0.8;
                 soilWat = 0.4;
         }
+        sunExp = this.weightedAvg(sunExp,this.sunExpFunction(lat),1-latWeightSun,latWeightSun);
+        surroundingTemp = this.weightedAvg(surroundingTemp,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
+        soilWat = this.weightedAvg(soilWat,this.waterFunction(this.raindataAt(index)),1-rainfallWeight,rainfallWeight);
         return {
             "sunExposure":sunExp,
             "surroundingTemp":surroundingTemp *100,
@@ -242,6 +246,9 @@ class GameMap{
         return (26.25)/(lat + 52.5);
     }
 
+    waterFunction(level){
+        return (0.0000750751*level)+0.0990991;
+    }
 }
 
 /*
