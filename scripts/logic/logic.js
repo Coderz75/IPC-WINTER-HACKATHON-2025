@@ -169,7 +169,7 @@ class Alert{
                     <span class="name">${name}</span>
                     <span class="description">${description}</span>
                 </div>
-                <div class = time>${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}</div>
+                <div class = time>${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}</div>
             </div>
         `);
         alertsRead = false;

@@ -246,6 +246,12 @@ body{
     margin: 0;
     padding: 30px;
 }
+
+.alertPanel h1{
+    text-align: left;
+    font-weight: 900;
+}
+
 .alertPanel.open {
     left: calc(100vw - 475px - 80px); /* Slide in */
 }
@@ -297,7 +303,7 @@ body{
 }
 
 #phylogenyWrapper h1{
-    text-align: center;
+    text-align: left;
     font-weight: 900;
 }
 
@@ -521,6 +527,12 @@ body{
     color: #1ba3ec;
 }
 
+#alerts{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
 .time{
     color: gray;
 }
@@ -563,4 +575,8 @@ body{
 .weatherEvent:hover::before{
     display: block;
     animation: 0.2s ease-in-out in forwards;
+}
+
+#alerts:empty::before{
+    content: "When you get alerts, they will show up here."
 }
