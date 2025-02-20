@@ -26,9 +26,9 @@ const random = (min, max) => {
 let encoding = {}
 let hash_base;
 
-class DNAScalar{
-    constructor(value) {
-        this.value = value
+function DNAScalar(value){
+    return {
+        "scalar": value
     }
 }
 
@@ -58,8 +58,8 @@ class DNA{
     };
 
     static process = (genome) => { // ignores any "loose nucleotides" at the end
-        if (genome instanceof DNAScalar){
-            return genome.value
+        if (genome.scalar){
+            return genome.scalar
         }
 
         let split = []

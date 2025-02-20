@@ -1,5 +1,9 @@
 "use strict";
 
+const copy = (obj) =>{
+	return JSON.parse(JSON.stringify(obj))
+}
+
 
 function sigmoid(x){
 	return 1 / (1 + Math.E ** -x);
@@ -58,9 +62,9 @@ class Plant {
 			this.species = species; //reference to species
 
 			this.raw_genome = parentGenome
-			this.genome = DNA.convert(parentGenome);
+			this.genome = DNA.convert(copy(parentGenome));
 
-			console.log(this.genome, this.raw_genome);
+			console.log(this.raw_genome.seedCount)
 
 			for (const key in this.genome){ //prevents divide by 0 errors
 				if (this.genome[key] == 0)
@@ -142,12 +146,16 @@ class Plant {
 		//Reproduce- growing spores (sexual reproduction too complicated) (You can add mutation here if you want)
 		if (this.seedDev >= 100){
 			for (let i = 0; i < this.genome.seedCount; i++){
-				let next = structuredClone(this.raw_genome)
+				let next = copy(this.raw_genome)
 
 				for (let key of Object.keys(next)){
-					if (random(0, 10) < 3){
+					//console.log(key, next[key].scalar)
+					if (next[key].scalar){
+						continue
+					}
+
+					if (random(0, 50) < 3){
 						next[key] = Array.from(next[key])
-						console.info("MUTATION")
 						let type = random(0, 3)
 						let location = random(4, next[key].length - 8)
 						let base = random(0, 4)
@@ -209,7 +217,7 @@ const palms = new PlantSpecies({
 	photosynthesisRate: DNA.generate_sequence(0.2, 100),
 	size: DNA.generate_sequence(0.8, 100),
 	seedSize : DNA.generate_sequence(1, 100),
-	seedCount : new DNAScalar(2),
+	seedCount : DNAScalar(1),
 });
 
 const pines = new PlantSpecies({
@@ -221,7 +229,7 @@ const pines = new PlantSpecies({
 	photosynthesisRate: DNA.generate_sequence(0.7, 100),
 	size: DNA.generate_sequence(0.7, 100),
 	seedSize : DNA.generate_sequence(0.1, 100),
-	seedCount : new DNAScalar(8),
+	seedCount : DNAScalar(1),
 });
 
 const testSubject = new Plant({
@@ -233,7 +241,7 @@ const testSubject = new Plant({
 	photosynthesisRate: DNA.generate_sequence(0.2, 100),
 	size: DNA.generate_sequence(0.8, 100),
 	seedSize : DNA.generate_sequence(0.8, 100),
-	seedCount : new DNAScalar(2),
+	seedCount : DNAScalar(1),
 }, palms);
 palms.activeMembers.push(testSubject);
 
@@ -246,7 +254,7 @@ pines.activeMembers.push(new Plant({
 	photosynthesisRate: DNA.generate_sequence(0.7, 100),
 	size: DNA.generate_sequence(0.7, 100),
 	seedSize : DNA.generate_sequence(0.1, 100),
-	seedCount : new DNAScalar(8),
+	seedCount : DNAScalar(1),
 }, pines));
 
 pines.activeMembers[0].pos = {x: 310, y: 100};
