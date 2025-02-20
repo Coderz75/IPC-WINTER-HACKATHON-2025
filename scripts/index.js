@@ -39,7 +39,7 @@ function init(){
     gameMap.addSpecies(palms); gameMap.addSpecies(pines);
     gameMap.canvas.addEventListener('mousedown', mouseDownEvent);
     //Start tick
-    window.setInterval(tick, 15);
+    window.setInterval(tick, 34); // 30 fps
 }
 function tick(){
     // tick function.
