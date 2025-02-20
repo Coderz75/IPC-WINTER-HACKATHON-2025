@@ -111,7 +111,7 @@ class Plant {
 		const waterDifference = 100 - this.water; 
 		const energyDifference = 100 - this.energy;
 
-		let environment = gameMap.getBiomeStatistics(gameMap.cordToIndex(this.pos.x,this.pos.y));
+		this.environment = gameMap.getBiomeStatistics(gameMap.cordToIndex(this.pos.x,this.pos.y));
 
 		const AgeMalus = 1 + Math.max(0, (this.age - 10000 * this.genome.size) * 0.02);
 		
@@ -121,16 +121,15 @@ class Plant {
 		const capillaryAction = Math.sqrt(waterDifference) / 5;
 		//Be blown in the wind
 		//Photosynthesis- making energy in the sun
-		const photosynthesis = respiration * this.water / 100 * environment.sunExposure * this.genome.photosynthesisRate;
+		const photosynthesis = respiration * this.water / 100 * this.environment.sunExposure * this.genome.photosynthesisRate;
 		//Growth- using water and energy
 		const growth = sigmoid(-energyDifference/10);
-
 		//console.log(`${respiration}, ${capillaryAction}, ${photosynthesis}, ${growth}`);
 
 		this.water -= respiration / this.genome.waterStorage;
 		this.temperature -= respiration * this.genome.heatResistance / AgeMalus;
-		this.temperature = (this.temperature * 0.95 + environment.surroundingTemp * 0.05);
-		this.water += capillaryAction * this.genome.waterAffinity * environment.soilWater / this.genome.waterStorage / AgeMalus;
+		this.temperature = (this.temperature * 0.95 + this.environment.surroundingTemp * 0.05);
+		this.water += capillaryAction * this.genome.waterAffinity * this.environment.soilWater / this.genome.waterStorage / AgeMalus;
 		this.water -= photosynthesis / this.genome.waterStorage;
 		this.energy += photosynthesis / AgeMalus;
 

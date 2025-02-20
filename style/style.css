@@ -135,6 +135,10 @@ body{
     background: #bb463c;
 }
 
+.specimenPanel #specimenEnvironment thead{
+    background: brown;
+}
+
 .specimenPanel #specimenGenome tr:nth-of-type(odd) td{
     background: rgb(241 243 255);
 }

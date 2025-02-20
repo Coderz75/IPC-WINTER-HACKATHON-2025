@@ -228,9 +228,9 @@ class GameMap{
         surroundingTemp = this.weightedAvg(surroundingTemp,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
         soilWat = this.weightedAvg(soilWat,this.waterFunction(this.raindataAt(index)),1-rainfallWeight,rainfallWeight);
         return {
-            "sunExposure":sunExp,
+            "sunExposure":sunExp*100,
             "surroundingTemp":surroundingTemp *100,
-            "soilWater":soilWat,
+            "soilWater":soilWat*100,
         };
     }
 
@@ -248,17 +248,5 @@ class GameMap{
 
     waterFunction(level){
         return (0.0000750751*level)+0.0990991;
-    }
-}
-
-/*
-Biomed have the following statistics
-Note that sunExposure and Surrounding Temp is dependent on lattitude as well, so code will reflect that. THis is just hte default variables.
-*/ 
-const biomeStatistics = {
-    1:{
-        "sunExposure": 0.5, 
-		"surroundingTemp":50, 
-		"soilWater": 0.5,  
     }
 }

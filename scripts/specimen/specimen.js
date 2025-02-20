@@ -44,6 +44,7 @@ const specimenPanel = {
   ctx : document.getElementById("specimenCanvas").getContext("2d"),
   geneTable : document.getElementById("specimenGenome"),
   attrTable : document.getElementById("specimenAttributes"),
+  envTable: document.getElementById("specimenEnvironment"),
   subject : null,
   subjectPos : {
     x : 0,
@@ -76,6 +77,16 @@ const specimenPanel = {
       const cell2 = row.insertCell(1);
       cell1.width = cell2.width = this.canvas.width / 2;
       cell1.innerHTML = attr;
+      cell2.innerHTML = val;
+    }
+    this.envTable.innerHTML = null;
+    this.envTable.createTHead().innerHTML = "ENVIRONMENT";
+    for (const [name,val] in specimen.environment){
+      const row = this.envTable.insertRow();
+      const cell1 = row.insertCell(0);
+      const cell2 = row.insertCell(1);
+      cell1.width = cell2.width = this.canvas.width / 2;
+      cell1.innerHTML = name;
       cell2.innerHTML = val;
     }
 
@@ -244,6 +255,18 @@ const specimenPanel = {
       cell1.innerHTML = attr;
       cell2.innerHTML = val;
       i++;
+    }
+
+    i = 0;
+    for (const name in this.subject.environment){
+      const val = this.subject.environment[name];
+      const row = this.envTable.rows.item(i);
+      const cell1 = row.cells.item(0);
+      const cell2 = row.cells.item(1);
+
+      cell1.innerHTML = name;
+      cell2.innerHTML = val;
+      i++
     }
   }
 };
