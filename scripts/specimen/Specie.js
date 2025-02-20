@@ -110,14 +110,9 @@ class Plant {
 		const tempDifference = 50 - this.temperature;
 		const waterDifference = 100 - this.water; 
 		const energyDifference = 100 - this.energy;
-		let sunExposure = 0.5; // change this according to weather and latitude later
-		let surroundingTemp = 50; //change this according to weather and latitude and biome
-		let soilWater = 0.5;  //change this according to weather and biome
 
-		let biomeStats = gameMap.getBiomeStatistics(gameMap.cordToIndex(this.pos.x,this.pos.y));
-		for (const [key, value] of Object.entries(biomeStats)) {
-			eval(`${key} = ${value}`);
-		}
+		let environment = gameMap.getBiomeStatistics(gameMap.cordToIndex(this.pos.x,this.pos.y));
+
 		const AgeMalus = 1 + Math.max(0, (this.age - 10000 * this.genome.size) * 0.02);
 		
 		//respire- using water and cooling self down
@@ -126,7 +121,7 @@ class Plant {
 		const capillaryAction = Math.sqrt(waterDifference) / 5;
 		//Be blown in the wind
 		//Photosynthesis- making energy in the sun
-		const photosynthesis = respiration * this.water / 100 * sunExposure * this.genome.photosynthesisRate;
+		const photosynthesis = respiration * this.water / 100 * environment.sunExposure * this.genome.photosynthesisRate;
 		//Growth- using water and energy
 		const growth = sigmoid(-energyDifference/10);
 
@@ -134,8 +129,8 @@ class Plant {
 
 		this.water -= respiration / this.genome.waterStorage;
 		this.temperature -= respiration * this.genome.heatResistance / AgeMalus;
-		this.temperature = (this.temperature * 0.95 + surroundingTemp * 0.05);
-		this.water += capillaryAction * this.genome.waterAffinity * soilWater / this.genome.waterStorage / AgeMalus;
+		this.temperature = (this.temperature * 0.95 + environment.surroundingTemp * 0.05);
+		this.water += capillaryAction * this.genome.waterAffinity * environment.soilWater / this.genome.waterStorage / AgeMalus;
 		this.water -= photosynthesis / this.genome.waterStorage;
 		this.energy += photosynthesis / AgeMalus;
 
@@ -193,7 +188,10 @@ class Plant {
 			this.isAlive = false;
 			return;
 		}
-		if (gameMap.map[gameMap.cordToIndex(this.pos.x, this.pos.y)] != 9 && this.vel.x == 0 && this.vel.y == 0){
+
+		//blown about by the wind
+
+		if (gameMap.map[gameMap.cordToIndex(this.pos.x, this.pos.y)] != 9 && (Math.abs(this.vel.x) <= 0.5 && Math.abs(this.vel.y) <= 0.5 || this.energy <= 20)){
 			//germinate
 			this.isActive = true;
 			this.water = 50;

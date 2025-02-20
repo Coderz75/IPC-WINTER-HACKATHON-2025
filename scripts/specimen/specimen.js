@@ -94,28 +94,33 @@ const specimenPanel = {
     }
     //draw specimen according to time on canvas, specimen's own genome, it's attributes, the biome, and the weather
 
-    const randNumRoot = splitmix32(this.subject.randomSeed);
+    
 
     this.ctx.fillStyle = "aqua";
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     //surfaceFill = color based on biome
+    let environment = gameMap.getBiomeStatistics(gameMap.cordToIndex(this.subject.pos.x,this.subject.pos.y));
     //bottomfill = darkercolor, maybe black
 
     const surfaceY = this.canvas.height / 2;
     const centerX = this.canvas.width / 2; 
 
-    const surfaceFill = "yellow";
+    const surfaceFill = `rgb(${255*(1-environment.soilWater)+100-environment.surroundingTemp}, ${155 + 100*(1-environment.soilWater)}, ${255*(1-environment.surroundingTemp)})`;
     const bottomfill = "brown";
-    const earthfill = this.ctx.createLinearGradient(0, surfaceY, 0, this.canvas.height);
+    const earthfill = this.ctx.createLinearGradient(0, surfaceY*0.9, 0, this.canvas.height);
     earthfill.addColorStop(0, surfaceFill); earthfill.addColorStop(1, bottomfill);
     this.ctx.fillStyle = earthfill;
     this.ctx.fillRect(0, surfaceY, this.canvas.width, this.canvas.height - surfaceY);
+    const background = this.ctx.createLinearGradient(0, 0, 0, surfaceY*0.75);
+    background.addColorStop(1, surfaceFill); background.addColorStop(0, "aqua");
+    this.ctx.fillStyle = background;
+    this.ctx.fillRect(0, surfaceY/2, this.canvas.width, surfaceY/2+1);
 
     const sizeCoefficient = this.subject.genome.size * this.subject.percentMaturity;
     const thickness = this.subject.water * this.subject.genome.waterStorage * this.subject.percentMaturity / 100;
     
     //roots
-
+    const randNumRoot = splitmix32(this.subject.randomSeed);
     this.ctx.fillStyle = "beige";
     const taprootLength = this.subject.genome.anchorage * sizeCoefficient * 2;
     const lateralRootLength = this.subject.genome.waterAffinity * sizeCoefficient / this.subject.genome.anchorage;
@@ -204,6 +209,9 @@ const specimenPanel = {
       this.ctx.closePath();
       seedsLeft--;
     }
+    
+    this.ctx.fillStyle = `rgba(0, 0, 0, ${0.5*(1-environment.sunExposure)})`;
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     this.ctx.restore();
 
