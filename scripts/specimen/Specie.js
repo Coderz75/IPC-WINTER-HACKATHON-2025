@@ -233,8 +233,8 @@ class Plant {
 
 		//blown about by the wind
 		this.environment = gameMap.getBiomeStatistics(gameMap.cordToIndex(this.pos.x,this.pos.y));
-		this.vel.x = (this.vel.x * this.genome.seedSize * 20 + this.environment.windx) / (this.genome.seedSize * 20 + 1);
-		this.vel.y = (this.vel.y * this.genome.seedSize * 20 + this.environment.windy) / (this.genome.seedSize * 20 + 1);
+		this.vel.x = (this.vel.x + this.environment.windx) / (2);
+		this.vel.y = (this.vel.y + this.environment.windy) / (2);
 
 		this.pos.x += this.vel.x;
 		this.pos.y += this.vel.y;

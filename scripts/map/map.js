@@ -222,14 +222,15 @@ class GameMap{
                 surroundingTemp = 0.1;
                 soilWat = 0.2;
                 break;
-            default: //Water
+            case 9: //Water
                 sunExp = 0.8;
                 surroundingTemp = 0.8;
                 soilWat = 0.4;
+                break;
         }
         sunExp = this.weightedAvg(sunExp,this.sunExpFunction(lat),1-latWeightSun,latWeightSun);
         surroundingTemp = this.weightedAvg(surroundingTemp,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
-        soilWat = this.weightedAvg(soilWat,this.waterFunction(this.raindataAt(index)),1-rainfallWeight,rainfallWeight);
+        //soilWat = this.weightedAvg(soilWat,this.waterFunction(this.raindataAt(index)),1-rainfallWeight,rainfallWeight);
         let windSpeed = this.windSpeedFunction(lat);
         let wind = this.windVector(index,windSpeed);
         return {
@@ -258,11 +259,11 @@ class GameMap{
     }
 
     windSpeedFunction(lat){
-        return Math.sin(0.0459745*lat);
+        return Math.sin(0.00766*lat);
     }
 
     //TODO: Actually make this do something lol
     windVector(index,speed){
-        return [Math.floor((Math.random()-0.5) * 3)+speed,Math.floor((Math.random()-0.5) * 3)+speed]
+        return [(Math.random()-0.5) * 5 *speed,(Math.random()-0.5) * 5 *speed]
     }
 }
