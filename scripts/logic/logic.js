@@ -109,10 +109,10 @@ var weatherSummoned = null;
 
 class weatherButton{
     constructor(ev){
-        this.event = ev.
+        this.event = ev;
         this.name = ev["name"];
         this.description = ev["desc"];
-        this.icon = ev[i]["icon"];
+        this.icon = ev["icon"];
         // using innerHTML resets all event listeners and is just slower
         document.getElementById("weatherButtons").insertAdjacentHTML("beforeend",`
             <div id = "${this.name}" class = "weatherButton">

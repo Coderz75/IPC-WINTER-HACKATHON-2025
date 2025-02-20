@@ -229,7 +229,7 @@ class GameMap{
         sunExp = this.weightedAvg(sunExp,this.sunExpFunction(lat),1-latWeightSun,latWeightSun);
         surroundingTemp = this.weightedAvg(surroundingTemp,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
         soilWat = this.weightedAvg(soilWat,this.waterFunction(this.raindataAt(index)),1-rainfallWeight,rainfallWeight);
-        let windSpeed = this.windSpeed(lat);
+        let windSpeed = this.windSpeedFunction(lat);
         let wind = this.windVector(index,windSpeed);
         return {
             "sunExposure":sunExp,
