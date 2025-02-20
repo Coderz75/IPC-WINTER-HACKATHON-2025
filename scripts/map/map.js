@@ -168,4 +168,90 @@ class GameMap{
         }
         return num;
     }
+    // Note: THings are calculated via weighted average
+    getBiomeStatistics(index){
+        let biome = this.map[index];
+        let sunExp = 0;
+        let surroundingTemp = 0;
+        let soilWat = 0;
+        let lat = Math.abs(this.indexToCord(index)[0]-205);
+        let latWeightSun = 0.2
+        let latWeightTemp = 0.2;
+        switch (biome){
+            case 1: // Rainforest
+                sunExp = this.weightedAvg(1,this.sunExpFunction(lat),1-latWeightSun,latWeightSun);
+                surroundingTemp = this.weightedAvg(0.5,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
+                soilWat = 0.9;
+                break;
+            case 2: // Savanna
+                sunExp = this.weightedAvg(0.8,this.sunExpFunction(lat),1-latWeightSun,latWeightSun);
+                surroundingTemp = this.weightedAvg(0.5,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
+                soilWat = 0.3;
+                break;
+            case 3: //Desert
+                sunExp = this.weightedAvg(1,this.sunExpFunction(lat),1-latWeightSun,latWeightSun);
+                surroundingTemp = this.weightedAvg(0.9,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
+                soilWat = 0.2;
+                break;
+            case 4: //Temperate forest
+                sunExp = this.weightedAvg(0.7,this.sunExpFunction(lat),1-latWeightSun,latWeightSun);
+                surroundingTemp = this.weightedAvg(0.5,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
+                soilWat = 0.8;
+                break;
+            case 5: //Grasslands
+                sunExp = this.weightedAvg(0.8,this.sunExpFunction(lat),1-latWeightSun,latWeightSun);
+                surroundingTemp = this.weightedAvg(0.8,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
+                soilWat = 0.4;
+                break;
+            case 6: //Tundra
+                sunExp = this.weightedAvg(0.3,this.sunExpFunction(lat),1-latWeightSun,latWeightSun);
+                surroundingTemp = this.weightedAvg(0.3,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
+                soilWat = 0.6;
+                break;
+            case 7: //Taiga
+                sunExp = this.weightedAvg(0.2,this.sunExpFunction(lat),1-latWeightSun,latWeightSun);
+                surroundingTemp = this.weightedAvg(0.4,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
+                soilWat = 0.5;
+                break;
+            case 8: //Ice
+                sunExp = this.weightedAvg(0.1,this.sunExpFunction(lat),1-latWeightSun,latWeightSun);
+                surroundingTemp = this.weightedAvg(0.1,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
+                soilWat = 0.2;
+                break;
+            default: //Water
+                sunExp = this.weightedAvg(0.8,this.sunExpFunction(lat),1-latWeightSun,latWeightSun);
+                surroundingTemp = this.weightedAvg(0.8,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
+                soilWat = 0.4;
+        }
+        return {
+            "sunExposure":sunExp,
+            "surroundingTemp":surroundingTemp *100,
+            "soilWater":soilWat,
+        };
+    }
+
+    weightedAvg(v1,v2,w1,w2){
+        return (v1*w1 + v2*w2)/(w1+w2)
+    }
+
+    sunExpFunction(lat){
+        return 52.5/(lat+52.5);
+    }
+
+    tempFunction(lat){
+        return (26.25)/(lat + 52.5);
+    }
+
+}
+
+/*
+Biomed have the following statistics
+Note that sunExposure and Surrounding Temp is dependent on lattitude as well, so code will reflect that. THis is just hte default variables.
+*/ 
+const biomeStatistics = {
+    1:{
+        "sunExposure": 0.5, 
+		"surroundingTemp":50, 
+		"soilWater": 0.5,  
+    }
 }
