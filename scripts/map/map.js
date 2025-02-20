@@ -13,6 +13,8 @@ class GameMap{
         this.specieTiles = new Array(800*410).fill([]);
         this.species = []; //stores the classes for the plant species
 
+        this.rainData = window.rainData;
+
         this.loadMap(); 
     }
     addSpecies(specie){
@@ -109,5 +111,61 @@ class GameMap{
                 r="Water";
         }
         return r;
+    }
+    //Currently going to do average cause too lazy
+    //NOTE: IN MILLIMITERS 
+    raindataAt(index){
+        let a = this.rainData[index];
+        let num = 0;
+        switch (a){
+            case 1:
+                num = (0+24)/2;
+                break;
+            case 2:
+                num = (25+74)/2;
+                break;
+            case 3:
+                num = (75+124)/2;
+                break;
+            case 4:
+                num = (125+224)/2;
+                break;
+            case 5:
+                num = (225+274)/2;
+                break;
+            case 6:
+                num = (275+274)/2;
+                break;
+            case 7:
+                num = (375+474)/2;
+                break;
+            case 8:
+                num = (475+724)/2;
+                break;
+            case 9:
+                num = (725+924)/2;
+                break;
+            case 10:
+                num = (975+1474)/2;
+                break;
+            case 11:
+                num = (1475+2474)/2;
+                break;
+            case 12:
+                num = (2475+4974)/2;
+                break;
+            case 13:
+                num = (4975+7474)/2;
+                break;
+            case 14:
+                num = (7475+10004)/2;
+                break;
+            case 15:
+                num = 12000; // idk arbitary number for something this high
+                break;
+            default:
+                num = null
+        }
+        return num;
     }
 }
