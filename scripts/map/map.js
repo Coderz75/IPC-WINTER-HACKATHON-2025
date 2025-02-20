@@ -239,11 +239,11 @@ class GameMap{
     }
 
     sunExpFunction(lat){
-        return 52.5/(lat+52.5);
+        return 22.77778/(lat+22.77778);
     }
 
     tempFunction(lat){
-        return (26.25)/(lat + 52.5);
+        return (24.6)/(lat + 41);
     }
 
     waterFunction(level){
