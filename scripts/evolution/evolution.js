@@ -316,7 +316,7 @@ async function init_evolution() {
             children: [
                 {
                     text: { name: "Palm Tree", "title": "Africa" },
-                    image: "about: blank",
+                    //image: "about: blank",
                     "children": [
                         {
                             text: {name: "Leaves Mutation"},
@@ -324,21 +324,21 @@ async function init_evolution() {
                             children: [
                                 {
                                     text: { name: "Pine Tree", "title": "Asia"},
-                                    image: "about: blank",
+                                    //image: "about: blank",
                                     children: [
                                         {
                                             text: { name: "Pine Tree", "title": "Asia"},
-                                            image: "about: blank"
+                                            //image: "about: blank"
                                         },
                                         {
                                             text: { name: "Coniferous Tree", "title": "Asia"},
-                                            image: "about: blank"
+                                            //image: "about: blank"
                                         }
                                     ]
                                 },
                                 {
                                     text: { name: "Coniferous Tree", "title": "Asia"},
-                                    image: "about: blank"
+                                    //image: "about: blank"
                                 }
                             ]
                         }
@@ -349,7 +349,7 @@ async function init_evolution() {
                     children: [
                         {
                             text: { name: "Mangrove", "title": "Asia"},
-                            image: "about: blank"
+                            //image: "about: blank"
                         }
                     ]
                 }
