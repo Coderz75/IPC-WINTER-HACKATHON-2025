@@ -73,6 +73,7 @@ class PlantSpecies {
 		seed.pos = {x: xpos, y: ypos};
 		seed.energy = energy;
 		this.seedMembers.push(seed);
+		seed.height = 5;
 	}
 }
 
@@ -80,7 +81,7 @@ class Plant {
     constructor(parentGenome, species){
 			this.species = species; //reference to species
 
-			this.raw_genome = parentGenome
+			this.raw_genome = parentGenome;
 			this.genome = DNA.convert(copy(parentGenome));
 
 			this.competitionQuadrat = null;
@@ -131,7 +132,7 @@ class Plant {
     }
 	
     tick(gameMap){
-		const timeMultiplier = 5;
+		const timeMultiplier = 10;
 
 		const tempDifference = 50 - this.temperature;
 		const waterDifference = 100 - this.water; 
@@ -152,6 +153,7 @@ class Plant {
 		this.environment.competitionMalus = competitionMalus;
 		this.environment.sunExposure *= competitionMalus;
 		this.environment.soilWater *= competitionMalus;
+		this.environment.biomeName = gameMap.getBiomeName(Math.round(this.pos.x),Math.round(this.pos.y));
 
 		
 		//respire- using water and cooling self down
@@ -227,12 +229,23 @@ class Plant {
 			this.isAlive = false;
 			return;
 		}
+		this.height -= this.genome.seedSize**2;
 
 		//blown about by the wind
+		this.environment = gameMap.getBiomeStatistics(gameMap.cordToIndex(this.pos.x,this.pos.y));
+		this.vel.x = (this.vel.x * this.genome.seedSize * 20 + this.environment.windx) / (this.genome.seedSize * 20 + 1);
+		this.vel.y = (this.vel.y * this.genome.seedSize * 20 + this.environment.windy) / (this.genome.seedSize * 20 + 1);
 
-		if (gameMap.map[gameMap.cordToIndex(this.pos.x, this.pos.y)] != 9 && (Math.abs(this.vel.x) <= 0.5 && Math.abs(this.vel.y) <= 0.5 || this.energy <= 20)){
+		this.pos.x += this.vel.x;
+		this.pos.y += this.vel.y;
+
+		this.pos.x %= 800;
+		this.pos.y %= 410;
+
+
+		if (gameMap.map[gameMap.cordToIndex(Math.round(this.pos.x), Math.round(this.pos.y))] != 9 && (Math.abs(this.vel.x) <= 0.5 && Math.abs(this.vel.y) <= 0.5 || this.height <= 0)){
 			//germinate
-			console.log(gameMap.map[gameMap.cordToIndex(this.pos.x, this.pos.y)]);
+			console.log(gameMap.map[gameMap.cordToIndex(Math.round(this.pos.x), Math.round(this.pos.y))]);
 			this.isActive = true;
 			this.water = 50;
 			this.temperature = 50;

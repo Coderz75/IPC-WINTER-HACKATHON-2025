@@ -176,10 +176,11 @@ class GameMap{
         let sunExp = 0;
         let surroundingTemp = 0;
         let soilWat = 0;
-        let lat = Math.abs(this.indexToCord(index)[0]-205);
+        let lat = Math.abs(this.indexToCord(index)[1]-205);
         let latWeightSun = 0.2
         let latWeightTemp = 0.2;
         let rainfallWeight = 0.8;
+        
         switch (biome){
             case 1: // Rainforest
                 sunExp = 1;
@@ -235,7 +236,8 @@ class GameMap{
             "sunExposure":sunExp,
             "surroundingTemp":surroundingTemp *100,
             "soilWater":soilWat,
-            "wind": wind,
+            "windx": wind[0],
+            "windy": wind[1],
         };
     }
 
@@ -256,11 +258,11 @@ class GameMap{
     }
 
     windSpeedFunction(lat){
-        return 20*Math.sin(0.0459745*lat);
+        return Math.sin(0.0459745*lat);
     }
 
     //TODO: Actually make this do something lol
     windVector(index,speed){
-        return [Math.floor(Math.random() * 11)+speed,Math.floor(Math.random() * 11)+speed]
+        return [Math.floor((Math.random()-0.5) * 3)+speed,Math.floor((Math.random()-0.5) * 3)+speed]
     }
 }

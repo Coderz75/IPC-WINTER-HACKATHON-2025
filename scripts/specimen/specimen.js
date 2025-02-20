@@ -213,6 +213,7 @@ const specimenPanel = {
 
     const seedSize = this.subject.genome.seedSize * this.subject.seedDev * 0.1;
     for (const seed of seeds){
+      if (seedsLeft == 0) break;
       this.ctx.beginPath();
       this.ctx.fillStyle = 'brown';
       this.ctx.ellipse(seed[0], seed[1], seedSize, seedSize, 0, 0, Math.PI * 2);
