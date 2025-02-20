@@ -16,6 +16,7 @@ class GameMap{
 
         this.rainData = window.rainData;
 
+        this.weather = [];
         this.loadMap(); 
     }
     addSpecies(specie){
@@ -228,10 +229,13 @@ class GameMap{
         sunExp = this.weightedAvg(sunExp,this.sunExpFunction(lat),1-latWeightSun,latWeightSun);
         surroundingTemp = this.weightedAvg(surroundingTemp,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
         soilWat = this.weightedAvg(soilWat,this.waterFunction(this.raindataAt(index)),1-rainfallWeight,rainfallWeight);
+        let windSpeed = this.windSpeed(lat);
+        let wind = this.windVector(index,windSpeed);
         return {
             "sunExposure":sunExp,
             "surroundingTemp":surroundingTemp *100,
             "soilWater":soilWat,
+            "wind": wind,
         };
     }
 
@@ -249,5 +253,14 @@ class GameMap{
 
     waterFunction(level){
         return (0.0000750751*level)+0.0990991;
+    }
+
+    windSpeedFunction(lat){
+        return 20*Math.sin(0.0459745*lat);
+    }
+
+    //TODO: Actually make this do something lol
+    windVector(index,speed){
+        return [Math.floor(Math.random() * 11)+speed,Math.floor(Math.random() * 11)+speed]
     }
 }
