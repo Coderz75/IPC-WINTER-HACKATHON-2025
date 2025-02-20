@@ -228,9 +228,9 @@ class GameMap{
         surroundingTemp = this.weightedAvg(surroundingTemp,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
         soilWat = this.weightedAvg(soilWat,this.waterFunction(this.raindataAt(index)),1-rainfallWeight,rainfallWeight);
         return {
-            "sunExposure":sunExp*100,
+            "sunExposure":sunExp,
             "surroundingTemp":surroundingTemp *100,
-            "soilWater":soilWat*100,
+            "soilWater":soilWat,
         };
     }
 

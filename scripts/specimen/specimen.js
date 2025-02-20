@@ -267,6 +267,6 @@ const specimenPanel = {
       cell1.innerHTML = name;
       cell2.innerHTML = val;
       i++
-    }
+     }
   }
 };
