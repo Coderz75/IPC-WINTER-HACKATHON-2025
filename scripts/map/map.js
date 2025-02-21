@@ -30,8 +30,9 @@ class GameMap{
             if(this.weather[i]["time"] == 0){
                 this.weather.splice(i,1);
                 i-=1;
+            }else{
+                this.weather[i]["time"] -=1;
             }
-            this.weather[i]["time"] -=1;
         }
         this.render(mx,my);
     }
@@ -48,6 +49,13 @@ class GameMap{
             weatherctx.fill();
             weatherctx.stroke();
         }
+        this.weather.forEach(w=>{
+            weatherctx.beginPath();
+            weatherctx.arc(w["x"], w["y"], w["range"], 0, 2 * Math.PI);
+            weatherctx.fillStyle = "rgba(84, 80, 80, 0.5)";
+            weatherctx.fill();
+            weatherctx.stroke();
+        });
         this.species.forEach(specie => {
             specie.draw(this.ctx)});
         this.ctx.drawImage(weatherCanvas, 0, 0);
