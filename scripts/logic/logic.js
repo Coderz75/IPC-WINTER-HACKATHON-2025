@@ -168,7 +168,7 @@ class Alert{
         this.icon = icon
         const date = new Date();
         // using innerHTML resets all event listeners and is just slower
-        document.getElementById("alerts").insertAdjacentHTML("beforeend",`
+        document.getElementById("alerts").insertAdjacentHTML("afterbegin",`
             <div id = "${this.name.replaceAll(' ', '_')}" class = "alert">
                 <div class="icon">${icon}</div>
                 <div class="right">
