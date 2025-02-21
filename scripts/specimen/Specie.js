@@ -105,18 +105,6 @@ class PlantSpecies {
 		return variance > 1;
 	}
 	tick(){
-		if (!this.drawn && this.activeMembers.length){
-			if (this.activeMembers.length){
-				this.drawAndAdd(this.activeMembers[0])
-			}else{
-				this.drawAndAdd(this.seedMembers[0])
-			}
-			this.drawn = true
-		}
-		if (!this.name && this.drawn){
-			this.name = generate_name()
-			this.connect_to_parent(this.parent)
-		}
 		this.activeMembers.forEach(member => member.tick(this.gameMap));
 		this.seedMembers.forEach(member => member.dormant(this.gameMap));
 		{
@@ -127,7 +115,15 @@ class PlantSpecies {
 				if (this.compareGemomes(this.genome, member.genome)){
 					const newSpecies = new PlantSpecies(member.raw_genome, this.node);
 					this.gameMap.addSpecies(newSpecies);
+					console.log(newSpecies, this.gameMap.species)
 					newSpecies.seedMembers.push(member);
+
+					if (!newSpecies.drawn){
+						newSpecies.drawAndAdd(newSpecies.seedMembers[0])
+						newSpecies.drawn = true
+					}
+					newSpecies.name = generate_name()
+					newSpecies.connect_to_parent(newSpecies.parent)
 
 					alerts.push(new Alert("Speciation Occured", "A new species has emerged.", "<i class='fa-solid fa-tree'></i>"));
 				}
@@ -152,6 +148,15 @@ class PlantSpecies {
 		this.activeMembers.push(plant);
 		plant.competitionQuadrat = this.gameMap.specieTiles[Math.round(xpos/10) + Math.round(ypos/10) * 80];
 		plant.competitionQuadrat.push(plant);
+
+		if (!this.drawn){
+			this.drawAndAdd(this.activeMembers[0])
+			this.drawn = true
+		}
+		if (!this.name && this.drawn){
+			this.name = generate_name()
+			this.connect_to_parent(this.parent)
+		}
 	}
 	addSeed(parentGenome, energy, xpos, ypos){
 		const seed = new Plant(parentGenome, this);
@@ -160,6 +165,15 @@ class PlantSpecies {
 		seed.energy = energy;
 		this.seedMembers.push(seed);
 		seed.height = 20;
+
+		if (!this.drawn){
+			this.drawAndAdd(this.seedMembers[0])
+			this.drawn = true
+		}
+		if (!this.name && this.drawn){
+			this.name = generate_name()
+			this.connect_to_parent(this.parent)
+		}
 	}
 }
 
