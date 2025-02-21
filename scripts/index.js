@@ -140,3 +140,4 @@ document.getElementById("infoButton").onclick = () => {
     document.getElementById("info").style.display = "block"
 }
 
+

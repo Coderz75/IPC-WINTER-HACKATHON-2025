@@ -8,6 +8,7 @@ const get_svg = async (path) => {
 }
 
 let MutationWizardSVG;
+let words;
 
 const MutationType = {
     PointInsertion: 0,
@@ -22,6 +23,33 @@ function timeout(ms) {
 const random = (min, max) => {
     return Math.floor(Math.random() * (max - min) ) + min;
 }
+
+let phylo = {
+    chart: {
+        container: "#phylogeny",
+        levelSeparation:    25,
+        siblingSeparation:  70,
+        subTeeSeparation:   100,
+        nodeAlign: "BOTTOM",
+        padding: 35,
+        node: { HTMLclass: "evolution-tree" },
+        connectors: {
+            type: "curve",
+            style: {
+                "stroke-width": 5,
+                "stroke-linecap": "round",
+                "stroke": "#00a19a"
+            }
+        }
+    },
+    nodeStructure: {
+        text: { name: "LIFE" },
+        HTMLclass: "marker",
+        children: []
+    }
+}
+
+let life = phylo.nodeStructure
 
 let encoding = {}
 let hash_base;
@@ -279,6 +307,12 @@ class MutationWizard{
     }
 }
 
+function redrawTree(){
+    document.getElementById("phylogeny").innerHTML = ""
+
+    new Treant(phylo)
+}
+
 async function init_evolution() {
 
      hash_base = 17
@@ -296,76 +330,23 @@ async function init_evolution() {
     }
 
 
-    new Treant({
-        chart: {
-            container: "#phylogeny",
-            levelSeparation:    25,
-            siblingSeparation:  70,
-            subTeeSeparation:   100,
-            nodeAlign: "BOTTOM",
-            padding: 35,
-            node: { HTMLclass: "evolution-tree" },
-            connectors: {
-                type: "curve",
-                style: {
-                    "stroke-width": 5,
-                    "stroke-linecap": "round",
-                    "stroke": "#00a19a"
-                }
-            }
-        },
-        nodeStructure: {
-            text: { name: "LIFE" },
-            HTMLclass: "marker",
-            children: [
-                {
-                    text: { name: "Palm Tree", "title": "Africa" },
-                    //image: "about: blank",
-                    "children": [
-                        {
-                            text: {name: "Leaves Mutation"},
-                            HTMLclass: "marker",
-                            children: [
-                                {
-                                    text: { name: "Pine Tree", "title": "Asia"},
-                                    //image: "about: blank",
-                                    children: [
-                                        {
-                                            text: { name: "Pine Tree", "title": "Asia"},
-                                            //image: "about: blank"
-                                        },
-                                        {
-                                            text: { name: "Coniferous Tree", "title": "Asia"},
-                                            //image: "about: blank"
-                                        }
-                                    ]
-                                },
-                                {
-                                    text: { name: "Coniferous Tree", "title": "Asia"},
-                                    //image: "about: blank"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    pseudo: true,
-                    children: [
-                        {
-                            text: { name: "Mangrove", "title": "Asia"},
-                            //image: "about: blank"
-                        }
-                    ]
-                }
-            ]
-        }
-    })
+    redrawTree()
 
     try {
         MutationWizardSVG = await get_svg("assets/MutationW.svg")
     } catch{
         MutationWizardSVG = await get_svg("https://coderz75.github.io/IPC-WINTER-HACKATHON-2025/assets/MutationW.svg")
     }
+
+    words = (await get_svg("assets/words.txt")).split("\n")
+}
+
+let capitalize = (word) => {
+    return word.replace(/\b\w/g, l => l.toUpperCase())
+}
+
+let generate_name = () => {
+    return capitalize(words[random(0, words.length)]) + " " + words[random(0, words.length)]
 }
 
 init_evolution()
