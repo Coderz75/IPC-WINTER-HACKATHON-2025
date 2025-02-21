@@ -40,6 +40,13 @@ class PlantSpecies {
 			mapCanvasContext.restore();
 		}
 	}
+	compareGemomes(genome1, genome2){
+		let variance = 0;
+		for (const gene in genome1){
+			variance += (genome1[gene] - genome2[gene]);
+		}
+		return Math.sqrt(variance) > 3;
+	}
 	tick(){
 		this.activeMembers.forEach(member => member.tick(this.gameMap));
 		this.seedMembers.forEach(member => member.dormant(this.gameMap));
