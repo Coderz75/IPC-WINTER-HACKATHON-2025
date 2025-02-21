@@ -499,6 +499,7 @@ body{
 .alert .right{
     display: flex;
     flex-direction: column;
+    flex: 1;
 }
 
 .alert .name{
@@ -579,4 +580,10 @@ body{
 
 #alerts:empty::before{
     content: "When you get alerts, they will show up here."
+}
+
+svg:has(#MutationW){
+    position: fixed;
+    top: 0;
+    left: 0;
 }
