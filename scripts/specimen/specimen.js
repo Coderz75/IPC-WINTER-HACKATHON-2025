@@ -123,7 +123,7 @@ const specimenPanel = {
     background.addColorStop(1, surfaceFill); background.addColorStop(0, "aqua");
     this.ctx.fillStyle = background;
     this.ctx.fillRect(0, surfaceY/2, this.canvas.width, surfaceY/2+1);
-
+    if (this.subject.rooted){
     const sizeCoefficient = this.subject.genome.size * this.subject.percentMaturity;
     const thickness = this.subject.water * this.subject.genome.waterStorage * this.subject.percentMaturity / 100;
     
@@ -167,6 +167,7 @@ const specimenPanel = {
     //binary tree generation????
     //dfs lets go
     //actually no, bfs 
+    const windSpeed = (environment.windx + environment.windy)/1.41;
     const randNumShoot = splitmix32(this.subject.randomSeed);
     let seeds = [];
     let queue = new Queue(); //Array <Node <BranchAngle, StartPosX, StartPosY, Thickness, countleft>>
@@ -175,6 +176,8 @@ const specimenPanel = {
     this.ctx.fillStyle = `rgb(${100 - this.subject.water},${this.subject.water*4+50},${this.subject.water / 2})`;
     while (!queue.isEmpty()){
       const node = queue.dequeue();
+
+      node[0] += windSpeed * Math.sin(node[0]) * 0.01 / (1+node[3]);
 
       if (node[4] <= 0){
         //draw a leaf
@@ -223,7 +226,7 @@ const specimenPanel = {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     this.ctx.restore();
-
+    }
     //list out attributes
     this.update();
     

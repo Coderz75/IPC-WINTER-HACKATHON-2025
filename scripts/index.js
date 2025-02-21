@@ -36,9 +36,11 @@ function init(){
     window.counter = 0;
     const mapCanvas = document.getElementById("mapCanvas");
     gameMap = new GameMap(mapCanvas);
-    gameMap.addSpecies(palms); gameMap.addSpecies(pines);
-    palms.addPlant(136, 145);
-    pines.addPlant(310, 100);
+    gameMap.addSpecies(palms); gameMap.addSpecies(pines); gameMap.addSpecies(cacti);
+    palms.addPlant(136, 145); palms.addPlant(600, 145); 
+    pines.addPlant(310, 100); pines.addPlant(180, 240); pines.addPlant(90, 100); pines.addPlant(620, 298); pines.addPlant(610, 100); pines.addPlant(510, 80); pines.addPlant(370, 200);
+    cacti.addPlant(350, 150); cacti.addPlant(370, 290); cacti.addPlant(510, 120); 
+
     gameMap.canvas.addEventListener('mousedown', mouseDownEvent);
     //Start tick
     window.setInterval(tick, 34); // 30 fps
