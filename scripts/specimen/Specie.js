@@ -68,6 +68,7 @@ class PlantSpecies {
 
 		this.node = this.parent.children.at(-1).children.at(-1)
 		redrawTree()
+		setTimeout(redrawTree, 1000)
 	}
 
 	drawAndAdd(member){

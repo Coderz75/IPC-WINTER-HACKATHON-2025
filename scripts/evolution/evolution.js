@@ -336,6 +336,8 @@ async function init_evolution() {
 
     redrawTree()
 
+    setTimeout(redrawTree, 1000)
+
     try {
         MutationWizardSVG = await get_svg("assets/MutationW.svg")
     } catch{
