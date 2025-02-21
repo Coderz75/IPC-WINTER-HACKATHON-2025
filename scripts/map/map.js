@@ -23,7 +23,7 @@ class GameMap{
         this.species.push(specie);
         specie.gameMap = this;
     }
-    tick(){
+    tick(mx,my){
         // tick
         this.species.forEach(specie => specie.tick());
         for(let i = 0; i < this.weather.length; i++){
@@ -33,14 +33,24 @@ class GameMap{
             }
             this.weather[i]["time"] -=1;
         }
-        this.render();
+        this.render(mx,my);
     }
-    render(){
+    render(mx,my){
         //render map.
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.drawImage(this.mapCanvas, 0, 0);
+        let weatherCanvas = new OffscreenCanvas(800,410);
+        let weatherctx = weatherCanvas.getContext("2d");
+        if(weatherSummoned != null){
+            weatherctx.beginPath();
+            weatherctx.arc(mx, my, weatherSummoned.event["range"], 0, 2 * Math.PI);
+            weatherctx.fillStyle = "rgba(255,0,0,0.5)";
+            weatherctx.fill();
+            weatherctx.stroke();
+        }
         this.species.forEach(specie => {
             specie.draw(this.ctx)});
+        this.ctx.drawImage(weatherCanvas, 0, 0);
     }
 
     cordToIndex(x,y){

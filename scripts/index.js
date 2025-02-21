@@ -6,7 +6,8 @@ var panelWidths = [555,800,475,475]
 var panelsOpen = [0,0,0,0]
 var weatherPanel = new Weather();
 var alerts = []
-
+var MOUSEX = 0;
+var MOUSEY = 0
 function init(){
     //Initialize graphics
     document.getElementById("specimenPanelButton").onclick = function() {
@@ -32,6 +33,11 @@ function init(){
         document.getElementById("mapCanvas").style.width = `${window.innerWidth-80}px`;
     };
     
+    document.onmousemove = function(event){
+        MOUSEX = event.clientX;
+        MOUSEY = event.clientY;
+    }
+
     // Initialize game
     window.counter = 0;
     const mapCanvas = document.getElementById("mapCanvas");
@@ -54,9 +60,9 @@ function tick(){
     }else{
         document.getElementById("alertPanelButton").style.color = "#818181";
     }
-
+    let a = getMouseOnCanvas(MOUSEX,MOUSEY);
     weatherPanel.tick()
-    gameMap.tick();
+    gameMap.tick(a[0],a[1]);
     specimenPanel.draw(globalTime);
 }
 function getMouseOnCanvas(x,y){
