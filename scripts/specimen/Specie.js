@@ -114,6 +114,7 @@ class PlantSpecies {
 		this.activeMembers.push(plant);
 		plant.competitionQuadrat = this.gameMap.specieTiles[Math.round(xpos/10) + Math.round(ypos/10) * 80];
 		plant.competitionQuadrat.push(plant);
+
 	}
 	addSeed(parentGenome, energy, xpos, ypos){
 		const seed = new Plant(parentGenome, this);
@@ -149,9 +150,7 @@ class Plant {
 			this.isAlive = true; //set this to false when it dies, then remove reference from the list
 			this.age = 0;
 			this.bioAge = 0;
-			this.rooted = true;
-			
-			
+			this.rooted = true;			
 			{
 				const this_ = this;
 				this.attributes = {
