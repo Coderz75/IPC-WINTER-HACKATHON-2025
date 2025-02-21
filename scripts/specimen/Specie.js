@@ -61,11 +61,15 @@ class PlantSpecies {
 					const newSpecies = new PlantSpecies(member.raw_genome);
 					this.gameMap.species.push(newSpecies);
 					newSpecies.seedMembersNext.push(member);
+					alerts.push(new Alert("Speciation Occured", "A new species has emerged.", "<i class='fa-solid fa-tree'></i>"));
 				}
 				else if (member.isActive) {
 					activeMembersNext.push(member); 
 					member.competitionQuadrat = this.gameMap.specieTiles[Math.floor(member.pos.x/10) + Math.floor(member.pos.y/10) * 80];
-					member.competitionQuadrat.push(member);
+					if (member.competitionQuadrat != undefined){
+						member.competitionQuadrat.push(member);
+					}
+					
 				}
 				else if (member.isAlive) seedMembersNext.push(member);
 			});
@@ -114,6 +118,7 @@ class Plant {
 			this.isActive = false; 
 			this.isAlive = true; //set this to false when it dies, then remove reference from the list
 			this.age = 0;
+			this.rooted = true;
 			
 			{
 				const this_ = this;
@@ -171,11 +176,16 @@ class Plant {
 
 		
 		//respire- using water and cooling self down
-		const respiration = sigmoid(tempDifference/20) * this.water / 100;
+		const respiration = 10/(50+tempDifference) * this.water / 100;
 		const heating = (tempDifference)**2/2500 * (tempDifference > 0);
 		//draw water, draw minerals with the water
 		const capillaryAction = Math.sqrt(waterDifference) / 5;
 		//Be blown in the wind
+		const blow = Math.sqrt(this.environment.windx**2 + this.environment.windy**2) * this.genome.size * this.genome.photosynthesisRate;
+		if (blow >= this.genome.anchorage * this.water * this.genome.waterStorage){
+			this.isAlive = false;
+			this.rooted = false;
+		}
 		//Photosynthesis- making energy in the sun
 		const photosynthesis = respiration * this.water / 100 * this.environment.sunExposure * this.genome.photosynthesisRate;
 		//Growth- using water and energy
@@ -315,4 +325,16 @@ const pines = new PlantSpecies({
 	size: DNA.generate_sequence(0.7, 100),
 	seedSize : DNA.generate_sequence(0.1, 100),
 	seedCount : DNAScalar(4),
+});
+
+const cacti = new PlantSpecies({
+	waterStorage: DNA.generate_sequence(0.9, 100),
+	waterAffinity: DNA.generate_sequence(0.9, 100),
+	heatResistance: DNA.generate_sequence(0.9, 100),
+	anchorage: DNA.generate_sequence(0.01, 100),
+	competitiveness: DNA.generate_sequence(0.01, 100),
+	photosynthesisRate: DNA.generate_sequence(0.2, 100),
+	size: DNA.generate_sequence(0.8, 100),
+	seedSize : DNA.generate_sequence(0.5, 100),
+	seedCount : DNAScalar(1),
 });
