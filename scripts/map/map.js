@@ -26,6 +26,13 @@ class GameMap{
     tick(){
         // tick
         this.species.forEach(specie => specie.tick());
+        for(let i = 0; i < this.weather.length; i++){
+            if(this.weather[i]["time"] == 0){
+                this.weather.splice(i,1);
+                i-=1;
+            }
+            this.weather[i]["time"] -=1;
+        }
         this.render();
     }
     render(){
@@ -232,7 +239,18 @@ class GameMap{
         surroundingTemp = this.weightedAvg(surroundingTemp,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
         //soilWat = this.weightedAvg(soilWat,this.waterFunction(this.raindataAt(index)),1-rainfallWeight,rainfallWeight);
         let windSpeed = this.windSpeedFunction(lat);
-        let wind = this.windVector(index,windSpeed);
+        let wind = [(Math.random()-0.5) * 5 *windSpeed,(Math.random()-0.5) * 5 *windSpeed]
+        for(let i = 0; i < this.weather.length; i++){
+            let wx = this.weather[i]["x"];
+            let wy = this.weather[i]["y"];
+            let pos = this.indexToCord(index);
+            if(Math.sqrt(Math.pow(wx-pos[0],2)+Math.pow(wy-pos[1],2)) <= this.weather[i]["range"]){
+                for(const attr in this.weather[i]["attributes"]){
+                    let val = this.weather[i]["attributes"][attr];
+                    eval(`${attr} += ${val};`);
+                }
+            }
+        }
         return {
             "sunExposure":sunExp,
             "surroundingTemp":surroundingTemp *100,
@@ -260,10 +278,5 @@ class GameMap{
 
     windSpeedFunction(lat){
         return Math.sin(0.00766*lat);
-    }
-
-    //TODO: Actually make this do something lol
-    windVector(index,speed){
-        return [(Math.random()-0.5) * 5 *speed,(Math.random()-0.5) * 5 *speed]
     }
 }
