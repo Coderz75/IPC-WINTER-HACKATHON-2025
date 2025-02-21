@@ -234,7 +234,7 @@ class Plant {
 						next[key] = next[key].join("")
 
 
-						alerts.push(new Alert(`Mutation Occurred in Plant (#${numMutations})`, `${name} ${key} from ${before.toFixed(3)} to ${DNA.process(next[key]).toFixed(3)} ${next[key].length}`, "<i class='fa-solid fa-dna'></i>", async ()=>{
+						alerts.push(new Alert(`Mutation Occurred in Plant (#${numMutations})`, `${name} Mutation in ${key} (${before.toFixed(2)} -> ${DNA.process(next[key]).toFixed(2)})`, "<i class='fa-solid fa-dna'></i>", async ()=>{
 							document.getElementById("evolutionPanelButton").click();
 							//console.log(type, key, before_genome, location, base, before_genome.substring(location - 4, location + 5), "to", next[key].substring(location - 4, location + 5))
 							document.querySelectorAll("svg:has(#MutationW)").forEach(e=>e.remove())

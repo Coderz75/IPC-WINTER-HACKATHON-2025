@@ -160,6 +160,10 @@ class MutationWizard{
         svg.querySelector("#Trait_name tspan").innerHTML = this.trait
         svg.querySelector("#Mutation_Type tspan").innerHTML = "mutation!"
 
+        svg.querySelector("#close").onclick = () =>{
+            document.querySelectorAll("svg:has(#MutationW)").forEach(e=>e.remove())
+        }
+
         this.bases = [
             svg.querySelector("#Cytosine").outerHTML,
             svg.querySelector("#Guanine").outerHTML,

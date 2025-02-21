@@ -75,5 +75,13 @@
 <text id="Protein for" fill="black" xml:space="preserve" style="white-space: pre" font-family="Roboto Slab" font-size="24" font-weight="300" letter-spacing="0em"><tspan x="39" y="52.3223">Protein for</tspan></text>
 <text id="Trait_name" fill="black" xml:space="preserve" style="white-space: pre" font-family="Roboto Slab" font-size="24" font-weight="bold" letter-spacing="0em"><tspan x="163" y="52.3223">TRAIT</tspan></text>
 <text id="MUTATION WIZARD" fill="black" xml:space="preserve" style="white-space: pre" font-family="Roboto Slab" font-size="40" font-weight="900" letter-spacing="0em"><tspan x="38" y="90.0371">MUTATION WIZARD</tspan></text>
+
+    <g id="close">
+        <circle id="Ellipse 3" cx="473.5" cy="75.5" r="18.5" fill="#FF5F5F"/>
+        <g id="Group 13">
+            <line id="Line 8" x1="480.669" y1="82.8303" x2="466.169" y2="68.3303" stroke="#FFF4F4" stroke-width="5"/>
+            <line id="Line 9" x1="466.732" y1="83.2322" x2="481.232" y2="68.7322" stroke="#FFF4F4" stroke-width="5"/>
+        </g>
+    </g>
 </g>
 </svg>
