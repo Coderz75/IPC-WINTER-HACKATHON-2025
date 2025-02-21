@@ -336,39 +336,3 @@ class Plant {
 
 	}
 }
-
-const palms = new PlantSpecies({
-	waterStorage: DNA.generate_sequence(0.7, 100),
-	waterAffinity: DNA.generate_sequence(0.7, 100),
-	heatResistance: DNA.generate_sequence(0.8, 100),
-	anchorage: DNA.generate_sequence(0.9, 100),
-	competitiveness: DNA.generate_sequence(0.9, 100),
-	photosynthesisRate: DNA.generate_sequence(0.5, 100),
-	size: DNA.generate_sequence(0.6, 100),
-	seedSize : DNA.generate_sequence(1, 100),
-	seedCount : DNAScalar(1),
-}, life);
-
-const pines = new PlantSpecies({
-	waterStorage: DNA.generate_sequence(0.4, 100),
-	waterAffinity: DNA.generate_sequence(0.6, 100),
-	heatResistance: DNA.generate_sequence(0.2, 100),
-	anchorage: DNA.generate_sequence(0.3, 100),
-	competitiveness: DNA.generate_sequence(0.2, 100),
-	photosynthesisRate: DNA.generate_sequence(0.7, 100),
-	size: DNA.generate_sequence(0.7, 100),
-	seedSize : DNA.generate_sequence(0.1, 100),
-	seedCount : DNAScalar(4),
-}, life);
-
-const cacti = new PlantSpecies({
-	waterStorage: DNA.generate_sequence(0.9, 100),
-	waterAffinity: DNA.generate_sequence(0.9, 100),
-	heatResistance: DNA.generate_sequence(0.9, 100),
-	anchorage: DNA.generate_sequence(0.01, 100),
-	competitiveness: DNA.generate_sequence(0.01, 100),
-	photosynthesisRate: DNA.generate_sequence(0.2, 100),
-	size: DNA.generate_sequence(0.8, 100),
-	seedSize : DNA.generate_sequence(0.5, 100),
-	seedCount : DNAScalar(1),
-}, life);
