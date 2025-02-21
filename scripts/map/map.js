@@ -25,7 +25,22 @@ class GameMap{
     }
     tick(mx,my){
         // tick
-        this.species.forEach(specie => specie.tick());
+        {//species tick
+            let speciesNext = [];
+            this.species.forEach(specie => {
+                specie.tick();
+                if (specie.seedMembers.length + specie.activeMembers.length > 0)
+                    speciesNext.push(specie);
+            });
+            this.species = speciesNext;
+        }
+        //competition tile cleanup
+        this.specieTiles.forEach(tile => {
+            let tileNext = [];
+            tile.forEach(plant => {if (plant.isAlive) tileNext.push(plant)});
+            tile = tileNext;
+        });
+        
         for(let i = 0; i < this.weather.length; i++){
             if(this.weather[i]["time"] == 0){
                 this.weather.splice(i,1);

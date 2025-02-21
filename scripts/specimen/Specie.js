@@ -120,7 +120,9 @@ class Plant {
 			this.isActive = false; 
 			this.isAlive = true; //set this to false when it dies, then remove reference from the list
 			this.age = 0;
+			this.bioAge = 0;
 			this.rooted = true;
+			
 			
 			{
 				const this_ = this;
@@ -131,6 +133,7 @@ class Plant {
 					temperature : function(){return `${Math.round(this_.temperature)}%`},
 					"seed development" : function(){return `${Math.round(this_.seedDev)}%`},
 					age : function(){return `${Math.round(this_.age * 0.034)} s`},
+					"biological age" : function(){return `${Math.round(this_.bioAge)}/${Math.round(1000 * this_.genome.size)}`},
 				}; 
 			}
 
@@ -161,15 +164,15 @@ class Plant {
 
 		this.environment = gameMap.getBiomeStatistics(gameMap.cordToIndex(Math.round(this.pos.x), Math.round(this.pos.y)));
 
-		const AgeMalus = 1 + Math.max(0, (this.age - 30000 * this.genome.size) * 0.02);
+		const AgeMalus = 1 + Math.max(0, (this.bioAge - 1000 * this.genome.size) * 0.02);
 		
 		let competitionAmount = 0;
 		for (const competitor of this.competitionQuadrat){
-			if (!competitor.isAlive) continue;
+			if (!competitor.isAlive) {continue;}
 			if (competitor == this) continue;
 			competitionAmount += competitor.genome.competitiveness * competitor.percentMaturity;
 		}
-		competitionAmount = Math.max(0, competitionAmount - this.genome.competitiveness * this.percentMaturity);
+		competitionAmount /= this.genome.competitiveness * (this.percentMaturity + 5);
 		const competitionMalus = (1-Math.tanh(competitionAmount));
 		this.environment.competitionMalus = competitionMalus;
 		this.environment.sunExposure *= competitionMalus;
@@ -187,7 +190,6 @@ class Plant {
 		if (blow >= this.genome.anchorage * this.water * this.genome.waterStorage + 1){
 			this.isAlive = false;
 			this.rooted = false;
-			console.log(blow);
 		}
 		//Photosynthesis- making energy in the sun
 		const photosynthesis = respiration * this.water / 100 * this.environment.sunExposure * this.genome.photosynthesisRate;
@@ -267,6 +269,8 @@ class Plant {
 		}
 		//aging and Death
 		this.age += timeMultiplier;
+		this.bioAge += growth + 0.01;
+		
 
 		if (this.temperature >= 80 || this.temperature <= 20 || this.water <= 5 || this.energy <= 1){
 			this.isAlive = false;
