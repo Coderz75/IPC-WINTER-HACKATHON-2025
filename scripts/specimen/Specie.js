@@ -164,7 +164,7 @@ class Plant {
 
 		this.environment = gameMap.getBiomeStatistics(gameMap.cordToIndex(Math.round(this.pos.x), Math.round(this.pos.y)));
 
-		const AgeMalus = 1 + Math.max(0, (this.bioAge - 1000 * this.genome.size) * 0.02);
+		const AgeMalus = 1 + Math.max(0, (this.bioAge - 1000 * this.genome.size) * 0.2);
 		
 		let competitionAmount = 0;
 		for (const competitor of this.competitionQuadrat){
