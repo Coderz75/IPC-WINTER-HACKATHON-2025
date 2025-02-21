@@ -608,3 +608,55 @@ svg #close {
     display: none;
 }
 
+#info{
+    position: fixed;
+    top: 0;
+    left:0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+    padding: 200px calc(50vw - 400px);
+    background: rgba(255, 255, 255, 0.8);
+    display: none;
+}
+
+#info h1{
+    font-weight: 900;
+    font-size: 50px;
+    margin: 0;
+    color: #383f6b;
+}
+
+#info p{
+    margin: 0;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 24px;
+    color: #5e627a;
+}
+
+#info div{
+    margin: 20px 0;
+    font-size: 24px;
+}
+
+#info button{
+    background: #383f6b;
+    color: white;
+    padding: 10px 20px;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: 900;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.2s opacity;
+}
+
+#info button:hover{
+    opacity: 0.8;
+}
+
+a{
+    color: #1F78D1;
+    text-decoration: none;
+}

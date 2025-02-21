@@ -126,3 +126,17 @@ function togglePanel(index){
 }
 
 document.getElementById("body").onload = init;
+
+document.getElementById("dismissinfo").onclick = () => {
+    document.getElementById("info").style.display = "none"
+    localStorage.viwedInfo = "true"
+}
+
+if (!localStorage.viwedInfo){
+    document.getElementById("info").style.display = "block"
+}
+
+document.getElementById("infoButton").onclick = () => {
+    document.getElementById("info").style.display = "block"
+}
+
