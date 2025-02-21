@@ -9,6 +9,8 @@ function sigmoid(x){
 	return 1 / (1 + Math.E ** -x);
 }
 
+let numMutations = 1
+
 class PlantSpecies {
 	constructor(originalGenome){
 		this.activeMembers = [];
@@ -192,21 +194,38 @@ class Plant {
 						continue
 					}
 
-					if (random(0, 50) < 3){
+					if (random(0, 300) < 3){
+						let before_genome = copy(next[key])
 						next[key] = Array.from(next[key])
+
+						let before = DNA.process(next[key])
+
 						let type = random(0, 3)
 						let location = random(4, next[key].length - 8)
 						let base = random(0, 4)
+						let name = ""
 						if (type === MutationType.PointInsertion){ // insertion
-							next[key].splice(location, 0, DNA.codons[base])
+							next[key].splice(location, 0, DNA.bases[base])
+							name="Insertion"
 						}else if (type === MutationType.PointDeletion){ // deletion
 							next[key].splice(location, 1)
+							name="Deletion"
 						}else{ // substitution
-							next[key][location] = DNA.codons[base]
+							next[key][location] = DNA.bases[base]
+							name="Substitution"
 						}
+
 						next[key] = next[key].join("")
 
-						alerts.push(new Alert("Mutation Occured"))
+
+						alerts.push(new Alert(`Mutation Occurred in Plant (#${numMutations})`, `${name} ${key} from ${before.toFixed(3)} to ${DNA.process(next[key]).toFixed(3)} ${next[key].length}`, "<i class='fa-solid fa-dna'></i>", async ()=>{
+							document.getElementById("evolutionPanelButton").click();
+							//console.log(type, key, before_genome, location, base, before_genome.substring(location - 4, location + 5), "to", next[key].substring(location - 4, location + 5))
+							document.querySelectorAll("svg:has(#MutationW)").forEach(e=>e.remove())
+							await (new MutationWizard(type, key, before_genome, location, base)).run()
+						}))
+
+						numMutations += 1
 
 					}
 
