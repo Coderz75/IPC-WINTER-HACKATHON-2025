@@ -130,6 +130,13 @@ class PlantSpecies {
 					this.gameMap.addSpecies(newSpecies);
 					newSpecies.seedMembers.push(member);
 
+					if (!newSpecies.drawn){
+						newSpecies.drawAndAdd(newSpecies.seedMembers[0])
+						newSpecies.drawn = true
+					}
+					newSpecies.name = generate_name()
+					newSpecies.connect_to_parent(newSpecies.parent)
+
 					alerts.push(new Alert("Speciation Occured", "A new species has emerged.", "<i class='fa-solid fa-tree'></i>"));
 				}
 				else if (member.isActive) {
@@ -154,6 +161,15 @@ class PlantSpecies {
 		plant.competitionQuadrat = this.gameMap.specieTiles[Math.round(xpos/10) + Math.round(ypos/10) * 80];
 		plant.competitionQuadrat.push(plant);
 
+		if (!this.drawn){
+			this.drawAndAdd(this.activeMembers[0])
+			this.drawn = true
+		}
+		if (!this.name && this.drawn){
+			this.name = generate_name()
+			this.connect_to_parent(this.parent)
+		}
+
 	}
 	addSeed(parentGenome, energy, xpos, ypos){
 		const seed = new Plant(parentGenome, this);
@@ -162,6 +178,15 @@ class PlantSpecies {
 		seed.energy = energy;
 		this.seedMembers.push(seed);
 		seed.height = 20;
+
+		if (!this.drawn){
+			this.drawAndAdd(this.seedMembers[0])
+			this.drawn = true
+		}
+		if (!this.name && this.drawn){
+			this.name = generate_name()
+			this.connect_to_parent(this.parent)
+		}
 	}
 }
 
