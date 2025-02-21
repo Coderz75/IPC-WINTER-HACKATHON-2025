@@ -155,10 +155,14 @@ class MutationWizard{
     run = async ()=> {
         document.getElementById("evolutionPanelWrapper").insertAdjacentHTML("beforeend",MutationWizardSVG)
 
-        let svg = document.querySelector("#MutationW")
+        let svg = document.querySelector("#MutationW:last-of-type")
 
         svg.querySelector("#Trait_name tspan").innerHTML = this.trait
         svg.querySelector("#Mutation_Type tspan").innerHTML = "mutation!"
+
+        svg.querySelector("#close").onclick = () =>{
+            document.querySelectorAll("svg:has(#MutationW)").forEach(e=>e.remove())
+        }
 
         this.bases = [
             svg.querySelector("#Cytosine").outerHTML,
@@ -172,7 +176,7 @@ class MutationWizard{
 
 
         this.sequence = Array.from(this.genome.substring(this.location - 4, this.location + 8)).map(e=>DNA.bases.indexOf(e))
-
+        // -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8,
 
         let cur = 39;
         let num = this.location - 4
@@ -266,7 +270,7 @@ class MutationWizard{
 
         let new_genome = Array.from(this.genome)
 
-        new_genome.splice(this.location, 12, ...this.sequence.map(e=>bases[e]))
+        new_genome.splice(this.location - 4, 12, ...this.sequence.map(e=>bases[e]))
 
 
         svg.querySelector("#Trait_value tspan").innerHTML = DNA.process(new_genome).toFixed(2) + " (prev: " + DNA.process(this.genome).toFixed(2) + ")"

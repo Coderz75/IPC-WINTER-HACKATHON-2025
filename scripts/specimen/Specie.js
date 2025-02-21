@@ -9,6 +9,8 @@ function sigmoid(x){
 	return 1 / (1 + Math.E ** -x);
 }
 
+let numMutations = 1
+
 class PlantSpecies {
 	constructor(originalGenome){
 		this.activeMembers = [];
@@ -59,11 +61,15 @@ class PlantSpecies {
 					const newSpecies = new PlantSpecies(member.raw_genome);
 					this.gameMap.species.push(newSpecies);
 					newSpecies.seedMembersNext.push(member);
+					alerts.push(new Alert("Speciation Occured", "A new species has emerged.", "<i class='fa-solid fa-tree'></i>"));
 				}
 				else if (member.isActive) {
 					activeMembersNext.push(member); 
 					member.competitionQuadrat = this.gameMap.specieTiles[Math.floor(member.pos.x/10) + Math.floor(member.pos.y/10) * 80];
-					member.competitionQuadrat.push(member);
+					if (member.competitionQuadrat != undefined){
+						member.competitionQuadrat.push(member);
+					}
+					
 				}
 				else if (member.isAlive) seedMembersNext.push(member);
 			});
@@ -112,6 +118,7 @@ class Plant {
 			this.isActive = false; 
 			this.isAlive = true; //set this to false when it dies, then remove reference from the list
 			this.age = 0;
+			this.rooted = true;
 			
 			{
 				const this_ = this;
@@ -169,11 +176,16 @@ class Plant {
 
 		
 		//respire- using water and cooling self down
-		const respiration = sigmoid(tempDifference/20) * this.water / 100;
+		const respiration = 10/(50+tempDifference) * this.water / 100;
 		const heating = (tempDifference)**2/2500 * (tempDifference > 0);
 		//draw water, draw minerals with the water
 		const capillaryAction = Math.sqrt(waterDifference) / 5;
 		//Be blown in the wind
+		const blow = Math.sqrt(this.environment.windx**2 + this.environment.windy**2) * this.genome.size * this.genome.photosynthesisRate;
+		if (blow >= this.genome.anchorage * this.water * this.genome.waterStorage){
+			this.isAlive = false;
+			this.rooted = false;
+		}
 		//Photosynthesis- making energy in the sun
 		const photosynthesis = respiration * this.water / 100 * this.environment.sunExposure * this.genome.photosynthesisRate;
 		//Growth- using water and energy
@@ -208,21 +220,38 @@ class Plant {
 						continue
 					}
 
-					if (random(0, 50) < 3){
+					if (random(0, 300) < 3){
+						let before_genome = copy(next[key])
 						next[key] = Array.from(next[key])
+
+						let before = DNA.process(next[key])
+
 						let type = random(0, 3)
 						let location = random(4, next[key].length - 8)
 						let base = random(0, 4)
+						let name = ""
 						if (type === MutationType.PointInsertion){ // insertion
-							next[key].splice(location, 0, DNA.codons[base])
+							next[key].splice(location, 0, DNA.bases[base])
+							name="Insertion"
 						}else if (type === MutationType.PointDeletion){ // deletion
 							next[key].splice(location, 1)
+							name="Deletion"
 						}else{ // substitution
-							next[key][location] = DNA.codons[base]
+							next[key][location] = DNA.bases[base]
+							name="Substitution"
 						}
+
 						next[key] = next[key].join("")
 
-						alerts.push(new Alert("Mutation Occured"))
+
+						alerts.push(new Alert(`Mutation Occurred in Plant (#${numMutations})`, `${name} Mutation in ${key} (${before.toFixed(2)} -> ${DNA.process(next[key]).toFixed(2)})`, "<i class='fa-solid fa-dna'></i>", async ()=>{
+							document.getElementById("evolutionPanelButton").click();
+							//console.log(type, key, before_genome, location, base, before_genome.substring(location - 4, location + 5), "to", next[key].substring(location - 4, location + 5))
+							document.querySelectorAll("svg:has(#MutationW)").forEach(e=>e.remove())
+							await (new MutationWizard(type, key, before_genome, location, base)).run()
+						}))
+
+						numMutations += 1
 
 					}
 
@@ -296,4 +325,16 @@ const pines = new PlantSpecies({
 	size: DNA.generate_sequence(0.7, 100),
 	seedSize : DNA.generate_sequence(0.1, 100),
 	seedCount : DNAScalar(4),
+});
+
+const cacti = new PlantSpecies({
+	waterStorage: DNA.generate_sequence(0.9, 100),
+	waterAffinity: DNA.generate_sequence(0.9, 100),
+	heatResistance: DNA.generate_sequence(0.9, 100),
+	anchorage: DNA.generate_sequence(0.01, 100),
+	competitiveness: DNA.generate_sequence(0.01, 100),
+	photosynthesisRate: DNA.generate_sequence(0.2, 100),
+	size: DNA.generate_sequence(0.8, 100),
+	seedSize : DNA.generate_sequence(0.5, 100),
+	seedCount : DNAScalar(1),
 });
