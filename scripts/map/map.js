@@ -266,11 +266,11 @@ class GameMap{
                 surroundingTemp = 0.8;
                 soilWat = 0.4;
                 break;
-        }
+        } 
         sunExp = this.weightedAvg(sunExp,this.sunExpFunction(lat),1-latWeightSun,latWeightSun);
         surroundingTemp = this.weightedAvg(surroundingTemp,this.tempFunction(lat),1-latWeightTemp,latWeightTemp);
         //soilWat = this.weightedAvg(soilWat,this.waterFunction(this.raindataAt(index)),1-rainfallWeight,rainfallWeight);
-        let windSpeed = 1; //this.windSpeedFunction(lat);
+        let windSpeed = 1; //this.windSpeedFunction(lat); 
         let wind = [(Math.random()-0.5) * 5 *windSpeed,(Math.random()-0.5) * 5 *windSpeed]
         for(let i = 0; i < this.weather.length; i++){
             let wx = this.weather[i]["x"];

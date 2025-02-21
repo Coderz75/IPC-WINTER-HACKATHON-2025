@@ -35,8 +35,140 @@ function splitmix32(a) { //stack overflow, generates a random number based on se
     t = t ^ t >>> 15;
     t = Math.imul(t, 0x735a2d97);
     return ((t = t ^ t >>> 15) >>> 0) / 4294967296;
-   }
- }
+  }
+}
+
+function drawSpecimen(canvas, subject, setMature=false){
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = "aqua";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  //surfaceFill = color based on biome
+  //bottomfill = darkercolor, maybe black
+
+  let maturity = subject.percentMaturity;
+  if (setMature) maturity = 100;
+
+  const environment = subject.environment;
+
+  const surfaceY = canvas.height / 2;
+  const centerX = canvas.width / 2; 
+
+  const surfaceFill = `rgb(${255*(1-environment.soilWater)+100-environment.surroundingTemp}, ${155 + 100*(1-environment.soilWater)}, ${200*(1-environment.surroundingTemp/100)})`;
+  const bottomfill = "brown";
+  const earthfill = ctx.createLinearGradient(0, surfaceY*0.9, 0, canvas.height);
+  earthfill.addColorStop(0, surfaceFill); earthfill.addColorStop(1, bottomfill);
+  ctx.fillStyle = earthfill;
+  ctx.fillRect(0, surfaceY, canvas.width, canvas.height - surfaceY);
+  const background = ctx.createLinearGradient(0, 0, 0, surfaceY*0.75);
+  background.addColorStop(1, surfaceFill); background.addColorStop(0, "aqua");
+  ctx.fillStyle = background;
+  ctx.fillRect(0, surfaceY/2, canvas.width, surfaceY/2+1);
+  if (subject.rooted){
+  const sizeCoefficient = subject.genome.size * maturity;
+  const thickness = subject.water * subject.genome.waterStorage * maturity / 100;
+  
+  //roots
+  const randNumRoot = splitmix32(subject.randomSeed);
+  ctx.fillStyle = "beige";
+  const taprootLength = subject.genome.anchorage * sizeCoefficient * 2;
+  const lateralRootLength = subject.genome.waterAffinity * sizeCoefficient / subject.genome.anchorage;
+
+  //taproot
+  ctx.beginPath();
+  ctx.moveTo(centerX + thickness/2, surfaceY);
+  ctx.lineTo(centerX, surfaceY + taprootLength);
+  ctx.lineTo(centerX - thickness/2, surfaceY);
+  ctx.lineTo(centerX + thickness/2, surfaceY);
+  ctx.fill();
+  ctx.closePath();
+
+  //lateral roots
+  ctx.beginPath();
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = "beige";
+  for (let i = 0; i < Math.floor(taprootLength / 25); i++){
+    let rootY1 = 25 * (randNumRoot() + i);
+    let rootY2 = 25 * (randNumRoot() + i);
+    const rootLength1 = lateralRootLength * (randNumRoot() + 0.5) * (-(25 * (i+1) / taprootLength) + 1)**2 * 2;
+    const rootLength2 = lateralRootLength * (randNumRoot() + 0.5) * (-(25 * (i+1) / taprootLength) + 1)**2 * 2;
+
+    rootY1 += surfaceY; rootY2 += surfaceY;
+
+    ctx.moveTo(centerX, rootY1);
+    ctx.lineTo(centerX + rootLength1, rootY1);
+    ctx.moveTo(centerX, rootY2),
+    ctx.lineTo(centerX - rootLength2, rootY2);
+  }
+  ctx.stroke();
+  ctx.closePath();
+
+  //shoots
+  let seedsLeft = subject.genome.seedCount;
+  //binary tree generation????
+  //dfs lets go
+  //actually no, bfs 
+  const windSpeed = (environment.windx + environment.windy)/1.41;
+  const randNumShoot = splitmix32(subject.randomSeed);
+  let seeds = [];
+  let queue = new Queue(); //Array <Node <BranchAngle, StartPosX, StartPosY, Thickness, countleft>>
+  const branchCount = Math.floor(subject.genome.photosynthesisRate / 0.25) + 1
+  queue.enqueue([-Math.PI/2, centerX, surfaceY, thickness/2, branchCount * maturity / 100]);
+  ctx.fillStyle = `rgb(${100 - subject.water},${subject.water*4+50},${subject.water / 2})`;
+  while (!queue.isEmpty()){
+    
+    const node = queue.dequeue();
+    console.log(node);
+    node[0] += windSpeed * Math.sin(node[0]) * 0.01 / (1+node[3]);
+
+    if (node[4] <= 0){
+      //draw a leaf
+      const leafSize = subject.genome.photosynthesisRate * subject.genome.size * 8;
+      ctx.beginPath();
+      ctx.ellipse(node[1] + Math.cos(node[0])*leafSize * 7, node[2] + Math.sin(node[0])*leafSize * 7, leafSize * 2.5, leafSize * 7, node[0] + Math.PI / 2, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.closePath();
+      continue;
+    }
+    ctx.beginPath();
+    ctx.moveTo(node[1] + Math.sin(node[0]) * node[3], node[2] - Math.cos(node[0]) * node[3]);
+    const branchLength = subject.genome.size * 200 / Math.floor(subject.genome.photosynthesisRate / 0.25 + 1) * Math.min(1, node[4]);
+    const nextX = node[1] + Math.cos(node[0]) * branchLength;
+    const nextY = node[2] + Math.sin(node[0]) * branchLength;
+    const AngleCoefficient = Math.PI / 2 * (30 - Math.min(20, subject.water))/10 + subject.genome.photosynthesisRate;
+    const nextAngle1 = node[0] + (randNumShoot() - 0.5) * AngleCoefficient;
+    const nextAngle2 = node[0] + (randNumShoot() - 0.5) * AngleCoefficient;
+    const nextThick = node[3] * 0.8;
+    ctx.lineTo(nextX + Math.sin(node[0]) * nextThick, nextY - Math.cos(node[0]) * nextThick);
+    ctx.lineTo(nextX - Math.sin(node[0]) * nextThick, nextY + Math.cos(node[0]) * nextThick);
+    ctx.lineTo(node[1] - Math.sin(node[0]) * node[3], node[2] + Math.cos(node[0]) * node[3]);
+    ctx.lineTo(node[1] + Math.sin(node[0]) * node[3], node[2] - Math.cos(node[0]) * node[3]);
+    queue.enqueue([nextAngle1, nextX, nextY, nextThick, node[4]-1]);
+    queue.enqueue([nextAngle2, nextX, nextY, nextThick, node[4]-1]);
+
+    ctx.fill();
+    ctx.closePath();
+    if (node[4] <= 1 && maturity >= 100 && seedsLeft > 0){
+      seeds.push([nextX, nextY]);
+    }
+  }//edit later
+
+  const seedSize = subject.genome.seedSize * subject.seedDev * 0.1;
+  for (const seed of seeds){
+    if (seedsLeft == 0) break;
+    ctx.beginPath();
+    ctx.fillStyle = 'brown';
+    ctx.ellipse(seed[0], seed[1], seedSize, seedSize, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.closePath();
+    seedsLeft--;
+  }
+  
+  ctx.fillStyle = `rgba(0, 0, 0, ${0.5*(1-environment.sunExposure)})`;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.restore();
+  }
+}
 
 const specimenPanel = {
   panel : document.getElementById("specimenPanel"),
@@ -101,9 +233,9 @@ const specimenPanel = {
       return;
     }
     //draw specimen according to time on canvas, specimen's own genome, it's attributes, the biome, and the weather
-
+    drawSpecimen(this.canvas, this.subject, false);
     
-
+    /*
     this.ctx.fillStyle = "aqua";
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     //surfaceFill = color based on biome
@@ -227,6 +359,7 @@ const specimenPanel = {
 
     this.ctx.restore();
     }
+    */
     //list out attributes
     this.update();
     

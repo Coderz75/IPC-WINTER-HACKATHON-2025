@@ -187,7 +187,7 @@ class Plant {
 		const capillaryAction = Math.sqrt(waterDifference) / 5;
 		//Be blown in the wind
 		const blow = Math.sqrt(this.environment.windx**2 + this.environment.windy**2) * this.genome.size * this.genome.photosynthesisRate;
-		if (blow >= this.genome.anchorage * this.water * this.genome.waterStorage + 1){
+		if (Math.random() * blow >= this.genome.anchorage * this.water * this.genome.waterStorage + 1){
 			this.isAlive = false;
 			this.rooted = false;
 		}
