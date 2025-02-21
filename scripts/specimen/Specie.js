@@ -47,9 +47,9 @@ class PlantSpecies {
 	compareGemomes(genome1, genome2){
 		let variance = 0;
 		for (const gene in genome1){
-			variance += (genome1[gene] - genome2[gene]);
+			variance += Math.abs(genome1[gene] - genome2[gene]);
 		}
-		return Math.sqrt(variance) > 3;
+		return variance > 1;
 	}
 	tick(){
 		this.activeMembers.forEach(member => member.tick(this.gameMap));
@@ -62,14 +62,14 @@ class PlantSpecies {
 				if (this.compareGemomes(this.genome, member.genome)){
 					const newSpecies = new PlantSpecies(member.raw_genome);
 					this.gameMap.species.push(newSpecies);
-					newSpecies.seedMembersNext.push(member);
+					newSpecies.seedMembers.push(member);
 					alerts.push(new Alert("Speciation Occured", "A new species has emerged.", "<i class='fa-solid fa-tree'></i>"));
 				}
 				else if (member.isActive) {
-					activeMembersNext.push(member); 
 					member.competitionQuadrat = this.gameMap.specieTiles[Math.floor(member.pos.x/10) + Math.floor(member.pos.y/10) * 80];
 					if (member.competitionQuadrat != undefined){
 						member.competitionQuadrat.push(member);
+						activeMembersNext.push(member); 
 					}
 					
 				}
@@ -93,7 +93,7 @@ class PlantSpecies {
 		seed.pos = {x: xpos, y: ypos};
 		seed.energy = energy;
 		this.seedMembers.push(seed);
-		seed.height = 5;
+		seed.height = 20;
 	}
 }
 
@@ -184,9 +184,10 @@ class Plant {
 		const capillaryAction = Math.sqrt(waterDifference) / 5;
 		//Be blown in the wind
 		const blow = Math.sqrt(this.environment.windx**2 + this.environment.windy**2) * this.genome.size * this.genome.photosynthesisRate;
-		if (blow >= this.genome.anchorage * this.water * this.genome.waterStorage){
+		if (blow >= this.genome.anchorage * this.water * this.genome.waterStorage + 1){
 			this.isAlive = false;
 			this.rooted = false;
+			console.log(blow);
 		}
 		//Photosynthesis- making energy in the sun
 		const photosynthesis = respiration * this.water / 100 * this.environment.sunExposure * this.genome.photosynthesisRate;
@@ -269,7 +270,6 @@ class Plant {
 
 		if (this.temperature >= 80 || this.temperature <= 20 || this.water <= 5 || this.energy <= 1){
 			this.isAlive = false;
-			console.log(this.environment.surroundingTemp);
 		}		
 	}
 	dormant(gameMap){
