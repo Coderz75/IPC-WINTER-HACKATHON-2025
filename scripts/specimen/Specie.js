@@ -42,6 +42,13 @@ class PlantSpecies {
 			mapCanvasContext.restore();
 		}
 	}
+	compareGemomes(genome1, genome2){
+		let variance = 0;
+		for (const gene in genome1){
+			variance += (genome1[gene] - genome2[gene]);
+		}
+		return Math.sqrt(variance) > 3;
+	}
 	tick(){
 		this.activeMembers.forEach(member => member.tick(this.gameMap));
 		this.seedMembers.forEach(member => member.dormant(this.gameMap));
@@ -50,9 +57,14 @@ class PlantSpecies {
 			let seedMembersNext = [];
 			this.activeMembers.forEach(member => {if (member.isAlive) activeMembersNext.push(member)});
 			this.seedMembers.forEach(member => {
-				if (member.isActive) {
+				if (this.compareGemomes(this.genome, member.genome)){
+					const newSpecies = new PlantSpecies(member.raw_genome);
+					this.gameMap.species.push(newSpecies);
+					newSpecies.seedMembersNext.push(member);
+				}
+				else if (member.isActive) {
 					activeMembersNext.push(member); 
-					member.competitionQuadrat = this.gameMap.specieTiles[Math.round(member.pos.x/10) + Math.round(member.pos.y/10) * 80];
+					member.competitionQuadrat = this.gameMap.specieTiles[Math.floor(member.pos.x/10) + Math.floor(member.pos.y/10) * 80];
 					member.competitionQuadrat.push(member);
 				}
 				else if (member.isAlive) seedMembersNext.push(member);
@@ -134,15 +146,15 @@ class Plant {
     }
 	
     tick(gameMap){
-		const timeMultiplier = 10;
+		const timeMultiplier = 5;
 
 		const tempDifference = 50 - this.temperature;
 		const waterDifference = 100 - this.water; 
 		const energyDifference = 100 - this.energy;
 
-		this.environment = gameMap.getBiomeStatistics(gameMap.cordToIndex(this.pos.x,this.pos.y));
+		this.environment = gameMap.getBiomeStatistics(gameMap.cordToIndex(Math.round(this.pos.x), Math.round(this.pos.y)));
 
-		const AgeMalus = 1; //+ Math.max(0, (this.age - 13000 * this.genome.size) * 0.02);
+		const AgeMalus = 1 + Math.max(0, (this.age - 30000 * this.genome.size) * 0.02);
 		
 		let competitionAmount = 0;
 		for (const competitor of this.competitionQuadrat){
@@ -160,6 +172,7 @@ class Plant {
 		
 		//respire- using water and cooling self down
 		const respiration = sigmoid(tempDifference/20) * this.water / 100;
+		const heating = (tempDifference)**2/2500 * (tempDifference > 0);
 		//draw water, draw minerals with the water
 		const capillaryAction = Math.sqrt(waterDifference) / 5;
 		//Be blown in the wind
@@ -168,9 +181,12 @@ class Plant {
 		//Growth- using water and energy
 		const growth = sigmoid(-energyDifference/10);
 		
+		
 
 		this.water -= respiration / this.genome.waterStorage * timeMultiplier;
 		this.temperature -= respiration * this.genome.heatResistance / AgeMalus * timeMultiplier;
+		this.temperature += heating * this.genome.heatResistance;
+		this.energy -= heating;
 		const heatExchangeRate = 0.1 * timeMultiplier * this.genome.photosynthesisRate;
 		this.temperature = (this.temperature + this.environment.surroundingTemp * heatExchangeRate) / (1 + heatExchangeRate);
 		this.temperature += this.environment.sunExposure * this.genome.photosynthesisRate * timeMultiplier; 
@@ -241,6 +257,7 @@ class Plant {
 
 		if (this.temperature >= 80 || this.temperature <= 20 || this.water <= 5 || this.energy <= 1){
 			this.isAlive = false;
+			console.log(this.environment.surroundingTemp);
 		}		
 	}
 	dormant(gameMap){
@@ -267,7 +284,6 @@ class Plant {
 
 		if (gameMap.map[gameMap.cordToIndex(Math.round(this.pos.x), Math.round(this.pos.y))] != 9 && (Math.abs(this.vel.x) <= 0.5 && Math.abs(this.vel.y) <= 0.5 || this.height <= 0)){
 			//germinate
-			console.log(gameMap.map[gameMap.cordToIndex(Math.round(this.pos.x), Math.round(this.pos.y))]);
 			this.isActive = true;
 			this.water = 50;
 			this.temperature = 50;
