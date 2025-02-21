@@ -86,7 +86,8 @@ function mouseDownEvent(evt){
             //Function for determining what happens to species during weather events go here
             alerts.push(new Alert(`${weatherSummoned.name} summoned in ${gameMap.getBiomeName(mx,my)} biome`,weatherSummoned.description,weatherSummoned.icon));
             console.log(`Event: ${weatherSummoned.name} has been summoned at (${mx},${my})`)
-            let a = weatherSummoned.event;
+            let a = {};
+            Object.assign(a,weatherSummoned.event);
             a["x"] = mx;
             a["y"] = my;
             gameMap.weather.push(a);
