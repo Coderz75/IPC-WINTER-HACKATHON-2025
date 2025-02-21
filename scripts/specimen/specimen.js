@@ -38,7 +38,7 @@ function splitmix32(a) { //stack overflow, generates a random number based on se
   }
 }
 
-function drawSpecimen(canvas, subject, setMature=false){
+function drawSpecimen(canvas, subject, setMature=false, ignoreEnvironment=false){
   const ctx = canvas.getContext('2d');
   ctx.fillStyle = "aqua";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -48,7 +48,16 @@ function drawSpecimen(canvas, subject, setMature=false){
   let maturity = subject.percentMaturity;
   if (setMature) maturity = 100;
 
-  const environment = subject.environment;
+  let environment = subject.environment;
+  if (ignoreEnvironment){
+    Object.assign(environment, {
+      soilWater: 0.5,
+      surroundingTemp: 50,
+      sunExposure: 0.5, 
+      windx: 0,
+      windy: 0,
+    });
+  }
 
   const surfaceY = canvas.height / 2;
   const centerX = canvas.width / 2; 
