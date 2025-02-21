@@ -61,7 +61,7 @@ class PlantSpecies {
 			this.seedMembers.forEach(member => {
 				if (this.compareGemomes(this.genome, member.genome)){
 					const newSpecies = new PlantSpecies(member.raw_genome);
-					this.gameMap.species.push(newSpecies);
+					this.gameMap.addSpecies(newSpecies);
 					newSpecies.seedMembers.push(member);
 					alerts.push(new Alert("Speciation Occured", "A new species has emerged.", "<i class='fa-solid fa-tree'></i>"));
 				}
