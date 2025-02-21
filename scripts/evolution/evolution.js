@@ -307,10 +307,14 @@ class MutationWizard{
     }
 }
 
-function redrawTree(){
+async function redrawTree(){
     document.getElementById("phylogeny").innerHTML = ""
 
-    new Treant(phylo)
+    await new Treant(phylo)
+
+    document.getElementById("phylogeny").querySelectorAll("img").forEach(e => {
+        e.src = e.src.split("?")[0]
+    })
 }
 
 async function init_evolution() {
@@ -337,16 +341,16 @@ async function init_evolution() {
     } catch{
         MutationWizardSVG = await get_svg("https://coderz75.github.io/IPC-WINTER-HACKATHON-2025/assets/MutationW.svg")
     }
-
-    words = (await get_svg("assets/words.txt")).split("\n")
 }
 
 let capitalize = (word) => {
-    return word.replace(/\b\w/g, l => l.toUpperCase())
+    word = Array.from(word)
+    word[0] = word[0].toUpperCase()
+    return word.join("")
 }
 
 let generate_name = () => {
-    return capitalize(words[random(0, words.length)]) + " " + words[random(0, words.length)]
+    return capitalize(faker.food.vegetable()) + " " + faker.science.unit().name
 }
 
 init_evolution()

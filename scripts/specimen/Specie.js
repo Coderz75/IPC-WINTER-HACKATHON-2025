@@ -13,6 +13,31 @@ let numMutations = 1
 
 let MUTATIONRATE = 300; // 1 in MutationRate
 
+function dataURItoBlob(dataURI) {
+	// convert base64 to raw binary data held in a string
+	// doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+	var byteString = atob(dataURI.split(',')[1]);
+
+	// separate out the mime component
+	var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+	// write the bytes of the string to an ArrayBuffer
+	var ab = new ArrayBuffer(byteString.length);
+
+	// create a view into the buffer
+	var ia = new Uint8Array(ab);
+
+	// set the bytes of the buffer to the correct values
+	for (var i = 0; i < byteString.length; i++) {
+		ia[i] = byteString.charCodeAt(i);
+	}
+
+	// write the ArrayBuffer to a blob, and you're done
+	var blob = new Blob([ab], {type: mimeString});
+	return blob;
+
+}
+
 class PlantSpecies {
 	constructor(originalGenome, parent){
 		this.activeMembers = [];
@@ -22,10 +47,7 @@ class PlantSpecies {
 		this.raw_genome = originalGenome;
 		this.genome = DNA.convert(copy(originalGenome));
 		this.parent = parent
-		if (words){
-			this.name = generate_name()
-			this.connect_to_parent(this.parent)
-		}
+		this.drawn = false
 	}
 
 	connect_to_parent(){
@@ -37,6 +59,7 @@ class PlantSpecies {
 				HTMLclass: "marker",
 				children: [{
 					text: {name: this.name, title: "Not sure what to put here"},
+					image: this.image,
 					children: []
 				}]
 			}
@@ -44,6 +67,12 @@ class PlantSpecies {
 
 		this.node = this.parent.children.at(-1).children.at(-1)
 		redrawTree()
+	}
+
+	drawAndAdd(member){
+		drawSpecimen(document.getElementById("whiteboard"), member, true, true)
+		this.image = URL.createObjectURL(dataURItoBlob(document.getElementById("whiteboard").toDataURL()))
+		console.log(this.image)
 	}
 
 	draw(mapCanvasContext){ //draws species members
@@ -76,7 +105,15 @@ class PlantSpecies {
 		return variance > 1;
 	}
 	tick(){
-		if (!this.name){
+		if (!this.drawn && this.activeMembers.length){
+			if (this.activeMembers.length){
+				this.drawAndAdd(this.activeMembers[0])
+			}else{
+				this.drawAndAdd(this.seedMembers[0])
+			}
+			this.drawn = true
+		}
+		if (!this.name && this.drawn){
 			this.name = generate_name()
 			this.connect_to_parent(this.parent)
 		}
@@ -91,6 +128,7 @@ class PlantSpecies {
 					const newSpecies = new PlantSpecies(member.raw_genome, this.node);
 					this.gameMap.addSpecies(newSpecies);
 					newSpecies.seedMembers.push(member);
+
 					alerts.push(new Alert("Speciation Occured", "A new species has emerged.", "<i class='fa-solid fa-tree'></i>"));
 				}
 				else if (member.isActive) {
