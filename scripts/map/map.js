@@ -251,6 +251,10 @@ class GameMap{
                     eval(`if(${attr} < 0.001) ${attr} = 0.001;`);//Note that it shouldnt be 0               
                     eval(`if(${attr} > 1) ${attr} = 1;`);                    
                 }
+                if(this.weather[i]["type"] == "wind"){
+                    let theta = Math.atan(1/((pos[1]-wy)/(pos[0]-wx)));
+                    wind = [Math.cos(theta)*windSpeed, Math.sin(theta)*windSpeed];
+                }
             }
         }
         return {
