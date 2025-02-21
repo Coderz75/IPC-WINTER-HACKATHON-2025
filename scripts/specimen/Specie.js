@@ -14,14 +14,38 @@ let numMutations = 1
 let MUTATIONRATE = 300; // 1 in MutationRate
 
 class PlantSpecies {
-	constructor(originalGenome){
+	constructor(originalGenome, parent){
 		this.activeMembers = [];
 		this.seedMembers = [];
 		this.name = "";
 		this.gameMap = null;//make sure to set into a reference of gameMap
 		this.raw_genome = originalGenome;
 		this.genome = DNA.convert(copy(originalGenome));
+		this.parent = parent
+		if (words){
+			this.name = generate_name()
+			this.connect_to_parent(this.parent)
+		}
 	}
+
+	connect_to_parent(){
+		let date = new Date()
+		let str = `${date.getHours()}:${date.getMinutes() < 10 ? 0 : ""}${date.getMinutes()}:${date.getSeconds() < 10 ? 0 : ""}${date.getSeconds()}`
+		this.parent.children.push(
+			{
+				text: { name:  str},
+				HTMLclass: "marker",
+				children: [{
+					text: {name: this.name, title: "Not sure what to put here"},
+					children: []
+				}]
+			}
+		)
+
+		this.node = this.parent.children.at(-1).children.at(-1)
+		redrawTree()
+	}
+
 	draw(mapCanvasContext){ //draws species members
 		for (const aM of this.activeMembers){
 			mapCanvasContext.save();
@@ -52,6 +76,10 @@ class PlantSpecies {
 		return variance > 1;
 	}
 	tick(){
+		if (!this.name){
+			this.name = generate_name()
+			this.connect_to_parent(this.parent)
+		}
 		this.activeMembers.forEach(member => member.tick(this.gameMap));
 		this.seedMembers.forEach(member => member.dormant(this.gameMap));
 		{
@@ -60,7 +88,7 @@ class PlantSpecies {
 			this.activeMembers.forEach(member => {if (member.isAlive) activeMembersNext.push(member)});
 			this.seedMembers.forEach(member => {
 				if (this.compareGemomes(this.genome, member.genome)){
-					const newSpecies = new PlantSpecies(member.raw_genome);
+					const newSpecies = new PlantSpecies(member.raw_genome, this.node);
 					this.gameMap.addSpecies(newSpecies);
 					newSpecies.seedMembers.push(member);
 					alerts.push(new Alert("Speciation Occured", "A new species has emerged.", "<i class='fa-solid fa-tree'></i>"));
@@ -319,7 +347,7 @@ const palms = new PlantSpecies({
 	size: DNA.generate_sequence(0.6, 100),
 	seedSize : DNA.generate_sequence(1, 100),
 	seedCount : DNAScalar(1),
-});
+}, life);
 
 const pines = new PlantSpecies({
 	waterStorage: DNA.generate_sequence(0.4, 100),
@@ -331,7 +359,7 @@ const pines = new PlantSpecies({
 	size: DNA.generate_sequence(0.7, 100),
 	seedSize : DNA.generate_sequence(0.1, 100),
 	seedCount : DNAScalar(4),
-});
+}, life);
 
 const cacti = new PlantSpecies({
 	waterStorage: DNA.generate_sequence(0.9, 100),
@@ -343,4 +371,4 @@ const cacti = new PlantSpecies({
 	size: DNA.generate_sequence(0.8, 100),
 	seedSize : DNA.generate_sequence(0.5, 100),
 	seedCount : DNAScalar(1),
-});
+}, life);
