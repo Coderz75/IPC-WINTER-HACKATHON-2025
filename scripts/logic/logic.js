@@ -124,6 +124,9 @@ class weatherButton{
             </div>
         `)
         document.getElementById(this.name).onclick = ()=>{
+            document.querySelectorAll(".weatherButton").forEach(e=>{
+                e.classList.remove("selected")
+            })
             weatherSummoned = this;
         }
     }
@@ -148,6 +151,9 @@ class Weather{
             document.getElementById("weatherEvent").style.visibility = "hidden";
         }else{
             document.getElementById("weatherEvent").style.visibility = "visible";
+            document.querySelectorAll(".weatherButton").forEach(e=>{
+                e.classList.remove("selected")
+            })
             document.getElementById(weatherSummoned.name).classList.add("selected")
         }
     }
@@ -156,22 +162,24 @@ class Weather{
 var alertsRead = true;
 
 class Alert{
-    constructor(name, description, icon){
+    constructor(name, description, icon, callback=undefined){
         this.name = name;
         this.description = description;
         this.icon = icon
         const date = new Date();
         // using innerHTML resets all event listeners and is just slower
         document.getElementById("alerts").insertAdjacentHTML("beforeend",`
-            <div id = "${this.name}" class = "alert">
+            <div id = "${this.name.replaceAll(' ', '_')}" class = "alert">
                 <div class="icon">${icon}</div>
                 <div class="right">
                     <span class="name">${name}</span>
                     <span class="description">${description}</span>
                 </div>
-                <div class = time>${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}</div>
+                <div class = time>${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}</div>
             </div>
         `);
         alertsRead = false;
+
+        document.getElementById(this.name.replaceAll(' ', '_')).onclick = callback
     }
 }
