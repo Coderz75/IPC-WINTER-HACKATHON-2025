@@ -132,13 +132,13 @@ class Plant {
     }
 	
     tick(gameMap){
-		const timeMultiplier = 10;
+		const timeMultiplier = 5;
 
 		const tempDifference = 50 - this.temperature;
 		const waterDifference = 100 - this.water; 
 		const energyDifference = 100 - this.energy;
 
-		this.environment = gameMap.getBiomeStatistics(gameMap.cordToIndex(this.pos.x,this.pos.y));
+		this.environment = gameMap.getBiomeStatistics(gameMap.cordToIndex(Math.round(this.pos.x), Math.round(this.pos.y)));
 
 		const AgeMalus = 1; //+ Math.max(0, (this.age - 13000 * this.genome.size) * 0.02);
 		
@@ -158,6 +158,7 @@ class Plant {
 		
 		//respire- using water and cooling self down
 		const respiration = sigmoid(tempDifference/20) * this.water / 100;
+		const heating = (tempDifference)**2/2500 * (tempDifference > 0);
 		//draw water, draw minerals with the water
 		const capillaryAction = Math.sqrt(waterDifference) / 5;
 		//Be blown in the wind
@@ -166,9 +167,12 @@ class Plant {
 		//Growth- using water and energy
 		const growth = sigmoid(-energyDifference/10);
 		
+		
 
 		this.water -= respiration / this.genome.waterStorage * timeMultiplier;
 		this.temperature -= respiration * this.genome.heatResistance / AgeMalus * timeMultiplier;
+		this.temperature += heating * this.genome.heatResistance;
+		this.energy -= heating;
 		const heatExchangeRate = 0.1 * timeMultiplier * this.genome.photosynthesisRate;
 		this.temperature = (this.temperature + this.environment.surroundingTemp * heatExchangeRate) / (1 + heatExchangeRate);
 		this.temperature += this.environment.sunExposure * this.genome.photosynthesisRate * timeMultiplier; 
@@ -219,6 +223,7 @@ class Plant {
 
 		if (this.temperature >= 80 || this.temperature <= 20 || this.water <= 5 || this.energy <= 1){
 			this.isAlive = false;
+			console.log(this.environment.surroundingTemp);
 		}		
 	}
 	dormant(gameMap){
@@ -245,7 +250,6 @@ class Plant {
 
 		if (gameMap.map[gameMap.cordToIndex(Math.round(this.pos.x), Math.round(this.pos.y))] != 9 && (Math.abs(this.vel.x) <= 0.5 && Math.abs(this.vel.y) <= 0.5 || this.height <= 0)){
 			//germinate
-			console.log(gameMap.map[gameMap.cordToIndex(Math.round(this.pos.x), Math.round(this.pos.y))]);
 			this.isActive = true;
 			this.water = 50;
 			this.temperature = 50;

@@ -50,13 +50,10 @@ const specimenPanel = {
     x : 0,
     y : 0,
   },
-  biome : null,
   weather : null,
   choose(specimen, gameMap){
     this.subject = specimen;
     this.subjectPos = this.subject.pos;
-    this.biome = gameMap.map[gameMap.cordToIndex(this.subjectPos.x, this.subjectPos.y)]; //number from 1 to 9
-    if (this.biome == 9) console.log("uh oh, specimen is in the ocean");
     this.geneTable.innerHTML = null;
     this.geneTable.createTHead().innerHTML = "GENOME";
     for (const gene in specimen.genome){
@@ -110,13 +107,13 @@ const specimenPanel = {
     this.ctx.fillStyle = "aqua";
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     //surfaceFill = color based on biome
-    let environment = gameMap.getBiomeStatistics(gameMap.cordToIndex(this.subject.pos.x,this.subject.pos.y));
+    let environment = this.subject.environment;
     //bottomfill = darkercolor, maybe black
 
     const surfaceY = this.canvas.height / 2;
     const centerX = this.canvas.width / 2; 
 
-    const surfaceFill = `rgb(${255*(1-environment.soilWater)+100-environment.surroundingTemp}, ${155 + 100*(1-environment.soilWater)}, ${255*(1-environment.surroundingTemp)})`;
+    const surfaceFill = `rgb(${255*(1-environment.soilWater)+100-environment.surroundingTemp}, ${155 + 100*(1-environment.soilWater)}, ${200*(1-environment.surroundingTemp/100)})`;
     const bottomfill = "brown";
     const earthfill = this.ctx.createLinearGradient(0, surfaceY*0.9, 0, this.canvas.height);
     earthfill.addColorStop(0, surfaceFill); earthfill.addColorStop(1, bottomfill);
