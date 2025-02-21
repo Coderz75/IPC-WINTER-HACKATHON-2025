@@ -50,6 +50,7 @@ function drawSpecimen(canvas, subject, setMature=false, ignoreEnvironment=false)
 
   let environment = subject.environment;
   if (ignoreEnvironment){
+    environment = {}
     Object.assign(environment, {
       soilWater: 0.5,
       surroundingTemp: 50,

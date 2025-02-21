@@ -307,10 +307,14 @@ class MutationWizard{
     }
 }
 
-function redrawTree(){
+async function redrawTree(){
     document.getElementById("phylogeny").innerHTML = ""
 
-    new Treant(phylo)
+    await new Treant(phylo)
+
+    document.getElementById("phylogeny").querySelectorAll("img").forEach(e => {
+        e.src = e.src.split("?")[0]
+    })
 }
 
 async function init_evolution() {
