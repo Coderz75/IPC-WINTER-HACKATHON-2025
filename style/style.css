@@ -612,16 +612,22 @@ svg #close {
     display: none;
 }
 
-#info{
+#info_wrapper{
     position: fixed;
     top: 0;
     left:0;
     width: 100vw;
     height: 100vh;
     z-index: 100;
-    padding: 200px calc(50vw - 400px);
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(0, 0, 0, 0.8);
     display: none;
+}
+
+#info{
+    margin: 200px calc(50vw - 400px);
+    background: white;
+    padding: 30px;
+    border-radius: 4px;
 }
 
 #info h1{
