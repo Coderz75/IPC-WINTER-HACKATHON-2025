@@ -162,14 +162,14 @@ class Weather{
 var alertsRead = true;
 
 class Alert{
-    constructor(name, description, icon, callback=undefined){
+    constructor(name, description, icon, callback=undefined, classes=""){
         this.name = name;
         this.description = description;
         this.icon = icon
         const date = new Date();
         // using innerHTML resets all event listeners and is just slower
         document.getElementById("alerts").insertAdjacentHTML("afterbegin",`
-            <div id = "${this.name.replaceAll(' ', '_')}" class = "alert">
+            <div id = "${this.name.replaceAll(' ', '_')}" class = "alert ${classes}">
                 <div class="icon">${icon}</div>
                 <div class="right">
                     <span class="name">${name}</span>
@@ -182,4 +182,8 @@ class Alert{
 
         document.getElementById(this.name.replaceAll(' ', '_')).onclick = callback
     }
+}
+
+document.getElementById("toggleMutationVisibility").onchange = ()=>{
+    document.getElementById("alertPanel").classList.toggle("hideAlerts")
 }

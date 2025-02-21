@@ -11,6 +11,8 @@ function sigmoid(x){
 
 let numMutations = 1
 
+let MUTATIONRATE = 300; // 1 in MutationRate
+
 class PlantSpecies {
 	constructor(originalGenome){
 		this.activeMembers = [];
@@ -220,7 +222,7 @@ class Plant {
 						continue
 					}
 
-					if (random(0, 300) < 3){
+					if (random(0, MUTATIONRATE) === 0){
 						let before_genome = copy(next[key])
 						next[key] = Array.from(next[key])
 
@@ -249,7 +251,7 @@ class Plant {
 							//console.log(type, key, before_genome, location, base, before_genome.substring(location - 4, location + 5), "to", next[key].substring(location - 4, location + 5))
 							document.querySelectorAll("svg:has(#MutationW)").forEach(e=>e.remove())
 							await (new MutationWizard(type, key, before_genome, location, base)).run()
-						}))
+						}, "mutationAlert"))
 
 						numMutations += 1
 

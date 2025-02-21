@@ -245,6 +245,8 @@ body{
     transition: left 0.3s ease-in-out;
     margin: 0;
     padding: 30px;
+    display: flex;
+    flex-direction: column;
 }
 
 .alertPanel h1{
@@ -280,6 +282,11 @@ body{
 }
 .sidenav div:hover {
     color: #f1f1f1;
+}
+
+#alerts{
+    flex: 1;
+    overflow: auto;
 }
 
 /* Library for the tree library */
@@ -590,5 +597,14 @@ svg:has(#MutationW){
 
 svg #close {
     cursor: pointer;
+}
+
+#mutationToggleWrapper{
+    margin-bottom: 20px;
+    user-select: none;
+}
+
+#alertPanel.hideAlerts .mutationAlert{
+    display: none;
 }
 
