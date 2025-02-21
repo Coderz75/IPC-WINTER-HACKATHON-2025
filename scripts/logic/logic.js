@@ -23,7 +23,7 @@ const weatherEvents = [
         "name": "Tornado",
         "desc": "Circular bust of wind",
         "icon": "<i class='fa-solid fa-tornado'></i>",
-        "time": 40, //duration in ticks
+        "time": 60, //duration in ticks
         "type": "wind",// can be wind, weather, climate
         "range": 6, //range of event (radius of circle)
         "attributes": { // changes the following:
@@ -51,7 +51,7 @@ const weatherEvents = [
         "name": "Thunderstorm",
         "desc": "Low pressure environment that has lightning",
         "icon": "<i class='fa-solid fa-thunderstorm'></i>",
-        "time": 40, //duration in ticks
+        "time": 60, //duration in ticks
         "type": "weather",// can be wind, weather, climate
         "range": 15, //range of event (radius of circle)
         "attributes": { // changes the following:
@@ -79,7 +79,7 @@ const weatherEvents = [
         "name": "Blizzard",
         "desc": "Lots of snow",
         "icon": "<i class='fa-solid fa-snowflake'></i>",
-        "time": 20, //duration in ticks
+        "time": 60, //duration in ticks
         "type": "weather",// can be wind, weather, climate
         "range": 15, //range of event (radius of circle)
         "attributes": { // changes the following:
@@ -93,7 +93,7 @@ const weatherEvents = [
         "name": "Rain",
         "desc": "Good old fashion rain - Just be careful it can cause flash floods!",
         "icon": "<i class='fa-solid fa-cloud-rain'></i>",
-        "time": 20, //duration in ticks
+        "time": 60, //duration in ticks
         "type": "weather",// can be wind, weather, climate
         "range": 15, //range of event (radius of circle)
         "attributes": { // changes the following:
