@@ -48,9 +48,14 @@ class PlantSpecies {
 			let seedMembersNext = [];
 			this.activeMembers.forEach(member => {if (member.isAlive) activeMembersNext.push(member)});
 			this.seedMembers.forEach(member => {
-				if (member.isActive) {
+				if (this.compareGemomes(this.genome, member.genome)){
+					const newSpecies = new PlantSpecies(member.raw_genome);
+					this.gameMap.species.push(newSpecies);
+					newSpecies.seedMembersNext.push(member);
+				}
+				else if (member.isActive) {
 					activeMembersNext.push(member); 
-					member.competitionQuadrat = this.gameMap.specieTiles[Math.round(member.pos.x/10) + Math.round(member.pos.y/10) * 80];
+					member.competitionQuadrat = this.gameMap.specieTiles[Math.floor(member.pos.x/10) + Math.floor(member.pos.y/10) * 80];
 					member.competitionQuadrat.push(member);
 				}
 				else if (member.isAlive) seedMembersNext.push(member);
@@ -140,7 +145,7 @@ class Plant {
 
 		this.environment = gameMap.getBiomeStatistics(gameMap.cordToIndex(Math.round(this.pos.x), Math.round(this.pos.y)));
 
-		const AgeMalus = 1; //+ Math.max(0, (this.age - 13000 * this.genome.size) * 0.02);
+		const AgeMalus = 1 + Math.max(0, (this.age - 30000 * this.genome.size) * 0.02);
 		
 		let competitionAmount = 0;
 		for (const competitor of this.competitionQuadrat){
