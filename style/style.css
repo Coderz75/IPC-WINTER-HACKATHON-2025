@@ -660,3 +660,9 @@ a{
     color: #1F78D1;
     text-decoration: none;
 }
+
+a::after{
+    content: "  \f35d";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 600;
+}
