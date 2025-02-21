@@ -112,6 +112,10 @@ body{
     flex-direction: column;
 }
 
+.specimenPanel #specimenSpecies{
+    color: black;
+}
+
 .specimenPanel table{
     color: black;
     border-collapse: collapse;

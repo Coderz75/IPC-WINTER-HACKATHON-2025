@@ -29,8 +29,9 @@ class GameMap{
             let speciesNext = [];
             this.species.forEach(specie => {
                 specie.tick();
-                if (specie.seedMembers.length + specie.activeMembers.length > 0)
-                    speciesNext.push(specie);
+                if (specie.seedMembers.length + specie.activeMembers.length == 0)
+                    specie.extinct = true;
+                speciesNext.push(specie);
             });
             this.species = speciesNext;
         }
