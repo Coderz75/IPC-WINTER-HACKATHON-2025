@@ -248,6 +248,8 @@ class GameMap{
                 for(const attr in this.weather[i]["attributes"]){
                     let val = this.weather[i]["attributes"][attr];
                     eval(`${attr} += ${val};`);
+                    eval(`if(${attr} < 0.001) ${attr} = 0.001;`);//Note that it shouldnt be 0               
+                    eval(`if(${attr} > 1) ${attr} = 1;`);                    
                 }
             }
         }
