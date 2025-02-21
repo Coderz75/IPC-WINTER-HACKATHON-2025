@@ -46,8 +46,9 @@ class PlantSpecies {
 		this.gameMap = null;//make sure to set into a reference of gameMap
 		this.raw_genome = originalGenome;
 		this.genome = DNA.convert(copy(originalGenome));
-		this.parent = parent
-		this.drawn = false
+		this.parent = parent;
+		this.drawn = false;
+		this.extinct = false;
 	}
 
 	connect_to_parent(){
