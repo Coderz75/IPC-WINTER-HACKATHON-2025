@@ -60,13 +60,13 @@ class GameMap{
         let weatherctx = weatherCanvas.getContext("2d");
         if(weatherSummoned != null){
             weatherctx.beginPath();
-            weatherctx.arc(mx, my, weatherSummoned.event["range"]/2, 0, 2 * Math.PI);
+            weatherctx.arc(mx, my, weatherSummoned.event["range"], 0, 2 * Math.PI);
             weatherctx.fillStyle = "rgba(255,0,0,0.5)";
             weatherctx.fill();
         }
         this.weather.forEach(w=>{
             weatherctx.beginPath();
-            weatherctx.arc(w["x"], w["y"], w["range"]/2, 0, 2 * Math.PI);
+            weatherctx.arc(w["x"], w["y"], w["range"], 0, 2 * Math.PI);
             weatherctx.fillStyle = "rgba(84, 80, 80, 0.5)";
             weatherctx.fill();
         });

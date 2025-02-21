@@ -23,7 +23,7 @@ const weatherEvents = [
         "name": "Tornado",
         "desc": "Circular bust of wind",
         "icon": "<i class='fa-solid fa-tornado'></i>",
-        "time": 20, //duration in ticks
+        "time": 40, //duration in ticks
         "type": "wind",// can be wind, weather, climate
         "range": 6, //range of event (radius of circle)
         "attributes": { // changes the following:
@@ -37,7 +37,7 @@ const weatherEvents = [
         "name": "Hurricane",
         "desc": "Very quickly moving thingy",
         "icon": "<i class='fa-solid fa-hurricane'></i>",
-        "time": 80, //duration in ticks
+        "time": 160, //duration in ticks
         "type": "wind",// can be wind, weather, climate
         "range": 70, //range of event (radius of circle)
         "attributes": { // changes the following:
@@ -51,7 +51,7 @@ const weatherEvents = [
         "name": "Thunderstorm",
         "desc": "Low pressure environment that has lightning",
         "icon": "<i class='fa-solid fa-thunderstorm'></i>",
-        "time": 20, //duration in ticks
+        "time": 40, //duration in ticks
         "type": "weather",// can be wind, weather, climate
         "range": 15, //range of event (radius of circle)
         "attributes": { // changes the following:
@@ -65,12 +65,12 @@ const weatherEvents = [
         "name": "Heatwave",
         "desc": "Intense heat in an area",
         "icon": "<i class='fa-solid fa-circle'></i>",
-        "time": 240, //duration in ticks
+        "time": 480, //duration in ticks
         "type": "climate",// can be wind, weather, climate
-        "range": 60, //range of event (radius of circle)
+        "range": 30, //range of event (radius of circle)
         "attributes": { // changes the following:
             "sunExp": 0,
-            "surroundingTemp": 0.4,
+            "surroundingTemp": 0.2,
             "soilWat": -0.2,
             "windSpeed": 0,
         }
@@ -83,8 +83,8 @@ const weatherEvents = [
         "type": "weather",// can be wind, weather, climate
         "range": 15, //range of event (radius of circle)
         "attributes": { // changes the following:
-            "sunExp": -0.5,
-            "surroundingTemp": -0.5,
+            "sunExp": -0.2,
+            "surroundingTemp": -0.2,
             "soilWat": 0.2,
             "windSpeed": 0.2,
         }
@@ -97,7 +97,7 @@ const weatherEvents = [
         "type": "weather",// can be wind, weather, climate
         "range": 15, //range of event (radius of circle)
         "attributes": { // changes the following:
-            "sunExp": -0.2,
+            "sunExp": -0.1,
             "surroundingTemp": 0,
             "soilWat": 0.3,
             "windSpeed": 0,
