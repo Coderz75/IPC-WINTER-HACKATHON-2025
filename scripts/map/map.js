@@ -273,11 +273,13 @@ class GameMap{
         //soilWat = this.weightedAvg(soilWat,this.waterFunction(this.raindataAt(index)),1-rainfallWeight,rainfallWeight);
         let windSpeed = 1; //this.windSpeedFunction(lat); 
         let wind = [(Math.random()-0.5) * 5 *windSpeed,(Math.random()-0.5) * 5 *windSpeed]
+        let events = [];
         for(let i = 0; i < this.weather.length; i++){
             let wx = this.weather[i]["x"];
             let wy = this.weather[i]["y"];
             let pos = this.indexToCord(index);
             if(Math.sqrt(Math.pow(wx-pos[0],2)+Math.pow(wy-pos[1],2)) <= this.weather[i]["range"]){
+                events.push(this.weather[i]);
                 for(const attr in this.weather[i]["attributes"]){
                     let val = this.weather[i]["attributes"][attr];
                     eval(`${attr} += ${val};`);
@@ -296,6 +298,7 @@ class GameMap{
             "soilWater":soilWat,
             "windx": wind[0],
             "windy": wind[1],
+            "weather": events,
         };
     }
 

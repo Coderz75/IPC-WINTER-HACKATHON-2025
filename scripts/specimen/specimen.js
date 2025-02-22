@@ -274,7 +274,19 @@ const specimenPanel = {
 
     i = 0;
     for (const name in this.subject.environment){
-      const val = this.subject.environment[name];
+      let val = "";
+      if(name == "weather"){
+        console.log(this.subject.environment["weather"]);
+        for (const a in this.subject.environment["weather"]){
+          val += this.subject.environment["weather"][a]["name"] + ", ";
+        }
+        val = val.slice(0, -2); 
+        if(val == ""){
+          val = "None";
+        }
+      }else{
+        val = this.subject.environment[name];
+      }
       const row = this.envTable.rows.item(i);
       const cell1 = row.cells.item(0);
       const cell2 = row.cells.item(1);
