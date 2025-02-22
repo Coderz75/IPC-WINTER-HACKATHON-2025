@@ -21,7 +21,7 @@ Attributer per storm event
 const weatherEvents = [
     {
         "name": "Tornado",
-        "desc": "Circular bust of wind",
+        "desc": "A violently rotating column of air touching the ground.",
         "icon": "<i class='fa-solid fa-tornado'></i>",
         "time": 60, //duration in ticks
         "type": "wind",// can be wind, weather, climate
@@ -35,7 +35,7 @@ const weatherEvents = [
     },
     {
         "name": "Hurricane",
-        "desc": "Very quickly moving thingy",
+        "desc": "Lots of systems moving around a center really quickly",
         "icon": "<i class='fa-solid fa-hurricane'></i>",
         "time": 160, //duration in ticks
         "type": "wind",// can be wind, weather, climate
@@ -91,7 +91,7 @@ const weatherEvents = [
     },
     {
         "name": "Rain",
-        "desc": "Good old fashion rain - Just be careful it can cause flash floods!",
+        "desc": "Good old fashion rain",
         "icon": "<i class='fa-solid fa-cloud-rain'></i>",
         "time": 60, //duration in ticks
         "type": "weather",// can be wind, weather, climate
