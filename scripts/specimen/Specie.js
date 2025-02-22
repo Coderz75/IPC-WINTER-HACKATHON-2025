@@ -90,7 +90,7 @@ class PlantSpecies {
 			//Math.floor(member.pos.x/10) + Math.floor(member.pos.y/10) * 80
 			mapCanvasContext.rect(Math.floor(aM.pos.x/10)*10, Math.floor(aM.pos.y/10)*10, 10, 10);
 			let c = aM.color.replace("rgb(","rgba(");
-			c = c.replace(")",",0.4)");
+			c = c.replace(")",",0.6)");
 			mapCanvasContext.fillStyle = c;
 			mapCanvasContext.fill();
 			mapCanvasContext.closePath();
