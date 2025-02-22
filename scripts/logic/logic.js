@@ -21,6 +21,7 @@ Attributer per storm event
 */
 
 var alerts = []
+var autoWeather = false;
 const weatherEvents = [
     {
         "name": "Tornado",
@@ -151,6 +152,9 @@ class Weather{
             })
             weatherSummoned = null;
         };
+        document.getElementById("autoSwitch").onclick = ()=>{
+            autoWeather = !autoWeather;
+        }
         for(let i = 0; i < weatherEvents.length; i++){
             this.buttons[weatherEvents[i]["name"]] =new weatherButton(weatherEvents[i]);
         }

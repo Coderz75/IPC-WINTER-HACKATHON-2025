@@ -7,7 +7,6 @@ var panelsOpen = [0,0,0,0]
 var weatherPanel = new Weather();
 var MOUSEX = 0;
 var MOUSEY = 0;
-var autoWeather = true;
 function init(){
     //Initialize graphics
     document.getElementById("specimenPanelButton").onclick = function() {
