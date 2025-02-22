@@ -85,6 +85,10 @@ class GameMap{
             weatherctx.arc(w["x"], w["y"], w["range"], 0, 2 * Math.PI);
             weatherctx.fillStyle = "rgba(84, 80, 80, 0.5)";
             weatherctx.fill();
+            if(Math.sqrt(Math.pow(w["x"]-mx,2)+Math.pow(w["y"]-my,2)) <= w["range"]){
+                weatherctx.fillStyle="rgb(255,255,255)";
+                weatherctx.fillText(w["name"],w["x"],w["y"]);
+            }
         });
         weatherctx.stroke();
         this.species.forEach(specie => {
