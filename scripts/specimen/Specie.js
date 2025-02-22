@@ -278,8 +278,8 @@ class Plant {
 		//draw water, draw minerals with the water
 		const capillaryAction = Math.sqrt(waterDifference) / 5;
 		//Be blown in the wind
-		this.blow = Math.sqrt(this.environment.windx**2 + this.environment.windy**2) * this.genome.size * this.genome.photosynthesisRate;
-		if (this.blow - (this.genome.anchorage * this.water * this.genome.waterStorage + 1)*5 >= Math.random() + 2){
+		blow = Math.sqrt(this.environment.windx**2 + this.environment.windy**2) * this.genome.size * this.genome.photosynthesisRate;
+		if (blow - (this.genome.anchorage * this.water * this.genome.waterStorage + 1)*5 >= Math.random() + 2){
 			this.isAlive = false;
 			this.rooted = false;
 		}

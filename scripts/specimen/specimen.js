@@ -294,7 +294,5 @@ const specimenPanel = {
       cell2.innerHTML = val;
       i++
     }
-    console.log(this.subject.genome.anchorage * this.subject.water * this.subject.genome.waterStorage + 1)
-    console.log(this.subject.blow);
   }
 };
