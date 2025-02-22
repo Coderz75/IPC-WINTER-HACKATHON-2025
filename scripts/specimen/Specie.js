@@ -80,12 +80,23 @@ class PlantSpecies {
 	draw(mapCanvasContext){ //draws species members
 		for (const aM of this.activeMembers){
 			mapCanvasContext.save();
+			//draw competitive tile
+			mapCanvasContext.beginPath();
+			//Math.floor(member.pos.x/10) + Math.floor(member.pos.y/10) * 80
+			mapCanvasContext.rect(Math.floor(aM.pos.x/10)*10, Math.floor(aM.pos.y/10)*10, 10, 10);
+			let c = aM.color.replace("rgb(","rgba(");
+			c = c.replace(")",",0.4)");
+			mapCanvasContext.fillStyle = c;
+			mapCanvasContext.fill();
+			mapCanvasContext.closePath();
+
 			mapCanvasContext.beginPath();
 			mapCanvasContext.ellipse(aM.pos.x, aM.pos.y, 3, 3, 0, 0, Math.PI*2);
 			mapCanvasContext.fillStyle = aM.color;
 			mapCanvasContext.strokeStyle = "#00FF00";
 			mapCanvasContext.fill(); mapCanvasContext.stroke();
 			mapCanvasContext.closePath();
+
 			mapCanvasContext.restore();
 		}
 		for (const sM of this.seedMembers){
@@ -278,7 +289,7 @@ class Plant {
 		//draw water, draw minerals with the water
 		const capillaryAction = Math.sqrt(waterDifference) / 5;
 		//Be blown in the wind
-		blow = Math.sqrt(this.environment.windx**2 + this.environment.windy**2) * this.genome.size * this.genome.photosynthesisRate;
+		const blow = Math.sqrt(this.environment.windx**2 + this.environment.windy**2) * this.genome.size * this.genome.photosynthesisRate;
 		if (blow - (this.genome.anchorage * this.water * this.genome.waterStorage + 1)*5 >= Math.random() + 2){
 			this.isAlive = false;
 			this.rooted = false;

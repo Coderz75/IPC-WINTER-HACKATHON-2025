@@ -90,7 +90,7 @@ class GameMap{
         for(let i = 0; i < this.map.length; i+=1){
             switch(this.map[i]){                
                 case 1: // Rainforest
-                    this.mapCtx.fillStyle = "rgb(0,64,0)";
+                    this.mapCtx.fillStyle = "rgb(0, 153, 0)";
                     break;
                 case 2: // Savanna
                     this.mapCtx.fillStyle = "rgb(128,128,0)";
@@ -99,7 +99,7 @@ class GameMap{
                     this.mapCtx.fillStyle = "rgb(255,255,64)";
                     break;
                 case 4: //Temperate forest
-                    this.mapCtx.fillStyle = "rgb(0,192,0)";
+                    this.mapCtx.fillStyle = "rgb(0, 255, 0)";
                     break;
                 case 5: //Grasslands
                     this.mapCtx.fillStyle = "rgb(64,64,0)";
