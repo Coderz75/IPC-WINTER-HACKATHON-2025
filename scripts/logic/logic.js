@@ -183,7 +183,7 @@ class Weather{
                 //everything else
                 if(chance <= ev.event["chance"]){ 
                     //calc random tile
-                    let tile = Math.floor(Math.random/(1/(800*410))) //pick random tile
+                    let tile = Math.floor(Math.random()/(1/(800*410))) //pick random tile
                     let pos = map.indexToCord(tile);
                     this.summonWeather(pos[0],pos[1],ev,map);
                 }
