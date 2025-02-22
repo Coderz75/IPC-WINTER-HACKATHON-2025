@@ -15,9 +15,12 @@ Attributer per storm event
         "surroundingTemp": 0,
         "soilWat": 0,
         "windSpeed": 0,
-    }
+    },
+    "chance": 1/100, //chance of event per tick
 }
 */
+
+var alerts = []
 const weatherEvents = [
     {
         "name": "Tornado",
@@ -31,7 +34,8 @@ const weatherEvents = [
             "surroundingTemp": -0.2,
             "soilWat": 0,
             "windSpeed": 120,
-        }
+        },
+        "chance": 1/200, //chance of event per tick
     },
     {
         "name": "Hurricane",
@@ -45,7 +49,8 @@ const weatherEvents = [
             "surroundingTemp": -0.2,
             "soilWat": 0,
             "windSpeed": 130,
-        }
+        },
+        "chance": 1/800, //chance of event per tick
     },
     {
         "name": "Thunderstorm",
@@ -59,7 +64,8 @@ const weatherEvents = [
             "surroundingTemp": -0.2,
             "soilWat": 0.2,
             "windSpeed": 5,
-        }
+        },
+        "chance": 1/200, //chance of event per tick
     },
     {
         "name": "Heatwave",
@@ -73,7 +79,8 @@ const weatherEvents = [
             "surroundingTemp": 0.2,
             "soilWat": -0.2,
             "windSpeed": 0,
-        }
+        },
+        "chance": 1/200, //chance of event per tick
     },
     {
         "name": "Blizzard",
@@ -87,7 +94,8 @@ const weatherEvents = [
             "surroundingTemp": -0.2,
             "soilWat": 0.2,
             "windSpeed": 0.2,
-        }
+        },
+        "chance": 1/200, //chance of event per tick
     },
     {
         "name": "Rain",
@@ -101,7 +109,8 @@ const weatherEvents = [
             "surroundingTemp": 0,
             "soilWat": 0.3,
             "windSpeed": 0,
-        }
+        },
+        "chance": 1/120, //chance of event per tick
     },
 ]
 
@@ -134,7 +143,7 @@ class weatherButton{
 
 // Weather stuff
 class Weather{
-    buttons = [];
+    buttons = {};
     constructor(){
         document.getElementById("weatherEvent").onclick = ()=>{
             document.querySelectorAll(".weatherButton").forEach(e=>{
@@ -143,7 +152,7 @@ class Weather{
             weatherSummoned = null;
         };
         for(let i = 0; i < weatherEvents.length; i++){
-            this.buttons.push(new weatherButton(weatherEvents[i]));
+            this.buttons[weatherEvents[i]["name"]] =new weatherButton(weatherEvents[i]);
         }
     }
     tick(){
@@ -156,6 +165,50 @@ class Weather{
             })
             document.getElementById(weatherSummoned.name).classList.add("selected")
         }
+    }
+    calcWeather(map){
+        for(const ev in this.buttons){
+            let chance = Math.random();
+            if(ev == "Rain"){
+                //Automatic rain
+                if(chance <= ev.event["chance"]){ // should happen one every 120 ticks
+                    //calc which tile (this is index in rainTiles)
+                    let tile = this.weightedRandom(map.rainTilesI,map.rainTilesWeights,map.totalWeights);
+                    let i = map.rainTiles[tile];// index in map
+                    let pos = map.indexToCord(i);
+                    this.summonWeather(pos[0],pos[1],ev,map);
+                }
+            }else{
+                //everything else
+                if(chance <= ev.event["chance"]){ 
+                    //calc random tile
+                    let tile = Math.floor(Math.random/(1/(800*410))) //pick random tile
+                    let pos = map.indexToCord(tile);
+                    this.summonWeather(pos[0],pos[1],ev,map);
+                }
+            }
+        }
+    }
+    weightedRandom(vals,weights,total){// uhhhh idk im too lazy to remove things i dont need.
+        let a = Math.random();
+        let e = 0;
+        for(let i = 0; i < vals.length; i++){
+            if(a >=e && a < e+(weights[i]/total)){
+                return vals[i];
+            }
+            e +=weights[i]/total;
+        }
+        return 0;
+    }
+
+    summonWeather(mx,my, evt,gameMap){
+        alerts.push(new Alert(`${evt.name} began in ${gameMap.getBiomeName(mx,my)} biome`,evt.description,evt.icon));
+        console.log(`Event: ${evt.name} has been summoned at (${mx},${my})`)
+        let a = {};
+        Object.assign(a,evt.event);
+        a["x"] = mx;
+        a["y"] = my;
+        gameMap.weather.push(a);
     }
 }
 

@@ -5,9 +5,9 @@ var panels = [document.getElementById("specimenPanel"),document.getElementById("
 var panelWidths = [555,800,475,475]
 var panelsOpen = [0,0,0,0]
 var weatherPanel = new Weather();
-var alerts = []
 var MOUSEX = 0;
-var MOUSEY = 0
+var MOUSEY = 0;
+var autoWeather = true;
 function init(){
     //Initialize graphics
     document.getElementById("specimenPanelButton").onclick = function() {
@@ -60,6 +60,11 @@ function tick(){
     }else{
         document.getElementById("alertPanelButton").style.color = "#818181";
     }
+
+    if(autoWeather){
+        weatherPanel.calcWeather(gameMap);
+    }
+
     let a = getMouseOnCanvas(MOUSEX,MOUSEY);
     weatherPanel.tick()
     gameMap.tick(a[0],a[1]);
@@ -83,14 +88,7 @@ function mouseDownEvent(evt){
             //Summon weather event at location
             mx = Math.round(mx);
             my = Math.round(my);
-            //Function for determining what happens to species during weather events go here
-            alerts.push(new Alert(`${weatherSummoned.name} summoned in ${gameMap.getBiomeName(mx,my)} biome`,weatherSummoned.description,weatherSummoned.icon));
-            console.log(`Event: ${weatherSummoned.name} has been summoned at (${mx},${my})`)
-            let a = {};
-            Object.assign(a,weatherSummoned.event);
-            a["x"] = mx;
-            a["y"] = my;
-            gameMap.weather.push(a);
+            weatherPanel.summonWeather(mx,my,weatherSummoned,gameMap)
             document.getElementById(weatherSummoned.name).classList.remove("selected");
             weatherSummoned = null;
         }

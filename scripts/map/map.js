@@ -18,6 +18,22 @@ class GameMap{
 
         this.weather = [];
         this.loadMap(); 
+        //lemme cook: trust the process
+        this.rainTiles = [];
+        this.rainTilesI = [];
+        this.rainTilesWeights=[];
+        this.totalWeights = 0;
+        let b = 0;
+        for(let i =0; i <this.rainData.length;i++){
+            let w = this.raindataAt(i);
+            if(w != null){
+                this.rainTiles.push(i);
+                this.rainTilesI.push(b);
+                this.rainTilesWeights.push(w);
+                this.totalWeights+=1;
+                b+=1;
+            }
+        }
     }
     addSpecies(specie){
         this.species.push(specie);
