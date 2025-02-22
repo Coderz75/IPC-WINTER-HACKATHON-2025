@@ -30,7 +30,7 @@ const weatherEvents = [
             "sunExp": -0.2,
             "surroundingTemp": -0.2,
             "soilWat": 0,
-            "windSpeed": 10,
+            "windSpeed": 120,
         }
     },
     {
@@ -39,19 +39,19 @@ const weatherEvents = [
         "icon": "<i class='fa-solid fa-hurricane'></i>",
         "time": 160, //duration in ticks
         "type": "wind",// can be wind, weather, climate
-        "range": 70, //range of event (radius of circle)
+        "range": 30, //range of event (radius of circle)
         "attributes": { // changes the following:
-            "sunExp": -0.5,
+            "sunExp": -0.2,
             "surroundingTemp": -0.2,
             "soilWat": 0,
-            "windSpeed": 30,
+            "windSpeed": 130,
         }
     },
     {
         "name": "Thunderstorm",
         "desc": "Low pressure environment that has lightning",
         "icon": "<i class='fa-solid fa-thunderstorm'></i>",
-        "time": 60, //duration in ticks
+        "time": 30, //duration in ticks
         "type": "weather",// can be wind, weather, climate
         "range": 15, //range of event (radius of circle)
         "attributes": { // changes the following:

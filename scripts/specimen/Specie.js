@@ -278,8 +278,8 @@ class Plant {
 		//draw water, draw minerals with the water
 		const capillaryAction = Math.sqrt(waterDifference) / 5;
 		//Be blown in the wind
-		const blow = Math.sqrt(this.environment.windx**2 + this.environment.windy**2) * this.genome.size * this.genome.photosynthesisRate;
-		if (Math.random() * blow >= this.genome.anchorage * this.water * this.genome.waterStorage + 1){
+		this.blow = Math.sqrt(this.environment.windx**2 + this.environment.windy**2) * this.genome.size * this.genome.photosynthesisRate;
+		if (this.blow - (this.genome.anchorage * this.water * this.genome.waterStorage + 1)*5 >= Math.random() + 2){
 			this.isAlive = false;
 			this.rooted = false;
 		}
@@ -380,8 +380,8 @@ class Plant {
 
 		//blown about by the wind
 		this.environment = gameMap.getBiomeStatistics(gameMap.cordToIndex(this.pos.x,this.pos.y));
-		this.vel.x = (this.vel.x + this.environment.windx) / (2);
-		this.vel.y = (this.vel.y + this.environment.windy) / (2);
+		this.vel.x = this.environment.windx;
+		this.vel.y = this.environment.windy;
 
 		this.pos.x += this.vel.x;
 		this.pos.y += this.vel.y;
