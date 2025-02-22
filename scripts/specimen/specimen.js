@@ -276,7 +276,6 @@ const specimenPanel = {
     for (const name in this.subject.environment){
       let val = "";
       if(name == "weather"){
-        console.log(this.subject.environment["weather"]);
         for (const a in this.subject.environment["weather"]){
           val += this.subject.environment["weather"][a]["name"] + ", ";
         }
