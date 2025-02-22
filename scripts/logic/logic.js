@@ -35,7 +35,7 @@ const weatherEvents = [
             "soilWat": 0,
             "windSpeed": 120,
         },
-        "chance": 1/200, //chance of event per tick
+        "chance": 1/600, //chance of event per tick
     },
     {
         "name": "Hurricane",
@@ -50,7 +50,7 @@ const weatherEvents = [
             "soilWat": 0,
             "windSpeed": 130,
         },
-        "chance": 1/800, //chance of event per tick
+        "chance": 1/2400, //chance of event per tick
     },
     {
         "name": "Thunderstorm",
@@ -65,7 +65,7 @@ const weatherEvents = [
             "soilWat": 0.2,
             "windSpeed": 5,
         },
-        "chance": 1/200, //chance of event per tick
+        "chance": 1/600, //chance of event per tick
     },
     {
         "name": "Heatwave",
@@ -80,7 +80,7 @@ const weatherEvents = [
             "soilWat": -0.2,
             "windSpeed": 0,
         },
-        "chance": 1/200, //chance of event per tick
+        "chance": 1/2400, //chance of event per tick
     },
     {
         "name": "Blizzard",
@@ -95,7 +95,7 @@ const weatherEvents = [
             "soilWat": 0.2,
             "windSpeed": 0.2,
         },
-        "chance": 1/200, //chance of event per tick
+        "chance": 1/800, //chance of event per tick
     },
     {
         "name": "Rain",
@@ -175,7 +175,7 @@ class Weather{
                 if(chance <= ev.event["chance"]){ // should happen one every 120 ticks
                     //calc which tile (this is index in rainTiles)
                     let tile = this.weightedRandom(map.rainTilesI,map.rainTilesWeights,map.totalWeights);
-                    let i = map.rainTiles[tile];// index in map
+                    let i = map.landTiles[tile];// index in map
                     let pos = map.indexToCord(i);
                     this.summonWeather(pos[0],pos[1],ev,map);
                 }

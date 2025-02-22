@@ -23,6 +23,7 @@ class GameMap{
         this.rainTilesI = [];
         this.rainTilesWeights=[];
         this.totalWeights = 0;
+        this.landTiles = []
         let b = 0;
         for(let i =0; i <this.rainData.length;i++){
             let w = this.raindataAt(i);
@@ -32,6 +33,9 @@ class GameMap{
                 this.rainTilesWeights.push(w);
                 this.totalWeights+=1;
                 b+=1;
+            }
+            if(this.map[i] != 9){
+                this.landTiles.push(i)
             }
         }
     }
