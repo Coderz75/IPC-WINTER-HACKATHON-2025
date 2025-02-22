@@ -38,6 +38,8 @@ function dataURItoBlob(dataURI) {
 
 }
 
+var specieColors = {}
+var specieNum = 0;
 class PlantSpecies {
 	constructor(originalGenome, parent){
 		this.activeMembers = [];
@@ -49,6 +51,9 @@ class PlantSpecies {
 		this.parent = parent;
 		this.drawn = false;
 		this.extinct = false;
+		this.id = specieNum
+		specieColors[specieNum] = `rgb(${Math.floor(Math.random() * 155)},${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 155)})` // Values should lean to green side
+		specieNum += 1;
 	}
 
 	connect_to_parent(){
@@ -244,7 +249,7 @@ class Plant {
 			for (const val in this.genome) percentWhole += this.genome[val];
 			percentWhole /= 255;
 				
-			this.color = `rgb(${(this.genome.competitiveness + this.genome.anchorage)/percentWhole},${(this.genome.photosynthesisRate+this.genome.waterAffinity+this.genome.waterStorage)/percentWhole}, ${(this.genome.waterStorage)/percentWhole})`;
+			this.color = specieColors[species.id];
 				
 			this.pos = { //Coordinates on the map
 				x : 0,

@@ -171,5 +171,3 @@ const cacti = new PlantSpecies({
     seedSize : DNA.generate_sequence(0.5, 100),
     seedCount : DNAScalar(1),
 }, life);
-
-
