@@ -167,9 +167,10 @@ class Weather{
         }
     }
     calcWeather(map){
-        for(const ev in this.buttons){
+        for(const name in this.buttons){
             let chance = Math.random();
-            if(ev == "Rain"){
+            let ev = this.buttons[name]
+            if(name == "Rain"){
                 //Automatic rain
                 if(chance <= ev.event["chance"]){ // should happen one every 120 ticks
                     //calc which tile (this is index in rainTiles)
