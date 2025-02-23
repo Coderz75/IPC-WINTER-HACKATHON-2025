@@ -126,7 +126,7 @@ function drawSpecimen(canvas, subject, setMature=false, ignoreEnvironment=false)
   ctx.fillStyle = `rgb(${100 - subject.water},${subject.water*4+50},${subject.water / 2})`;
   while (!queue.isEmpty()){
     const node = queue.dequeue();
-    node[0] += windSpeed * Math.sin(node[0]) * 0.01 / (1+node[3]);
+    node[0] += windSpeed * Math.sin(node[0]) * 0.02 * Math.random() / (1+node[3]);
 
     if (node[4] <= 0){
       //draw a leaf
