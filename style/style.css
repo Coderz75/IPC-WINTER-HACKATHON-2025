@@ -407,17 +407,14 @@ body{
 }
 
 @keyframes out{
-    0%{
+    from{
         opacity: 1;
         transform: translateY(0);
         display: block;
     }
-    99.9%{
+    to{
         opacity: 0;
         transform: translateY(5px);
-        display: block;
-    }
-    100%{
         display: none;
     }
 }
