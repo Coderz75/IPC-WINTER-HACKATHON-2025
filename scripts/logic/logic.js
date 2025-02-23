@@ -36,7 +36,7 @@ const weatherEvents = [
             "soilWat": 0,
             "windSpeed": 120,
         },
-        "chance": 1/600, //chance of event per tick
+        "chance": 1/250, //chance of event per tick
     },
     {
         "name": "Hurricane",
@@ -51,7 +51,7 @@ const weatherEvents = [
             "soilWat": 0,
             "windSpeed": 130,
         },
-        "chance": 1/2400, //chance of event per tick
+        "chance": 1/300, //chance of event per tick
     },
     {
         "name": "Thunderstorm",
@@ -66,7 +66,7 @@ const weatherEvents = [
             "soilWat": 0.2,
             "windSpeed": 5,
         },
-        "chance": 1/600, //chance of event per tick
+        "chance": 1/200, //chance of event per tick
     },
     {
         "name": "Heatwave",
@@ -81,7 +81,7 @@ const weatherEvents = [
             "soilWat": -0.2,
             "windSpeed": 0,
         },
-        "chance": 1/2400, //chance of event per tick
+        "chance": 1/300, //chance of event per tick
     },
     {
         "name": "Blizzard",
@@ -96,7 +96,7 @@ const weatherEvents = [
             "soilWat": 0.2,
             "windSpeed": 0.2,
         },
-        "chance": 1/800, //chance of event per tick
+        "chance": 1/300, //chance of event per tick
     },
     {
         "name": "Rain",
