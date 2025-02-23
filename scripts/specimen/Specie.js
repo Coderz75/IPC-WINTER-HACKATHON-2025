@@ -52,7 +52,7 @@ class PlantSpecies {
 		this.drawn = false;
 		this.extinct = false;
 		this.id = specieNum
-		specieColors[specieNum] = `rgb(${Math.floor(Math.random() * 155)},${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 155)})` // Values should lean to green side
+		specieColors[specieNum] = `hsl(${Math.floor(Math.random()*360)}, 100%, 25%)`;
 		specieNum += 1;
 	}
 
