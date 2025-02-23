@@ -281,9 +281,9 @@ class Plant {
 		for (const competitor of this.competitionQuadrat){
 			if (!competitor.isAlive) {continue;}
 			if (competitor == this) continue;
-			competitionAmount += competitor.genome.competitiveness * competitor.percentMaturity;
+			competitionAmount += competitor.genome.competitiveness * competitor.percentMaturity * competitor.genome.size;
 		}
-		competitionAmount /= this.genome.competitiveness * 1;
+		competitionAmount /= this.genome.competitiveness * this.genome.size;
 		const competitionMalus = (1-Math.tanh(competitionAmount));
 		this.environment.competitionMalus = competitionMalus;
 		this.environment.sunExposure *= competitionMalus;
@@ -319,7 +319,7 @@ class Plant {
 		this.water += capillaryAction * this.genome.waterAffinity * this.environment.soilWater / this.genome.waterStorage / AgeMalus * timeMultiplier;
 		this.water -= photosynthesis / this.genome.waterStorage * timeMultiplier;
 		this.energy += photosynthesis / AgeMalus * timeMultiplier;
-		this.energy -= growth * (1 + this.genome.waterAffinity + this.genome.waterStorage + this.genome.competitiveness + this.genome.heatResistance + this.genome.anchorage) * timeMultiplier;
+		this.energy -= growth * (this.genome.waterAffinity + this.genome.waterStorage + this.genome.competitiveness + this.genome.heatResistance + this.genome.anchorage + this.genome.size + this.genome.photosynthesisRate) * timeMultiplier;
 		if (this.percentMaturity < 100)
 			this.percentMaturity += growth / (0.5 + this.genome.size) * timeMultiplier;
 		else 
