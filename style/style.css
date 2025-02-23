@@ -667,6 +667,7 @@ svg #close {
     border-radius: 4px;
     cursor: pointer;
     transition: 0.2s opacity;
+    border: none;
 }
 
 #info button:hover{
