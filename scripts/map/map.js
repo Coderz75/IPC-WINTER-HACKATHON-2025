@@ -49,8 +49,14 @@ class GameMap{
             let speciesNext = [];
             this.species.forEach(specie => {
                 specie.tick();
-                if (specie.seedMembers.length + specie.activeMembers.length == 0)
+                if (!specie.extinct && specie.seedMembers.length + specie.activeMembers.length === 0) {
                     specie.extinct = true;
+                    specie.me.text.title = "Extinct"
+                    specie.me.HTMLclass += " extinct"
+                    alerts.push(new Alert("Extinction Event", `${specie.name} has gone extinct`, "<i class='fa-solid fa-tree'></i>"));
+                    redrawTree()
+                    setTimeout(redrawTree, 1000)
+                }
                 speciesNext.push(specie);
             });
             this.species = speciesNext;

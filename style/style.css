@@ -762,3 +762,7 @@ input:checked + .slider:before {
     border-radius: 100%;
     border: 2px solid black;
 }
+
+.extinct{
+    opacity: 0.5;
+}

@@ -59,15 +59,16 @@ class PlantSpecies {
 	connect_to_parent(){
 		let date = new Date()
 		let str = `${date.getHours()}:${date.getMinutes() < 10 ? 0 : ""}${date.getMinutes()}:${date.getSeconds() < 10 ? 0 : ""}${date.getSeconds()}`
+		this.me = {
+			text: {name: this.name, title: "Alive and Thriving"},
+			image: this.image,
+			children: []
+		}
 		this.parent.children.push(
 			{
 				text: { name:  str},
 				HTMLclass: "marker",
-				children: [{
-					text: {name: this.name, title: "Not sure what to put here"},
-					image: this.image,
-					children: []
-				}]
+				children: [this.me]
 			}
 		)
 
