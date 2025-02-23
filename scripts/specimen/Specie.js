@@ -280,7 +280,7 @@ class Plant {
 			if (competitor == this) continue;
 			competitionAmount += competitor.genome.competitiveness * competitor.percentMaturity;
 		}
-		competitionAmount /= this.genome.competitiveness * (this.percentMaturity + 5);
+		competitionAmount /= this.genome.competitiveness * 1;
 		const competitionMalus = (1-Math.tanh(competitionAmount));
 		this.environment.competitionMalus = competitionMalus;
 		this.environment.sunExposure *= competitionMalus;
@@ -396,8 +396,8 @@ class Plant {
 
 		//blown about by the wind
 		this.environment = gameMap.getBiomeStatistics(gameMap.cordToIndex(this.pos.x,this.pos.y));
-		this.vel.x = this.environment.windx;
-		this.vel.y = this.environment.windy;
+		this.vel.x = this.vel.x * 0.5 + Math.tanh(this.environment.windx/2)*2;
+		this.vel.y = this.vel.y * 0.5 + Math.tanh(this.environment.windy/2)*2;
 
 		this.pos.x += this.vel.x;
 		this.pos.y += this.vel.y;
