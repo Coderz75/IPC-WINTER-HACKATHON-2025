@@ -319,7 +319,7 @@ class Plant {
 		this.water += capillaryAction * this.genome.waterAffinity * this.environment.soilWater / this.genome.waterStorage / AgeMalus * timeMultiplier;
 		this.water -= photosynthesis / this.genome.waterStorage * timeMultiplier;
 		this.energy += photosynthesis / AgeMalus * timeMultiplier;
-		this.energy -= growth * timeMultiplier;
+		this.energy -= growth * (1 + this.genome.waterAffinity + this.genome.waterStorage + this.genome.competitiveness + this.genome.heatResistance + this.genome.anchorage) * timeMultiplier;
 		if (this.percentMaturity < 100)
 			this.percentMaturity += growth / (0.5 + this.genome.size) * timeMultiplier;
 		else 
