@@ -43,6 +43,7 @@
     <div id = "evolutionPanelWrapper" class = "evolutionPanelWrapper">
         <div id="phylogenyWrapper">
             <h1><i class="fa-solid fa-dna"></i> EVOLUTION WIZARD</h1>
+            <div style="margin-bottom: 10px;">Click on any image to enlarge</div>
             <div id="phylogeny"></div>
         </div>
     </div>
@@ -51,6 +52,10 @@
         <div id="mutationToggleWrapper">
             <input type="checkbox" id="toggleMutationVisibility" checked>
             <label for="toggleMutationVisibility">Mutation Alerts Visible</label>
+        </div>
+        <div id="weatherToggleWrapper">
+            <input type="checkbox" id="weatherToggle" checked>
+            <label for="weatherToggle">Weather Alerts Visible</label>
         </div>
         <div id = "alerts" class = "alerts"></div>
     </div>
@@ -76,6 +81,13 @@
 
         <button id="dismissinfo">Dismiss</button>
     </div>
+    </div>
+
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <img src="" id="imageModalImage"/>
+            <button id="closeImage">Close</button>
+        </div>
     </div>
 
     <canvas id="whiteboard" style="display: none" width="475px" height="475px"></canvas>

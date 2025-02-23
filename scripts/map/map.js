@@ -53,7 +53,9 @@ class GameMap{
                     specie.extinct = true;
                     specie.me.text.title = "Extinct"
                     specie.me.HTMLclass += " extinct"
-                    alerts.push(new Alert("Extinction Event", `${specie.name} has gone extinct`, "<i class='fa-solid fa-tree'></i>"));
+                    alerts.push(new Alert("Extinction Event", `${specie.name} has gone extinct`, "<i class='fa-solid fa-skull'></i>", ()=>{
+                        document.getElementById("evolutionPanelButton").click()
+                    }));
                     redrawTree()
                     setTimeout(redrawTree, 1000)
                 }

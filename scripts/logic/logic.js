@@ -207,7 +207,7 @@ class Weather{
     }
 
     summonWeather(mx,my, evt,gameMap){
-        alerts.push(new Alert(`${evt.name} began in ${gameMap.getBiomeName(mx,my)} biome`,evt.description,evt.icon));
+        alerts.push(new Alert(`${evt.name} began in ${gameMap.getBiomeName(mx,my)} biome`,evt.description,evt.icon, undefined, "weatherAlert"));
         console.log(`Event: ${evt.name} has been summoned at (${mx},${my})`)
         let a = {};
         Object.assign(a,evt.event);
@@ -244,4 +244,12 @@ class Alert{
 
 document.getElementById("toggleMutationVisibility").onchange = ()=>{
     document.getElementById("alertPanel").classList.toggle("hideAlerts")
+}
+
+document.getElementById("weatherToggle").onchange = ()=>{
+    document.getElementById("alertPanel").classList.toggle("hideWeather")
+}
+
+document.getElementById("closeImage").onclick = () => {
+    document.getElementById("imageModal").style.display = 'none'
 }

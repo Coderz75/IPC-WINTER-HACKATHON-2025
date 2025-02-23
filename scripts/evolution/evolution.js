@@ -315,6 +315,13 @@ async function redrawTree(){
     document.getElementById("phylogeny").querySelectorAll("img").forEach(e => {
         e.src = e.src.split("?")[0]
     })
+
+    document.querySelectorAll("#phylogeny img").forEach(e=> {
+        e.onclick = () => {
+            document.getElementById("imageModal").style.display = "flex"
+            document.getElementById("imageModalImage").src = e.src
+        }
+    })
 }
 
 async function init_evolution() {

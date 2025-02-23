@@ -603,12 +603,19 @@ svg #close {
     cursor: pointer;
 }
 
-#mutationToggleWrapper{
-    margin-bottom: 20px;
+#mutationToggleWrapper, #weatherToggleWrapper{
     user-select: none;
 }
 
+#weatherToggleWrapper{
+    margin-bottom: 20px;
+}
+
 #alertPanel.hideAlerts .mutationAlert{
+    display: none;
+}
+
+#alertPanel.hideWeather .weatherAlert{
     display: none;
 }
 
@@ -765,4 +772,29 @@ input:checked + .slider:before {
 
 .extinct{
     opacity: 0.5;
+}
+
+#imageModal{
+    position: fixed;
+    z-index: 99;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.8);
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
+#imageModal .modal-content{
+    background: white;
+    margin: auto;
+    width: 515px;
+    padding: 20px;
+}
+
+.node:not(.marker){
+    min-width: 150px;
 }
