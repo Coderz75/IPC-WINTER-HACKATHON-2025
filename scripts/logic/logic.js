@@ -57,7 +57,7 @@ const weatherEvents = [
         "name": "Thunderstorm",
         "desc": "Low pressure environment that has lightning",
         "icon": "<i class='fa-solid fa-thunderstorm'></i>",
-        "time": 30, //duration in ticks
+        "time": 60, //duration in ticks
         "type": "weather",// can be wind, weather, climate
         "range": 15, //range of event (radius of circle)
         "attributes": { // changes the following:
