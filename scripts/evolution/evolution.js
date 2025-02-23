@@ -36,7 +36,7 @@ let phylo = {
         connectors: {
             type: "curve",
             style: {
-                "stroke-width": 5,
+                "stroke-width": 2,
                 "stroke-linecap": "round",
                 "stroke": "#00a19a"
             }

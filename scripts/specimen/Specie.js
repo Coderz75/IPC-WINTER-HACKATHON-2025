@@ -60,16 +60,18 @@ class PlantSpecies {
 		let date = new Date()
 		let str = `${date.getHours()}:${date.getMinutes() < 10 ? 0 : ""}${date.getMinutes()}:${date.getSeconds() < 10 ? 0 : ""}${date.getSeconds()}`
 		this.me = {
-			text: {name: this.name, title: "Alive and Thriving"},
+			text: {name: this.name, title: "Evolved at " + str},
 			image: this.image,
 			children: []
 		}
+
+		//{
+		// 				text: { name:  str},
+		// 				HTMLclass: "marker",
+		// 				children: [this.me]
+		// 			}
 		this.parent.children.push(
-			{
-				text: { name:  str},
-				HTMLclass: "marker",
-				children: [this.me]
-			}
+			this.me
 		)
 
 		this.node = this.parent.children.at(-1).children.at(-1)
