@@ -41,9 +41,9 @@ function init(){
     window.counter = 0;
     const mapCanvas = document.getElementById("mapCanvas");
     gameMap = new GameMap(mapCanvas);
-    gameMap.addSpecies(palms); gameMap.addSpecies(pines); gameMap.addSpecies(cacti);
+    gameMap.addSpecies(palms); gameMap.addSpecies(pines); gameMap.addSpecies(pines2); gameMap.addSpecies(cacti); 
     palms.addPlant(136, 145); palms.addPlant(600, 145); 
-    pines.addPlant(310, 100); pines.addPlant(180, 240); pines.addPlant(90, 100); pines.addPlant(620, 298); pines.addPlant(610, 100); pines.addPlant(510, 80); pines.addPlant(370, 200);
+    pines.addPlant(310, 100); pines.addPlant(180, 240); pines.addPlant(90, 100); pines2.addPlant(620, 298); pines2.addPlant(610, 100); pines2.addPlant(510, 80); pines2.addPlant(370, 200);
     cacti.addPlant(350, 150); cacti.addPlant(370, 290); cacti.addPlant(510, 120); 
 
     gameMap.canvas.addEventListener('mousedown', mouseDownEvent);
@@ -149,6 +149,18 @@ const palms = new PlantSpecies({
 }, life);
 
 const pines = new PlantSpecies({
+    waterStorage: DNA.generate_sequence(0.4, 100),
+    waterAffinity: DNA.generate_sequence(0.6, 100),
+    heatResistance: DNA.generate_sequence(0.2, 100),
+    anchorage: DNA.generate_sequence(0.3, 100),
+    competitiveness: DNA.generate_sequence(0.2, 100),
+    photosynthesisRate: DNA.generate_sequence(0.7, 100),
+    size: DNA.generate_sequence(0.7, 100),
+    seedSize : DNA.generate_sequence(0.1, 100),
+    seedCount : DNAScalar(4),
+}, life);
+
+const pines2 = new PlantSpecies({
     waterStorage: DNA.generate_sequence(0.4, 100),
     waterAffinity: DNA.generate_sequence(0.6, 100),
     heatResistance: DNA.generate_sequence(0.2, 100),
