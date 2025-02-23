@@ -186,6 +186,7 @@ const specimenPanel = {
   geneTable : document.getElementById("specimenGenome"),
   attrTable : document.getElementById("specimenAttributes"),
   envTable: document.getElementById("specimenEnvironment"),
+  colorLabel: document.getElementById("specimenColor"),
   subject : null,
   subjectPos : {
     x : 0,
@@ -195,7 +196,8 @@ const specimenPanel = {
   choose(specimen, gameMap){
     this.subject = specimen;
     this.subjectPos = this.subject.pos;
-    this.speciesLabel.innerHTML = `Species: ${this.subject.species.name}`;
+    this.speciesLabel.innerHTML = `${this.subject.species.name}`;
+    this.colorLabel.style.background = this.subject.color
     this.geneTable.innerHTML = null;
     this.geneTable.createTHead().innerHTML = "GENOME";
     for (const gene in specimen.genome){
@@ -247,7 +249,8 @@ const specimenPanel = {
     this.update();
   },
   update(){
-    this.speciesLabel.innerHTML = `Species: ${this.subject.species.name}`;
+    this.speciesLabel.innerHTML = `${this.subject.species.name}`;
+    this.colorLabel.style.background = this.subject.color
     let i = 0;
     for (const gene in this.subject.genome){
       const val = this.subject.genome[gene];

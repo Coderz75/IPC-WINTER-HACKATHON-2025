@@ -747,3 +747,18 @@ input:checked + .slider:before {
 #auto{
     font-size:26px;
 }
+
+#specimenSpeciesWrapper{
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+}
+
+#specimenColor{
+    display: block;
+    width: 30px;
+    height: 30px;
+    background: red;
+    border-radius: 100%;
+    border: 2px solid black;
+}
