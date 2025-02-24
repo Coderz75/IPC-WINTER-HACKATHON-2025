@@ -772,6 +772,10 @@ input:checked + .slider:before {
     opacity: 0.5;
 }
 
+.warning{
+    color: red;
+}
+
 #imageModal{
     position: fixed;
     z-index: 99;
