@@ -179,7 +179,7 @@ class Weather{
                 if(chance <= ev.event["chance"]){ // should happen one every 120 ticks
                     //calc which tile (this is index in rainTiles)
                     let tile = this.weightedRandom(map.rainTilesI,map.rainTilesWeights);
-                    let i = map.rainTiles[tile];// index in map
+                    let i = map.landTiles[tile];// index in map
                     console.log(map.rainTiles);
                     let pos = map.indexToCord(i);
                     this.summonWeather(pos[0],pos[1],ev,map);
