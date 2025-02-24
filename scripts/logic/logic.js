@@ -51,7 +51,7 @@ const weatherEvents = [
             "soilWat": 0,
             "windSpeed": 130,
         },
-        "chance": 1/150, //chance of event per tick
+        "chance": 1/250, //chance of event per tick
     },
     {
         "name": "Thunderstorm",
@@ -81,7 +81,7 @@ const weatherEvents = [
             "soilWat": -0.2,
             "windSpeed": 0,
         },
-        "chance": 1/150, //chance of event per tick
+        "chance": 1/250, //chance of event per tick
     },
     {
         "name": "Blizzard",
