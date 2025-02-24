@@ -82,7 +82,7 @@ class PlantSpecies {
 	drawAndAdd(member){
 		drawSpecimen(document.getElementById("whiteboard"), member, true, true)
 		this.image = URL.createObjectURL(dataURItoBlob(document.getElementById("whiteboard").toDataURL()))
-		console.log(this.image)
+		//console.log(this.image)
 	}
 
 	draw(mapCanvasContext){ //draws species members

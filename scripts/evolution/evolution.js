@@ -274,7 +274,7 @@ class MutationWizard{
                 await timeout(5)
             }
 
-            console.log(this.sequence)
+            //console.log(this.sequence)
             this.sequence.splice(point, 0,base)
             declare_codons()
         } else if (this.type === MutationType.PointSubstitution){

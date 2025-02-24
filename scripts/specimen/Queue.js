@@ -56,6 +56,6 @@ class Queue {
             elements.push(current.data);
             current = current.next;
         }
-        console.log(elements.join(' -> '));
+        //console.log(elements.join(' -> '));
     }
 }
