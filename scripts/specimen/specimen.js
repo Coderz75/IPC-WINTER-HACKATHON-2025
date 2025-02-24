@@ -38,6 +38,40 @@ function splitmix32(a) { //stack overflow, generates a random number based on se
   }
 }
 
+function darken(canvas, ctx, surfaceY, color="rgba(0, 0, 0, 0.5)"){
+  ctx.fillStyle = color;
+  ctx.fillRect(0, 0, canvas.width, surfaceY);
+}
+
+function drawClouds(canvas, ctx, subject, shift=0){  
+  ctx.fillStyle = "grey";
+  const randNum = splitmix32(subject.randomSeed);
+  let reach = -(shift % canvas.width);
+  while (reach < canvas.width){
+    ctx.beginPath();
+    const centerPoint = 10 + randNum()*30;
+    const extend = 20 * randNum();
+    ctx.ellipse(centerPoint + reach, 0, centerPoint + extend, centerPoint * 0.75, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.closePath();
+    reach += centerPoint + extend;
+  }
+}
+
+function drawRain(canvas, ctx, surfaceY, angle=-Math.PI/2){
+  ctx.beginPath();
+  ctx.strokeStyle = `rgb(${20*Math.random()}, ${20*Math.random()}, ${200*Math.random()})`;
+  ctx.lineWidth = 5*Math.random();
+  const startX = Math.random() * canvas.width;
+  const startY = Math.random() * surfaceY;
+  ctx.moveTo(startX, startY);
+  const length = Math.random() * 20 + 10;
+  ctx.lineTo(startX + length * Math.cos(angle), startY + length * Math.sin(angle));
+  ctx.stroke();
+  ctx.closePath();
+}
+
+
 function drawSpecimen(canvas, subject, setMature=false, ignoreEnvironment=false){
   const ctx = canvas.getContext('2d');
   ctx.fillStyle = "aqua";
@@ -57,6 +91,7 @@ function drawSpecimen(canvas, subject, setMature=false, ignoreEnvironment=false)
       sunExposure: 0.5, 
       windx: 0,
       windy: 0,
+      weather: [],
     });
   }
 
@@ -77,6 +112,52 @@ function drawSpecimen(canvas, subject, setMature=false, ignoreEnvironment=false)
   const sizeCoefficient = subject.genome.size * maturity;
   const thickness = subject.water * subject.genome.waterStorage * maturity / 100;
   
+
+  const windSpeed = (environment.windx + environment.windy)/1.41;
+  //weather events
+  for (const weatherEvent of environment.weather){
+    switch (weatherEvent.name){
+      case "Tornado":
+        {
+          drawClouds(canvas, ctx, subject, new Date().getTime(), Math.atan(environment.windx));
+          darken(canvas, ctx, surfaceY);
+          for (let i = 0; i < 5; i++)
+            drawRain(canvas, ctx, surfaceY);
+        } break;
+      case "Hurricane":
+        {
+          drawClouds(canvas, ctx, subject, new Date().getTime());
+          darken(canvas, ctx, surfaceY);
+          for (let i = 0; i < 5; i++)
+            drawRain(canvas, ctx, surfaceY);
+        } break;
+      case "Thunderstorm":
+        {
+          drawClouds(canvas, ctx, subject);
+          darken(canvas, ctx, surfaceY);
+          for (let i = 0; i < 10; i++)
+            drawRain(canvas, ctx, surfaceY);
+        } break;
+      case "Heatwave":
+        {
+
+        } break;
+      case "Blizzard":
+        {
+
+        } break;
+      case "Rain":
+        {
+          
+          drawClouds(canvas, ctx, subject);
+          darken(canvas, ctx, surfaceY);
+          for (let i  =0; i < 10; i++)
+            drawRain(canvas, ctx, surfaceY);
+          
+        } break;
+    }
+  }
+
   //roots
   const randNumRoot = splitmix32(subject.randomSeed);
   ctx.fillStyle = "beige";
@@ -117,7 +198,7 @@ function drawSpecimen(canvas, subject, setMature=false, ignoreEnvironment=false)
   //binary tree generation????
   //dfs lets go
   //actually no, bfs 
-  const windSpeed = (environment.windx + environment.windy)/1.41;
+  
   const randNumShoot = splitmix32(subject.randomSeed);
   let seeds = [];
   let queue = new Queue(); //Array <Node <BranchAngle, StartPosX, StartPosY, Thickness, countleft>>
