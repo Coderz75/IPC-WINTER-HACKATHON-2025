@@ -180,7 +180,6 @@ class Weather{
                     //calc which tile (this is index in rainTiles)
                     let tile = this.weightedRandom(map.rainTilesI,map.rainTilesWeights);
                     let i = map.landTiles[tile];// index in map
-                    console.log(map.rainTiles);
                     let pos = map.indexToCord(i);
                     this.summonWeather(pos[0],pos[1],ev,map);
                 }
