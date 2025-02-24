@@ -36,7 +36,7 @@ const weatherEvents = [
             "soilWat": 0,
             "windSpeed": 120,
         },
-        "chance": 1/250, //chance of event per tick
+        "chance": 1/125, //chance of event per tick
     },
     {
         "name": "Hurricane",
@@ -51,7 +51,7 @@ const weatherEvents = [
             "soilWat": 0,
             "windSpeed": 130,
         },
-        "chance": 1/300, //chance of event per tick
+        "chance": 1/150, //chance of event per tick
     },
     {
         "name": "Thunderstorm",
@@ -66,7 +66,7 @@ const weatherEvents = [
             "soilWat": 0.2,
             "windSpeed": 5,
         },
-        "chance": 1/200, //chance of event per tick
+        "chance": 1/100, //chance of event per tick
     },
     {
         "name": "Heatwave",
@@ -81,7 +81,7 @@ const weatherEvents = [
             "soilWat": -0.2,
             "windSpeed": 0,
         },
-        "chance": 1/300, //chance of event per tick
+        "chance": 1/150, //chance of event per tick
     },
     {
         "name": "Blizzard",
@@ -96,7 +96,7 @@ const weatherEvents = [
             "soilWat": 0.2,
             "windSpeed": 0.2,
         },
-        "chance": 1/300, //chance of event per tick
+        "chance": 1/150, //chance of event per tick
     },
     {
         "name": "Rain",
@@ -111,7 +111,7 @@ const weatherEvents = [
             "soilWat": 0.3,
             "windSpeed": 0,
         },
-        "chance": 1/120, //chance of event per tick
+        "chance": 1/60, //chance of event per tick
     },
 ]
 
@@ -174,7 +174,7 @@ class Weather{
         for(const name in this.buttons){
             let chance = Math.random();
             let ev = this.buttons[name]
-            if(name == "Rain"){
+            if(name == "Rain" || true){ //other weather events also determined by rain map
                 //Automatic rain
                 if(chance <= ev.event["chance"]){ // should happen one every 120 ticks
                     //calc which tile (this is index in rainTiles)
@@ -183,7 +183,7 @@ class Weather{
                     let pos = map.indexToCord(i);
                     this.summonWeather(pos[0],pos[1],ev,map);
                 }
-            }else{
+            }else{ //currently unused code
                 //everything else
                 if(chance <= ev.event["chance"]){ 
                     //calc random tile
