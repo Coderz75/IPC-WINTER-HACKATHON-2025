@@ -43,7 +43,8 @@ function init(){
     gameMap = new GameMap(mapCanvas);
     gameMap.addSpecies(palms); gameMap.addSpecies(pines); gameMap.addSpecies(pines2); gameMap.addSpecies(cacti); 
     palms.addPlant(136, 145); palms.addPlant(600, 145); palms.addPlant(620, 298); 
-    pines.addPlant(310, 100); pines.addPlant(180, 240); pines.addPlant(90, 100); pines2.addPlant(610, 100); pines2.addPlant(510, 80); pines2.addPlant(370, 200);
+    pines.addPlant(310, 100); pines.addPlant(180, 240); pines.addPlant(90, 100); pines.addPlant(181, 341); 
+    pines2.addPlant(610, 100); pines2.addPlant(510, 80); pines2.addPlant(370, 200); pines2.addPlant(382, 238);
     cacti.addPlant(350, 150); cacti.addPlant(370, 290); cacti.addPlant(510, 120); 
 
     gameMap.canvas.addEventListener('mousedown', mouseDownEvent);
