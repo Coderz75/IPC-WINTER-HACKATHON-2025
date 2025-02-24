@@ -178,8 +178,9 @@ class Weather{
                 //Automatic rain
                 if(chance <= ev.event["chance"]){ // should happen one every 120 ticks
                     //calc which tile (this is index in rainTiles)
-                    let tile = this.weightedRandom(map.rainTilesI,map.rainTilesWeights,map.totalWeights);
-                    let i = map.landTiles[tile];// index in map
+                    let tile = this.weightedRandom(map.rainTilesI,map.rainTilesWeights);
+                    let i = map.rainTiles[tile];// index in map
+                    console.log(map.rainTiles);
                     let pos = map.indexToCord(i);
                     this.summonWeather(pos[0],pos[1],ev,map);
                 }
@@ -194,6 +195,7 @@ class Weather{
             }
         }
     }
+    /*
     weightedRandom(vals,weights,total){// uhhhh idk im too lazy to remove things i dont need.
         let a = Math.random();
         let e = 0;
@@ -204,6 +206,22 @@ class Weather{
             e +=weights[i]/total;
         }
         return 0;
+    }*/
+    weightedRandom(values, weights) {
+        if (values.length !== weights.length) {
+            throw new Error("Values and weights arrays must have the same length.");
+        } 
+        // Calculate the total sum of weights
+        const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
+        // Generate a random number between 0 and totalWeight
+        let randomNum = Math.random() * totalWeight;
+        // Iterate through values and subtract weights until randomNum falls below zero
+        for (let i = 0; i < values.length; i++) {
+            randomNum -= weights[i];
+            if (randomNum < 0) {
+                return values[i];
+            }
+        }
     }
 
     summonWeather(mx,my, evt,gameMap){
