@@ -27,9 +27,9 @@ const random = (min, max) => {
 let phylo = {
     chart: {
         container: "#phylogeny",
-        levelSeparation:    25,
-        siblingSeparation:  70,
-        subTeeSeparation:   100,
+        levelSeparation:    200,
+        siblingSeparation:  10,
+        subTeeSeparation:   10,
         nodeAlign: "BOTTOM",
         padding: 35,
         node: { HTMLclass: "evolution-tree" },
