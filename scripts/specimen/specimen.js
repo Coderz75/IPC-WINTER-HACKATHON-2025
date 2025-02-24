@@ -253,7 +253,7 @@ function drawSpecimen(canvas, subject, setMature=false, ignoreEnvironment=false)
   }
   
   ctx.fillStyle = `rgba(0, 0, 0, ${0.5*(1-environment.sunExposure)})`;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillRect(0, 0, canvas.width, surfaceY);
 
   ctx.restore();
   }
