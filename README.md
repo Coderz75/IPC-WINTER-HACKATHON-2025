@@ -1,5 +1,9 @@
 # IPC-WINTER-HACKATHON-2025
-Lock in. 
+A game of survival, transformation, and twists
+
+Alexander Yu, Andrew Chen, Nuaym Syed
+
+[https://devpost.com/software/evolution-j9x7gq](https://devpost.com/software/evolution-j9x7gq)
 
 Commit Stuff
 * **"docs:"** - Documentation changes
